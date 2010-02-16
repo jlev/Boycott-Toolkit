@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Companies{% endblock %}
+
+{%block content%}
+{% load tagging_tags %}
+{% tagged_objects tag in targets.Company as companies %}
+{% tagged_objects tag in targets.Product as products %}
+
+<ul>
+<li><b>Companies:
+  <ul>
+  {%for company in companies %}
+  <li><a href="{{company.get_absolute_url}}">{{company.name}}</a>
+  {%endfor%}
+  </ul>
+<br>
+<li><b>Products:
+  <ul>
+    {%for product in products %}
+    <li><a href="{{product.get_absolute_url}}">{{product.name}}</a>
+    {%endfor%}
+    </ul>
+</ul>
+{%endblock%}

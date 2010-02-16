@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}{{product.name}}{% endblock %}
+
+{%block content%}
+<ul>
+<li><b>Name:</b> {{product.name}}
+<li><b>Company:</b> <a href={{product.company.get_absolute_url}}>{{product.company}}</a>
+<li><b>Tags:</b> {% for tag in product.get_tag_list %}<a href="/targets/tag/{{tag}}">{{tag}}</a>{%endfor%}
+<li><p><b>Description:</b> {{product.description}}
+<li><b>Community:
+<ul>
+<li>Added by: <a href="{{product.added_by.profile.get_absolute_url}}">{{product.added_by}}</a>
+<li>Edited by: {% for user in product.edited_by.all %} <a href="{{user.profile.get_absolute_url}}">{{user}}</a> {%endfor%}
+<li>Supported by: #TODO
+<li>Opposed by: #TODO
+</ul>
+<li><i><a href="/admin/targets/product/{{product.id}}">edit in admin</a></i>
+</ul>
+{%endblock%}
+

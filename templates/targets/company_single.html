@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}{{company.name}}{% endblock %}
+
+{%block content%}
+<ul>
+  <div id="contact-box">
+    <ul><i>Contact</i>
+      <li><b>Location:</b> {{company.location.name}}
+      <ul style="address"><b>Address:</b>
+        <li>{{company.location.address}}
+        <li>{{company.location.city}} {{company.location.state}}
+        <li>{{company.location.country}}
+      </ul>
+      <li><b>Phone:</b> {%if company.phone%}{{company.phone}}
+        {%else%}<a href='{{company.get_absolute_url}}edit'>add</a>{%endif%}
+      <li><b>Website:</b> {% if company.website %}{{company.website|urlize}}
+        {%else%}<a href='{{company.get_absolute_url}}edit'>add</a>{%endif%}
+  </div>
+
+<li><b>Name:</b> {{company.name}}
+<li><b>Tags:</b> {% for tag in company.get_tag_list %}<a href="/targets/tag/{{tag}}">{{tag}}</a>{%endfor%}
+<li><p><b>Description:</b> {{company.description}}
+<li><b>Products:</b>
+  {% for p in products %}<a href="{{p.get_absolute_url}}">{{p.name}}</a>{%endfor%}
+<li><b>Community:
+<ul>
+<li>Added by: <a href="{{company.added_by.get_absolute_url}}">{{company.added_by}}</a>
+<li>Edited by: {% for user in company.edited_by.all %} <a href="{{user.get_absolute_url}}">{{user}}</a> {%endfor%}
+<li>Supported by: #TODO
+<li>Opposed by: #TODO
+</ul>
+<li><i><a href="/admin/targets/company/{{company.id}}">edit in admin</a></i>
+</ul>
+{%endblock%}
+

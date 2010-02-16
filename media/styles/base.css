@@ -1,0 +1,84 @@
+/*GLOBAL STYLES*/
+A:link {text-decoration: underline; color:black;}
+A:visited {text-decoration: underline; color:black;}
+A:active {text-decoration: underline; color:black;}
+A:hover {text-decoration: underline; color: red;}
+
+/*PAGE LAYOUT*/
+#top {
+    position:absolute;
+    top:10px;
+    text-align:right;
+    width:800px;
+    z-index:2;
+}
+
+#logo-div{
+  position:absolute;
+  top:10px;
+  left:0px;
+  z-index:1;
+}
+#logo-placard{
+  font-family:monospace;
+  font-size:45px;
+  -webkit-transform: rotate(-15deg); 
+  -moz-transform: rotate(-15deg);
+  position:absolute;
+  top:45px;
+  left:30px;
+  width:150px;
+  text-align:center;
+  z-index:1; 
+}
+#logo-img {
+    position:absolute;
+    top:-10px;
+    text-align:center;
+    z-index:2;
+}
+#slash-img {
+    position:absolute;
+    top:-10px;
+    text-align:center;
+    z-index:3;
+}
+
+#navbar li {
+    display:inline;
+    padding-left:5px;
+}
+
+#sidebar {
+    margin-top:10px;
+    position:absolute;
+    top:500px;
+    left:125px;
+    width:250px;
+    text-align:left;
+    z-index:1;
+}
+#sidebar li {
+    margin-top:2px;
+}
+
+#content {
+    position:absolute;
+    top:0px;
+    padding-top:50px;
+    padding-bottom:50px;
+    left:250px;
+    width:550px;
+    z-index:0;
+}
+
+#message {
+    background:#FFFF99;
+}
+
+#contact-box {
+    float:right;
+    border:1px solid black;
+    padding:5px;
+    width:200px;
+}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %} User {{user.}}{% endblock %}
+
+{%block content%}
+<ul>
+<li><b>Name:</b> {{user.get_full_name}}
+<li><p>{{user.profile.description}}</p>
+</ul>
+<li><i><a href="/admin/community/userprofile/{{user.id}}">edit in admin</a></i>
+</ul>
+{%endblock%}
+
