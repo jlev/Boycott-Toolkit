@@ -1,4 +1,7 @@
-{% extends "registration/base.html" %}
+{% extends "base.html" %}
+{% block css %}
+<link rel="stylesheet" href="{{MEDIA_URL}}styles/form.css" type="text/css"/>
+{% endblock %}
 
 {% block title %}Sign up{% endblock %}
 
@@ -10,40 +13,13 @@
 
   <h1>Create an account</h1>
   
-  <p>Fill out the form (all fields are required), and your
-  account will be created; you'll be sent an email with instructions on how
-  to finish your registration.</p>
+  <p>Fill out this simple form to create an account and login immediately.<br>
+    Your username and password will be emailed back to you for your reference.</p>
   <br>
   
   <form method="post" action="" class="wide">
-    <p>
-      <label for="id_username">Username:</label>
-      {% if form.username.errors %}
-        <p class="errors">{{ form.username.errors.as_text }}</p>
-      {% endif %}
-      {{ form.username }}
-    </p>
-    <p>
-      <label for="id_email">Email address:</label>
-      {% if form.email.errors %}
-        <p class="errors">{{ form.email.errors.as_text }}</p>
-      {% endif %}
-      {{ form.email }}
-    </p>
-    <p>
-      <label for="id_password1">Password:</label>
-      {% if form.password1.errors %}
-        <p class="errors">{{ form.password1.errors.as_text }}</p>
-      {% endif %}
-      {{ form.password1 }}
-    </p>
-    <p>
-      <label for="id_password2">Password (again):</label>
-      {% if form.password2.errors %}
-        <p class="errors">{{ form.password2.errors.as_text }}</p>
-      {% endif %}
-      {{ form.password2 }}
-    </p>
+    {% include "form_snippet.html" %}
+    <br>
     <p class="submit"><input type="submit" value="Register &rarr;"></p>
   </form>
 

@@ -1,27 +1,26 @@
-{% extends "registration/base.html" %}
+{% extends 'base.html' %}
 {% load facebook_tags %}
+{% block css %}
+<link rel="stylesheet" href="{{MEDIA_URL}}styles/form.css" type="text/css"/>
+{% endblock %}
+
 
 {% block title %}Log in{% endblock %}
 
 {% block content %}
-
 <h1>Log in with an existing account:</h1>
 {% show_connect_button %}
-
 <br>
-<p>Or <a href="/accounts/register/">register</a> with us directly:</p>
-
+<p>Or for accounts registered with us directly:</p>
 {% if form.errors %}
-<p class="error">Please correct the errors below:</p>
+<br>
+<p class="fieldError">That username and password didn't authenticate.</p>
 {% endif %}
 
-<form method="post" action="?next={{ next|default:"/" }}">
-<dl>
-<dt><label for="id_username">Username:</label>{% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}</dt>
-<dd>{{ form.username }}</dd>
-<dt><label for="id_password">Password:</label>{% if form.password.errors %} <span class="error">{{ form.password.errors|join:", " }}</span>{% endif %}</dt>
-<dd>{{ form.password }}</dd>
-<dt><input type="submit" value="Log in" /></dt>
-</dl>
+<form method="post" action="" class="wide">
+  {% include "form_snippet.html" %}
+  <br>
+  <p class="submit"><input type="submit" value="Login"></p>
 </form>
+
 {% endblock %}
