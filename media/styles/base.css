@@ -72,13 +72,26 @@ A:hover {text-decoration: underline; color: red;}
     z-index:0;
 }
 
+#content p {
+    font-size:12pt;
+    font-weight:none;
+}
+
+#content h1 {
+    font-size:16pt;
+    font-weight:bold;
+    padding-bottom:10px;
+    
+}
+
 #message {
     background:#FFFF99;
 }
 
-#contact-box {
-    float:right;
-    border:1px solid black;
-    padding:5px;
-    width:200px;
+ul {
+    list-style:none;
+}
+
+ul > li {
+    padding-left:5px;
 }
