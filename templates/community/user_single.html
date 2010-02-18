@@ -1,12 +1,18 @@
 {% extends "base.html" %}
-{% block title %} User {{user.}}{% endblock %}
+{%block css%}
+ <link rel="stylesheet" href="{{MEDIA_URL}}styles/community.css" type="text/css"/>
+{%endblock%}
+
+{% block title %} User {{user.get_full_name}}{% endblock %}
 
 {%block content%}
 <ul>
 <li><b>Name:</b> {{user.get_full_name}}
+{% if user.facebook_profile %}
+<div id="profile_pic"><img src="{{user.facebook_profile.picture_url}}"></div>
+{%endif%}
 <li><p>{{user.profile.description}}</p>
 </ul>
-<li><i><a href="/admin/community/userprofile/{{user.id}}">edit in admin</a></i>
-</ul>
+<i><a href="/admin/community/userprofile/{{user.id}}">edit in admin</a></i>
 {%endblock%}
 
