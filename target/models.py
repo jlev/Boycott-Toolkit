@@ -19,6 +19,8 @@ class TargetBase(models.Model):
     added_date = models.DateTimeField(auto_now_add=True)
     def get_tag_list(self):
         return parse_tag_input(self.tags)
+    def __unicode__(self):
+        return self.name
     class Meta:
         abstract=True
 
@@ -30,9 +32,6 @@ class Company(TargetBase):
     phone = models.CharField(max_length=15,blank=True,null=True) #validate?
     class Meta(TargetBase.Meta):
         verbose_name_plural = "Companies"
-    def __unicode__(self):
-        return self.name
-        
     @models.permalink
     def get_absolute_url(self):
         return ('target.views.company_view', [slugify(self.name)])
@@ -41,15 +40,16 @@ class Product(TargetBase):
     company = models.ForeignKey('Company')
     upc = models.CharField('UPC',max_length=13,blank=True,null=True)
     image = StdImageField(upload_to="uploads/products",blank=True,size=(400,400),thumbnail_size=(150,120))
-    def __unicode__(self):
-        return self.name
     @models.permalink
     def get_absolute_url(self):
         return ('target.views.product_view', [slugify(self.name)])
         
 class Campaign(TargetBase):
-    started_by = models.ForeignKey(User)
     criteria = models.TextField(blank=True,null=True)
     complete = models.BooleanField(default=False)
     companies = models.ManyToManyField(Company)
     products =  models.ManyToManyField(Product)
+    highlight = models.BooleanField(default=False, help_text="Highlight on the frontpage, and lets the top-level url resolve")
+    @models.permalink
+    def get_absolute_url(self):
+        return ('target.views.campaign_view', [slugify(self.name)])
