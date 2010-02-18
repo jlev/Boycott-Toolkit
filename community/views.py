@@ -84,9 +84,19 @@ def user_view_all(request):
 @login_required
 def user_view(request,username):
     u = get_object_or_404(User,username=username)
+    c = u.profile.campaigns
     return render_to_response('community/user_single.html',
-        {'user':u},
+        {'user':u,'campaigns':c},
         context_instance = RequestContext(request))
-        
-def campaign_view(request,slug):
-    pass
+    
+@login_required
+def user_campaign_view(request,username):
+    return render_to_response("base.html",{'message':"user campaign view not yet implemented"},
+        context_instance = RequestContext(request))
+    
+@login_required
+def user_cart_view(request,username):
+    u = get_object_or_404(User,username=username)
+    c = u.profile.campaigns.all()
+    return render_to_response("base.html",{'message':"user cart view not yet implemented"},
+        context_instance = RequestContext(request))
