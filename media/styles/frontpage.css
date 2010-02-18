@@ -1,0 +1,26 @@
+h2 {
+    font-weight:bold;
+    text-align:center;
+    padding-bottom:5px;
+}
+
+.search_box {
+    float:right;
+}
+
+#product_shelf table {
+    border-width: 5px;
+    border-spacing: ;
+    border-style: solid;
+    border-color: gray;
+    border-collapse: separate;
+    background-color: white;
+}
+
+#product_shelf td {
+    border-width: 1px;
+    padding: 1px;
+    border-style: dotted;
+    border-color: gray;
+    background-color: white;
+}

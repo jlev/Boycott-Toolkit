@@ -1,0 +1,2 @@
+Hi {{user}}, welcome to {{site_name}}. Your username is {{user}}, and your password is {{user.password}}.
+Now that you are registered, you can login, join a campaign, and start tracking products.

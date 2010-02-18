@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{%block css%}
+ <link rel="stylesheet" href="{{MEDIA_URL}}styles/target.css" type="text/css"/>
+{%endblock%}
+{% block title %}{{campaign.name}}{% endblock %}
+
+{%block content%}
+<ul>
+<li><b>Name:</b> {{campaign.name}}
+<li><b>Tags:</b> {% for tag in campaign.get_tag_list %}<a href="/targets/tag/{{tag}}">{{tag}}</a>{%endfor%}
+<li><p><b>Description:</b> {{campaign.description}}
+  
+<li><b>Companies:</b>
+  <ul>
+    {%for company in companies %}
+    <li><a href="{{company.get_absolute_url}}">{{company.name}}</a>
+    {%endfor%}
+      
+<li><b>Products:</b>
+  <ul>
+    {%for product in products %}
+    <li><a href="{{product.get_absolute_url}}">{{product.name}}</a>
+    {%endfor%}
+
+<li><b>Community:
+<ul>
+<li>Added by: <a href="{{campaign.added_by.profile.get_absolute_url}}">{{campaign.added_by}}</a>
+<li>Edited by: {% for user in campaign.edited_by.all %} <a href="{{user.profile.get_absolute_url}}">{{user}}</a> {%endfor%}
+<li>Supported by: #TODO
+<li>Opposed by: #TODO
+</ul>
+<li><i><a href="/admin/targets/campaign/{{campaign.id}}">edit in admin</a></i>
+</ul>
+{%endblock%}
+
