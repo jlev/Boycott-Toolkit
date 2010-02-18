@@ -1,10 +1,13 @@
 {% extends "base.html" %}
+{%block css%}
+ <link rel="stylesheet" href="{{MEDIA_URL}}styles/target.css" type="text/css"/>
+{%endblock%}
 {% block title %}Companies{% endblock %}
 
 {%block content%}
 {% load tagging_tags %}
-{% tagged_objects tag in targets.Company as companies %}
-{% tagged_objects tag in targets.Product as products %}
+{% tagged_objects tag in target.Company as companies %}
+{% tagged_objects tag in target.Product as products %}
 
 <ul>
 <li><b>Companies:
