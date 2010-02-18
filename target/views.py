@@ -87,8 +87,27 @@ def product_view(request,slug):
         #there's only one
         p = p[0]
         return render_to_response('targets/product_single.html',
-            {'product':p,'logo_img':p.image},
+            {'product':p,
+            'logo_img_src':p.image.thumbnail.url(),
+            'logo_img_width':p.image.thumbnail.width,'logo_img_height':p.image.thumbnail.height},
             context_instance = RequestContext(request))
+            
+def campaign_view_all(request):
+    c = Campaign.objects.all()
+    return render_to_response('targets/campaign_list.html',
+        {'message':"These are all the campaigns we are currently running:",
+        'campaigns':c},
+        context_instance = RequestContext(request))
+
+def campaign_view(request,slug):
+    name = deslug(slug)
+    campaign = get_object_or_404(Campaign,name__iexact=name)
+    users = campaign.users_joined_campaign
+    products = campaign.products.get_query_set()
+    companies = campaign.companies.get_query_set()
+    return render_to_response("targets/campaign_single.html",
+        {'campaign':campaign,'users':users,'products':products,'companies':companies},
+        context_instance = RequestContext(request))
 
 def tag_view(request,tag):
     tag = get_object_or_404(Tag,name__iexact=tag)

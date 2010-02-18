@@ -8,4 +8,6 @@ urlpatterns = patterns('target.views',
     (r'product/(?P<slug>[\w-]+)/$','product_view'),
     #(r'product/(?P<slug>[\w-]+)/edit/$','product_edit'),
     (r'tag/(?P<tag>[\w-]+)/$','tag_view'),
+    (r'campaign/$','campaign_view_all'),
+    (r'campaign/(?P<slug>[\w-]+)/$','campaign_view'),
 )
