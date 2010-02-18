@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.conf.urls.defaults import *
+from django.shortcuts import redirect
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -14,17 +15,17 @@ urlpatterns = patterns('',
 #module urls
 urlpatterns += patterns('',
     (r'^autocomplete/', include('autocomplete.urls')),
-    (r'^accounts/', include('registration.backends.default.urls')),
-    (r'^facebook/', include('facebookconnect.urls')),
+    (r'^facebook/',include('facebookconnect.urls')),    
 )
 
 #my app urls
-urlpatterns += patterns('boycott.views',
-    (r'^$','frontpage_view'),
-)
 urlpatterns += patterns('',
     (r'^target/', include('target.urls')),
     (r'^community/', include('community.urls')),
+)
+urlpatterns += patterns('boycott.views',
+    (r'^$','frontpage_view'),
+    (r'^(?P<slug>[\w-]+)/$','highlight_campaign_view'), #put this last so it can't override urls that already exist
 )
 
 #let django serve the static media when in debug mode
