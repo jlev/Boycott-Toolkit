@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 {%block css%}
- <link rel="stylesheet" href="{{MEDIA_URL}}styles/target.css" type="text/css"/>
+ <link rel="stylesheet" href="{{MEDIA_URL}}styles/form.css" type="text/css"/>
+ {{form.media}}
 {%endblock%}
 {% block title %}{{product.name}}{% endblock %}
 
 {%block content%}
+<form action="." method="POST">
 {% include "form_snippet.html" %}
 <input type="submit" value="Save" />
 </form>

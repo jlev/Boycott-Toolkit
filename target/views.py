@@ -21,7 +21,7 @@ def company_view(request,slug):
     c = Company.objects.filter(name__istartswith=name)
     if len(c) == 0:
         #there isn't one, add it?
-        message = "We don't have any companies named %s. Would you like to add it?" % name
+        message = "We don't have a company named %s. Would you like to add it?" % name
         return company_add(request,message)
     if len(c) > 1:
         #we got more than one, user needs to filter down
@@ -54,14 +54,19 @@ def company_edit(request,slug):
                 {'message':"Thanks for updating the entry for %s" % company.name,
                 'company':company},
                 context_instance = RequestContext(request))
+        else:
+            return render_to_response('targets/company_edit.html',
+                {'message':"Please correct the errors below",
+                "form":form},
+                context_instance = RequestContext(request))
     else:
         form = CompanyForm(instance=company)
         return render_to_response("targets/company_edit.html",
-                        {"form": form},
+                        {"form": form,"message":"Edit the company details below"},
         context_instance = RequestContext(request))
         
 @login_required
-def company_add(request):
+def company_add(request,message=None):
     if request.method == 'POST':
         form = CompanyForm(request.POST)
         if form.is_valid():
@@ -72,10 +77,17 @@ def company_add(request):
                 {'message':"Thanks for adding %s to our database" % company.name,
                 'company':company},
                 context_instance = RequestContext(request))
+        else:
+            return render_to_response('targets/company_add.html',
+                {'message':"Please correct the errors below",
+                "form":form},
+                context_instance = RequestContext(request))
     else:
         form = CompanyForm()
+        if message is None:
+            message = "Add the company details below"
         return render_to_response("targets/company_add.html",
-                        {"form": form},
+                        {"form": form,"message":message},
         context_instance = RequestContext(request))
         
 def product_view_all(request):
@@ -90,7 +102,7 @@ def product_view(request,slug):
     p = Product.objects.filter(name__istartswith=name)
     if len(p) == 0:
         #there isn't one, add it?
-        message = "We don't have any products named %s. Would you like to add it?" % name
+        message = "We don't have a product named %s. Would you like to add it?" % name
         return product_add(request,message)
     if len(p) > 1:
         #we got more than one, user needs to filter down
@@ -122,10 +134,15 @@ def product_edit(request,slug):
                 {'message':"Thanks for updating the entry for %s" % product.name,
                 'product':product},
                 context_instance = RequestContext(request))
+        else:
+            return render_to_response('targets/product_edit.html',
+                {'message':"Please correct the errors below",
+                "form":form},
+                context_instance = RequestContext(request))
     else:
         form = ProductForm(instance=product)
         return render_to_response("targets/product_edit.html",
-                        {"form": form},
+                        {"message":"Edit the product details below","form": form},
         context_instance = RequestContext(request))
 
 @login_required
@@ -136,12 +153,19 @@ def product_add(request,message=None):
             product = form.save()
             product.added_by = request.user
             product.save()
-            return render_to_response('targets/company_single.html',
+            return render_to_response('targets/product_single.html',
                 {'message':"Thanks for adding %s to our database" % product.name,
                 'product':product},
                 context_instance = RequestContext(request))
+        else:
+            return render_to_response('targets/product_add.html',
+                {'message':"Please correct the errors below",
+                "form":form},
+                context_instance = RequestContext(request))
     else:
         form = ProductForm()
+        if message is None:
+            message = "Add the product details below"
         return render_to_response("targets/product_add.html",
                         {"form": form,
                         "message":message},
@@ -179,14 +203,19 @@ def campaign_edit(request,slug):
                 {'message':"Thanks for updating the entry for %s" % campaign.name,
                 'campaign':campaign},
                 context_instance = RequestContext(request))
+        else:
+            return render_to_response('targets/campaign_edit.html',
+                {'message':"Please correct the errors below",
+                "form":form},
+                context_instance = RequestContext(request))
     else:
         form = CampaignForm(instance=campaign)
         return render_to_response("targets/campaign_edit.html",
-                        {"form": form},
+                        {"message":"Edit the campaign details below","form": form},
         context_instance = RequestContext(request))
 
 @login_required
-def campaign_add(request):
+def campaign_add(request,message=None):
     if request.method == 'POST':
         form = CampaignForm(request.POST)
         if form.is_valid():
@@ -197,10 +226,17 @@ def campaign_add(request):
                 {'message':"Thanks for starting the %s campaign" % campaign.name,
                 'campaign':campaign},
                 context_instance = RequestContext(request))
+        else:
+            return render_to_response('targets/campaign_add.html',
+                {'message':"Please correct the errors below",
+                "form":form},
+                context_instance = RequestContext(request))
     else:
         form = ProductForm()
+        if message is None:
+            message = "Add the company details below"
         return render_to_response("targets/campaign_add.html",
-                        {"form": form},
+                        {"message":message,"form": form},
         context_instance = RequestContext(request))
 
 
