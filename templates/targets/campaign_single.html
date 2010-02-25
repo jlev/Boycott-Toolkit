@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load markup %}
+
 {%block css%}
  <link rel="stylesheet" href="{{MEDIA_URL}}styles/target.css" type="text/css"/>
 {%endblock%}
@@ -8,7 +10,7 @@
 <ul>
 <li><b>Name:</b> {{campaign.name}}
 <li><b>Tags:</b> {% for tag in campaign.get_tag_list %}<a href="/targets/tag/{{tag}}">{{tag}}</a>{%endfor%}
-<li><p><b>Description:</b> {{campaign.description}}
+<li><p><b>Description:</b> {{campaign.description|markdown}}
   
 <li><b>Companies:</b>
   <ul>
@@ -29,7 +31,7 @@
 <li>Supported by: #TODO
 <li>Opposed by: #TODO
 </ul>
-<li><i><a href="/admin/targets/campaign/{{campaign.id}}">edit in admin</a></i>
+{% if user.is_staff %}<li><i><a href="/admin/target/campaign/{{campaign.id}}">edit in admin</a></i>{%endif%}
 </ul>
 {%endblock%}
 

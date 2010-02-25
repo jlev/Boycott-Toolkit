@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load markup %}
+
 {%block css%}
  <link rel="stylesheet" href="{{MEDIA_URL}}styles/target.css" type="text/css"/>
 {%endblock%}
@@ -22,7 +24,7 @@
 
 <li><b>Name:</b> {{company.name}}
   <li><b>Tags:</b> {% for tag in company.get_tag_list %}<a href="/target/tag/{{tag}}">{{tag}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}
-<li><p><b>Description:</b> {{company.description}}
+<li><p><b>Description:</b> {{company.description|markdown}}
 <li><b>Products:</b>
   {% for p in products %}<a href="{{p.get_absolute_url}}">{{p.name}}</a>{%endfor%}
 <li><b>Community:
@@ -32,7 +34,7 @@
 <li>Supported by: #TODO
 <li>Opposed by: #TODO
 </ul>
-<li><i><a href="/admin/targets/company/{{company.id}}">edit in admin</a></i>
+{% if user.is_staff %}<li><i><a href="/admin/target/company/{{company.id}}">edit in admin</a></i>{%endif%}
 </ul>
 {%endblock%}
 

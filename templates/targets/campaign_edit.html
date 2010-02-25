@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{%block css%}
+ <link rel="stylesheet" href="{{MEDIA_URL}}styles/target.css" type="text/css"/>
+{%endblock%}
+{% block title %}{{campaign.name}}{% endblock %}
+
+{%block content%}
+{% include "form_snippet.html" %}
+<input type="submit" value="Save" />
+</form>
+{%endblock%}

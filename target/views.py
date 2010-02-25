@@ -21,14 +21,11 @@ def company_view(request,slug):
     c = Company.objects.filter(name__istartswith=name)
     if len(c) == 0:
         #there isn't one, add it?
-        message = "We don't have a company by that name. Would you like to add it?"
-        return render_to_response('targets/company_list.html',
-               {'message':message,
-               'companies':c},
-               context_instance = RequestContext(request))
+        message = "We don't have any companies named %s. Would you like to add it?" % name
+        return company_add(request,message)
     if len(c) > 1:
         #we got more than one, user needs to filter down
-        message = "These are the companies we track that start with " + name + ":"
+        message = "These are the companies we track that start with %s:" % name
         return render_to_response('targets/company_list.html',
                {'message':message,
                'companies':c},
@@ -38,24 +35,46 @@ def company_view(request,slug):
         c = c[0]
         p = Product.objects.filter(company=c)
         return render_to_response('targets/company_single.html',
-            {'company':c,'logo_img':c.logo,'products':p},
+            {'company':c,
+            'logo_img':c.logo.thumbnail,
+            'products':p},
             context_instance = RequestContext(request))
 
 @login_required
 def company_edit(request,slug):
     name = deslug(slug)
-    company = Company.objects.get_or_create(name__iexact=name)
+    company = Company.objects.get(name__iexact=name)
     if request.method == 'POST':
         form = CompanyForm(request.POST)
         if form.is_valid():
             company = form.save()
+            company.edited_by.add(request.user)
+            company.save()
             return render_to_response('targets/company_single.html',
-                {'message':"Thanks for adding this company to the database",
+                {'message':"Thanks for updating the entry for %s" % company.name,
                 'company':company},
                 context_instance = RequestContext(request))
     else:
         form = CompanyForm(instance=company)
         return render_to_response("targets/company_edit.html",
+                        {"form": form},
+        context_instance = RequestContext(request))
+        
+@login_required
+def company_add(request):
+    if request.method == 'POST':
+        form = CompanyForm(request.POST)
+        if form.is_valid():
+            company = form.save()
+            company.added_by = request.user
+            company.save()
+            return render_to_response('targets/company_single.html',
+                {'message':"Thanks for adding %s to our database" % company.name,
+                'company':company},
+                context_instance = RequestContext(request))
+    else:
+        form = CompanyForm()
+        return render_to_response("targets/company_add.html",
                         {"form": form},
         context_instance = RequestContext(request))
         
@@ -71,14 +90,11 @@ def product_view(request,slug):
     p = Product.objects.filter(name__istartswith=name)
     if len(p) == 0:
         #there isn't one, add it?
-        message = "We don't have any products by that name. Would you like to add it?"
-        return render_to_response('targets/product_list.html',
-               {'message':message,
-               'products':p},
-               context_instance = RequestContext(request))
+        message = "We don't have any products named %s. Would you like to add it?" % name
+        return product_add(request,message)
     if len(p) > 1:
         #we got more than one, user needs to filter down
-        message = "These are the products we track that start with " + name + ":"
+        message = "These are the products we track that start with %s:" % name
         return render_to_response('targets/product_list.html',
                {'message':message,
                'products':p},
@@ -88,9 +104,48 @@ def product_view(request,slug):
         p = p[0]
         return render_to_response('targets/product_single.html',
             {'product':p,
-            'logo_img_src':p.image.thumbnail.url(),
-            'logo_img_width':p.image.thumbnail.width,'logo_img_height':p.image.thumbnail.height},
+            'logo_img':p.image.thumbnail},
             context_instance = RequestContext(request))
+            
+
+@login_required
+def product_edit(request,slug):
+    name = deslug(slug)
+    product = Product.objects.get(name__iexact=name)
+    if request.method == 'POST':
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            product = form.save()
+            product.edited_by.add(request.user)
+            product.save()
+            return render_to_response('targets/company_single.html',
+                {'message':"Thanks for updating the entry for %s" % product.name,
+                'product':product},
+                context_instance = RequestContext(request))
+    else:
+        form = ProductForm(instance=product)
+        return render_to_response("targets/product_edit.html",
+                        {"form": form},
+        context_instance = RequestContext(request))
+
+@login_required
+def product_add(request,message=None):
+    if request.method == 'POST':
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            product = form.save()
+            product.added_by = request.user
+            product.save()
+            return render_to_response('targets/company_single.html',
+                {'message':"Thanks for adding %s to our database" % product.name,
+                'product':product},
+                context_instance = RequestContext(request))
+    else:
+        form = ProductForm()
+        return render_to_response("targets/product_add.html",
+                        {"form": form,
+                        "message":message},
+        context_instance = RequestContext(request))
             
 def campaign_view_all(request):
     c = Campaign.objects.all()
@@ -108,6 +163,46 @@ def campaign_view(request,slug):
     return render_to_response("targets/campaign_single.html",
         {'campaign':campaign,'users':users,'products':products,'companies':companies},
         context_instance = RequestContext(request))
+
+
+@login_required
+def campaign_edit(request,slug):
+    name = deslug(slug)
+    campaign = Campaign.objects.get(name__iexact=name)
+    if request.method == 'POST':
+        form = CampaignForm(request.POST)
+        if form.is_valid():
+            campaign = form.save()
+            campaign.edited_by.add(request.user)
+            campaign.save()
+            return render_to_response('targets/campaign_single.html',
+                {'message':"Thanks for updating the entry for %s" % campaign.name,
+                'campaign':campaign},
+                context_instance = RequestContext(request))
+    else:
+        form = CampaignForm(instance=campaign)
+        return render_to_response("targets/campaign_edit.html",
+                        {"form": form},
+        context_instance = RequestContext(request))
+
+@login_required
+def campaign_add(request):
+    if request.method == 'POST':
+        form = CampaignForm(request.POST)
+        if form.is_valid():
+            campaign = form.save()
+            campaign.added_by = request.user
+            campaign.save()
+            return render_to_response('targets/campaign_single.html',
+                {'message':"Thanks for starting the %s campaign" % campaign.name,
+                'campaign':campaign},
+                context_instance = RequestContext(request))
+    else:
+        form = ProductForm()
+        return render_to_response("targets/campaign_add.html",
+                        {"form": form},
+        context_instance = RequestContext(request))
+
 
 def tag_view(request,tag):
     tag = get_object_or_404(Tag,name__iexact=tag)
