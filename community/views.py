@@ -56,10 +56,13 @@ def register_view(request):
             opts = {}
             opts['use_https'] = request.is_secure()
             opts['email_template_name'] = 'registration/registration_email.txt'
-            form.save(**opts)
-            #login immediately
+            form.save(**opts) #create the user object
             user = User.objects.get(username=form.cleaned_data['username'])
-            #supposed to use authenticate() here to set backend, but that seems to conflict with facebook connect
+            User.set_password(user,form.cleaned_data['password']) #hash password for the database
+            #log in immediately
+            #should use authenticate() here to set backend automatically
+            #but that seems to conflict with facebook connect
+            #so do it manually
             user.backend='django.contrib.auth.backends.ModelBackend'
             login(request, user)
             return HttpResponseRedirect('/')
