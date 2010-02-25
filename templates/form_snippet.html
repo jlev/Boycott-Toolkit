@@ -6,6 +6,6 @@
 	<div class="fieldLabel">{{ field.label_tag }}:</div>
 	{%if field.is_required %}</b>{%endif%}
 	<div class="field">{{ field }}</div>
-	<div class="fieldHelpText">{{ field.help_text }}</div>
+	<div class="fieldHelpText">{{ field.help_text|safe }}</div>
 </div>
 {% endfor %}

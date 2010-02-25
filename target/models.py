@@ -8,12 +8,11 @@ from tagging.utils import parse_tag_input
 
 class TargetBase(models.Model):
     name = models.CharField('Name',max_length=200)
-    description = models.TextField(blank=True,null=True)
+    description = models.TextField(help_text="Can contain formatting in <a href='http://en.wikipedia.org/wiki/Markdown#Syntax_examples' target='_blank'>Markdown syntax</a>",blank=True,null=True)
     tags = tagging.fields.TagField()
     
     #these are required, but need to be null=true so that they can pass validation
     #filled in TrackedAdmin.save_model and the related edit views
-    #there should be a better way to do this...
     added_by = models.ForeignKey(User,related_name="%(class)s_add",null=True,blank=True)
     edited_by = models.ManyToManyField(User,related_name="%(class)s_edit",null=True,blank=True)
     added_date = models.DateTimeField(auto_now_add=True)

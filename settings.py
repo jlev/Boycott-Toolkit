@@ -100,10 +100,10 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.humanize',
+    'django.contrib.markup',
     'django_evolution',
     'reversion',
     'facebookconnect',
-#    'profiles',
     'tagging',
     'autocomplete',
     'olwidget',
@@ -112,7 +112,3 @@ INSTALLED_APPS = (
     'boycott.geography',
     'debug_toolbar'
 )
-
-if DEBUG:
-    import logging
-    logging.basicConfig( level = logging.DEBUG, format = '%(asctime)s %(levelname)s %(message)s', )
