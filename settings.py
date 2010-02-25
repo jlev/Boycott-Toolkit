@@ -101,6 +101,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.humanize',
     'django.contrib.markup',
+    'django.contrib.comments',
     'django_evolution',
     'reversion',
     'facebookconnect',

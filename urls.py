@@ -16,6 +16,7 @@ urlpatterns = patterns('',
 urlpatterns += patterns('',
     (r'^autocomplete/', include('autocomplete.urls')),
     (r'^facebook/',include('facebookconnect.urls')),    
+    (r'^comments/', include('django.contrib.comments.urls')), 
 )
 
 #my app urls

@@ -1,0 +1,55 @@
+{%load comments humanize%}
+
+<link rel="stylesheet" href="{{MEDIA_URL}}styles/comments.css" type="text/css"/>
+
+<div id="comments">
+{% get_comment_count for discussion as comment_count %}
+{{comment_count|apnumber|capfirst}} comment{{ comment_count|pluralize}} so far:<br>
+{% get_comment_list for discussion as comment_list %}
+{% for comment in comment_list %}
+    {% if not forloop.first %}<hr>{%endif%}
+    <div class="comment-left">{{comment.comment}}</div>
+    <div class="comment-right">{{comment.user.first_name}} @ {{comment.submit_date|date:"D d M Y P" }}</div>
+{% endfor %}
+<hr><hr>
+<p>Add your own comment</p>
+{% get_comment_form for discussion as comment_form %}
+{% render_comment_form for discussion %}
+</div>
+{%block scripts %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+<script type="text/javascript" charset="utf-8">  
+/* from http://ca.rroll.net/2009/05/10/improving-django-comments-user-experience-with-ajax/ */
+function bindPostCommentHandler() {
+    $('#comment_form, form').submit(function() {
+        $.ajax({
+            type: "POST",  
+            data: $('#comment_form, form').serialize(),  
+            url: "{% comment_form_target %}",  
+            cache: false,  
+            dataType: "html",  
+            success: function(html, textStatus) {  
+                $('#comment_form, form').replaceWith(html);  
+                bindPostCommentHandler();
+                location.reload();
+            },  
+            error: function (XMLHttpRequest, textStatus, errorThrown) {  
+                $('#comment_form, form').replaceWith('Whoops, we had an error posting your comment.' + errorThrown);  
+            }  
+        });  
+        return false;
+        //returning false should override the default action
+    });  
+}  
+
+$(document).ready(function() {  
+    bindPostCommentHandler();
+    {% if user.is_authenticated %}
+    /*prefill comment fields*/
+    $('#id_name')[0].value = "{{user.get_full_name}}";
+    $('#id_email')[0].value = "{{user.email}}";
+    {%endif%}
+});  
+
+</script>
+{%endblock%}

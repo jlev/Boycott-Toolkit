@@ -1,0 +1,24 @@
+#comments {
+    margin-top:10px;
+    border:1px solid gray;
+}
+
+#comments hr {
+    width:400px;
+}
+
+.comment-left {
+    text-align:left;
+}
+.comment-right {
+    text-align:right;
+    
+}
+
+#comment-form {
+    margin-top:10px;
+}
+
+#comment-form form label {
+    text-align:top;
+}

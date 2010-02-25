@@ -1,0 +1,18 @@
+{% load comments %}
+<form method="post" id="comment-form">
+  {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
+  {% for field in form %}
+    {% if field.is_hidden %}
+      {{ field }}
+    {% else %}
+      {% if field.errors %}<div class="fieldError">{{ field.errors }}</div>{% endif %}
+      {% ifequal field.name "honeypot" %}<div style="display:none;">{% endifequal %}
+        <div class="fieldLabel">{{ field.label_tag }}:</div>
+      	<div class="field">{{ field }}</div>
+      	{% ifequal field.name "honeypot" %}</div>{% endifequal %}
+    {% endif %}
+  {% endfor %}
+  <p class="submit">
+    <input type="submit" name="post" class="submit-post" value="Post" />
+  </p>
+</form>
