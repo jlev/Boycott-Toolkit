@@ -4,6 +4,11 @@ A:visited {text-decoration: underline; color:black;}
 A:active {text-decoration: underline; color:black;}
 A:hover {text-decoration: underline; color: red;}
 
+body {
+    font-family: Helvetica, Sans-Serif;
+    font-size:12pt;
+}
+
 /*PAGE LAYOUT*/
 #top {
     position:absolute;
@@ -33,14 +38,12 @@ A:hover {text-decoration: underline; color: red;}
 }
 #logo-img {
     position:absolute;
-    top:-10px;
-    text-align:center;
+    margin:auto;
     z-index:2;
 }
 #slash-img {
     position:absolute;
-    top:-10px;
-    text-align:center;
+    top:-20px;
     z-index:3;
 }
 
@@ -75,6 +78,8 @@ A:hover {text-decoration: underline; color: red;}
 #content p {
     font-size:12pt;
     font-weight:none;
+    margin-top:5px;
+    margin-bottom:5px;
 }
 
 #content h1 {
@@ -86,6 +91,7 @@ A:hover {text-decoration: underline; color: red;}
 
 #message {
     background:#FFFF99;
+    margin-bottom:10px;
 }
 
 ul {
@@ -94,4 +100,8 @@ ul {
 
 ul > li {
     padding-left:5px;
+}
+
+ol {
+    list-style-type: decimal;
 }
