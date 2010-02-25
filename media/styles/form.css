@@ -5,6 +5,7 @@
 .field {
     padding-left:5px;
     display:inline;
+    vertical-align:top;
 }
 
 .fieldHelpText {
@@ -16,8 +17,14 @@
 .fieldLabel {
     font-weight:bold;
     display:inline;
+    vertical-align:top;
+}
+
+.fieldLabel label {
+    vertical-align:top;
 }
 
 .fieldError {
+    font-weight:bold;
     color:red;
 }
