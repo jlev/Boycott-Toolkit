@@ -18,8 +18,7 @@
       <img id="logo-boy" src="{{MEDIA_URL}}logo/boycott-alpha.png">
       <div id="logo-placard">
       {% if logo_img %}
-      <img id="logo-img" src="{{logo_img_src}}"
-      width="{{logo_img_width}}" height="{{logo_img_height}}">
+      <img id="logo-img" src="{{logo_img.url}}">
       <img id="slash-img" src="{{MEDIA_URL}}logo/slash.png">
       {% else %}
       {{logo_text|upper|default:"BOYCOTT<br>TOOLKIT"}}
@@ -48,6 +47,14 @@
   </div>
 
   <div id="sidebar">
+    {% if user.is_authenticated %}
+    <ul class="sidebar">
+      <li><a href="/target/campaign/new">Start a Campaign</a>
+      <li><a href="/target/company/new">Add a Company</a>
+      <li><a href="/target/product/new">Add a Product</a>
+    </ul>
+    <br>
+    {% endif %}
     <ul class="sidebar">
       <li><a href="/target/campaign">Campaigns</a>
       <li><a href="/target/company">Companies</a>

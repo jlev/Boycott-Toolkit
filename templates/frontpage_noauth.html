@@ -8,10 +8,8 @@
 
 {%block content%}
 <h2>What is this site about?</h2>
-<p>Boy.co.tt provides tools for consumers to organize collective economic action.
-  You can learn about the politics behind everyday companies and products, pledge to
-  join a campaign, and share information with your friends.</p>
-<p>You can login with an account you probably already have: Facebook, Google, OpenID.</p>
+<p>Boy.co.tt provides tools for consumers to organize collective economic action. You can learn about the politics behind everyday companies and products, pledge to join a campaign, and share information with your friends.</p>
+<p>Join the community to <a href="/target/campaign/new">start a new campaign</a>, <a href="/target/company/new">add a company</a>, or <a href="/target/product/new">product</a>. You can login with an account you probably already have: Facebook, Google, OpenID.</p>
 
 <h2>Ongoing Campaigns:</h2>
   {% for campaign in campaigns %}<a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}
@@ -22,16 +20,14 @@
     {%for p in products %}
     <td><a href="{{p.get_absolute_url}}"><img src="{{p.image.thumbnail.url}}" alt="{{p.name}}"></a></td>
     {%endfor%}
-    <td>another</td>
-    <td>another</td>
-    <td>another</td>
     </tr>
   </table>
   
-<div class="search_box">
+<div id="search_box">
 <b>Search for more:</b>
   <ul>
     <li><a href="/target/search/name/">by name</a>
     <li><a href="/target/search/upc/">by barcode</a>
     <li><a href="/target/search/location/">by location</a>
+</div>
 {%endblock%}

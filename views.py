@@ -19,8 +19,8 @@ def frontpage_view(request,message=None):
         campaigns = Campaign.objects.filter(highlight=True)
         products = Product.objects.all()[:12]
         num_users = User.objects.count()
-        if not message:
-            message = "Welcome to the Boycott Toolkit"
+        #if not message:
+        #    message = "Welcome to the Boycott Toolkit"
         return render_to_response('frontpage_noauth.html',
             {'message':message,
             'campaigns':campaigns,'products':products},
