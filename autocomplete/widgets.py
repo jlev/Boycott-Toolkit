@@ -20,7 +20,7 @@ class TagAutocomplete(Input):
         ajax_url = reverse('autocomplete-list',kwargs={'model':'tagging.tag'})
         html = super(TagAutocomplete, self).render(name, value, attrs)
         js = u'''<script type="text/javascript">
-            jQuery().ready(function() { jQuery("#%s").autocomplete("%s", { multiple: true }); });
+            $().ready(function() { $("#%s").autocomplete("%s", { multiple: true }); });
             </script>''' % (attrs['id'],ajax_url)
         return mark_safe("\n".join([html, js]))
     
@@ -37,7 +37,7 @@ class Autocomplete(Input):
         ajax_url = reverse('autocomplete-list',kwargs={'model':self.attrs.pop('model')})
         html = super(Autocomplete, self).render(name, value, attrs)
         js = u'''<script type="text/javascript">
-            jQuery().ready(function() { jQuery("#%s").autocomplete("%s", { multiple: true }); });
+            $().ready(function() { $("#%s").autocomplete("%s", { multiple: true }); });
             </script>''' % (attrs['id'],ajax_url)
         return mark_safe("\n".join([html, js]))
     
@@ -53,11 +53,11 @@ class DynamicAutocomplete(Input):
         html = super(DynamicAutocomplete, self).render(name, value, attrs)
         attrs['search_name'] = self.attrs['search_name'] #copy to local
         js = u'''<script type="text/javascript">
-            jQuery().ready(function() {
+            $().ready(function() {
                 search_value = jQuery("#%(search_name)s").value();
-                jQuery("#%(id)s").attr('callback_url',"/autocomplete/"+search_value+"/objects.json");
+                $("#%(id)s").attr('callback_url',"/autocomplete/"+search_value+"/objects.json");
                     //FINISH: set the callback url to the value of the search_name field
-                jQuery("#%(id)s").autocomplete(jQuery("#%(id)s").attr('callback_url'), { multiple: true });
+                $("#%(id)s").autocomplete($("#%(id)s").attr('callback_url'), { multiple: true });
             });
             </script>''' % attrs
         return mark_safe("\n".join([html, js]))
