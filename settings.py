@@ -19,8 +19,8 @@ DATABASE_PORT = '5432'
 #EMAIL SETTINGS
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'virtualgaza@gmail.com'
-EMAIL_HOST_PASSWORD = 'alan007dershowitz'
+EMAIL_HOST_USER = 'register@boy.co.tt'
+EMAIL_HOST_PASSWORD = 'd3m00rd13'
 EMAIL_PORT = 587
 
 #LOCALE SETTINGS
