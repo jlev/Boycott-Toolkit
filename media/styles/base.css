@@ -11,12 +11,18 @@ html {
     font-size:14pt;
     color:#4C4C4C;
     background-color:#3A3A3A;
+    height:100%;
+}
+
+body {
+    height:100%;
 }
 
 /* PAGE LAYOUT */
 #main {
     background-color:white;
     width:800px;
+    height:100%;
     margin:0 auto;
     padding:5px;
 }
@@ -38,7 +44,9 @@ html {
 }
 
 /* LOGO */
-#logo-placard{
+#logo > h1{
+    position:absolute;
+    top:35px;
     width:150px;
     font-family:monospace;
     font-size:20pt;
@@ -47,15 +55,15 @@ html {
     text-align:center;
     z-index:1;
 }
-#logo-img {
-    position:relative;
-    top:-90px;
-    margin:auto;
-    z-index:2;
-}
-#slash-img {
-    top:-20px;
-    z-index:3;
+.logo-img {
+    position:absolute;
+    top:25px;
+    width:150px;
+    height:75px;
+    -webkit-transform: rotate(-15deg); 
+    -moz-transform: rotate(-15deg);
+    text-align:center;
+    z-index:1;
 }
 
 #sidebar a {
@@ -95,16 +103,22 @@ html {
     padding-bottom:10px;   
 }
 
+#content h2 {
+    font-size:14pt;
+    color:#1F1F1F;
+    font-style:italic;
+    font-weight:bold;
+}
+
 #content hr {
     color:#C2C2C2;
     width:400px;
 }
 
-h2 {
-    font-size:14pt;
-    color:#1F1F1F;
-    font-style:italic;
-    font-weight:bold;
+#content hr .heavy {
+    color:#C2C2C2;
+    width:400px;
+    height:5px;
 }
 
 /* BLOCKS */
