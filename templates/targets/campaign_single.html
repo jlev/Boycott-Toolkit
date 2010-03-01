@@ -9,7 +9,7 @@
 {%block content%}
 <ul>
 <li><b>Name:</b> {{campaign.name}}
-<li><b>Tags:</b> {% for tag in campaign.get_tag_list %}<a href="/targets/tag/{{tag}}">{{tag}}</a>{%endfor%}
+<li><b>Tags:</b> {% for tag in campaign.get_tag_list %}<a href="/targets/tag/{{tag}}">{{tag}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}
 <li><p><b>Description:</b> {{campaign.description|markdown}}
   
 <li><b>Companies:</b>
