@@ -111,5 +111,6 @@ INSTALLED_APPS = (
     'boycott.target',
     'boycott.community',
     'boycott.geography',
+    'boycott.info',
     'debug_toolbar'
 )
