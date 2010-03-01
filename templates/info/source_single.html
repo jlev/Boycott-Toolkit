@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{%block css%}
+ <link rel="stylesheet" href="{{MEDIA_URL}}styles/target.css" type="text/css"/>
+{%endblock%}
+{% block title %}Source: {{source.name}}{% endblock %}
+
+{%block content%}
+<b>Source:<b>
+<ul>
+  <li><b>Name:</b> {{source.name}}
+  <li><b>Author:</b> {{source.author}}
+  <li><b>Date:</b> {{source.date}}
+  <li><b>URL:</b> <a href="{{source.url}}">{{source.url}}</a>
+</ul>
+<br>
+<b>Citations:</b>
+<ul>
+  {% for cite in citations %}
+  {% if cite.apply_to_all %}
+  <li>{{cite.cited_field}} for all {{cite.cited_type}} 
+  {% else %}
+  <li>{{cite.cited_field}} for <a href="{{cite.cited_object.get_absolute_url}}">{{cite.cited_object}}</a> {{cite.cited_type}} 
+  {% endif %}
+  {% endfor %}
+  </ul>
+{% endblock %}
