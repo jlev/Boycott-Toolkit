@@ -234,7 +234,7 @@ def campaign_add(request,message=None):
     else:
         form = ProductForm()
         if message is None:
-            message = "Add the company details below"
+            message = "Add the campaign details below"
         return render_to_response("targets/campaign_add.html",
                         {"message":message,"form": form},
         context_instance = RequestContext(request))
