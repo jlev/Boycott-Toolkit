@@ -9,7 +9,7 @@
 {% for comment in comment_list %}
     {% if not forloop.first %}<hr>{%endif%}
     <div class="comment-left">{{comment.comment}}</div>
-    <div class="comment-right">{{comment.user.first_name}} @ {{comment.submit_date|date:"D d M Y P" }}</div>
+    <div class="comment-right">{{comment.name}} @ {{comment.submit_date|date:"D d M Y P" }}</div>
 {% endfor %}
 <hr><hr>
 <p>Add your own comment</p>
