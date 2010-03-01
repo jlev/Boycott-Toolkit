@@ -14,66 +14,73 @@
     <title>Boycott {% block title %}{% endblock %}</title>
     {% facebook_js %}
 
-    <div id="logo-div">
-      <img id="logo-boy" src="{{MEDIA_URL}}logo/boycott-alpha.png">
-      <div id="logo-placard">
-      {% if logo_img %}
-      <img id="logo-img" src="{{logo_img.url}}">
-      <img id="slash-img" src="{{MEDIA_URL}}logo/slash.png">
-      {% else %}
-      {{logo_text|upper|default:"BOYCOTT<br>TOOLKIT"}}
-      {%endif%}
-      </div>
-    </div>
+    <div id="main">
+       <div id="top">
+          <ul class="nav">
+            {% if user.is_authenticated %}
+            <a href="/">My Boycotts</a> |
+            <a href="/community/user/{{user}}">My Profile</a><br>
+            {% if user.is_staff %}
+            <a href="/admin/">Admin</a> |
+            {% endif %}
+            <a href="/community/invite">Invite</a> |
+            <a href="/community/logout">Logout</a>
+            {% else %}
+            <a href="/community/login">Log In</a> |
+            <a href="/community/register">Sign Up</a>
+            {% endif %}
+          </ul>
+        </div>
+      
+      <div id="sidebar">
+        <div id="logo-placard">
+          {% if logo_img %}
+            <img id="logo-img" src="{{logo_img.url}}">
+            <img id="slash-img" src="{{MEDIA_URL}}logo/slash.png">
+            {% else %}
+            {{logo_text|upper|default:"BOYCOTT<br>TOOLKIT"}}
+        {%endif%}
+        </div>
+        <img id="logo-boy" src="{{MEDIA_URL}}logo/boycott-alpha.png">
 
-  <div id="top">
-  <div id="navbar">
-    <ul class="nav">
       {% if user.is_authenticated %}
-          <li><a href="/community/user/{{user}}/campaigns">My Campaigns</a> |
-          <li><a href="/community/user/{{user}}/cart">My Shopping Cart</a> |
-          <li><a href="/community/user/{{user}}">My Profile</a><br>
-          {% if user.is_staff %}
-          <li><a href="/admin/">Admin</a> |
-          {% endif %}
-      <li><a href="/community/invite">Invite</a> |
-      <li><a href="/community/logout">Logout</a>
-      {% else %}
-      <li><a href="/community/login">Login</a> |
-      <li><a href="/community/register">Join</a>
+      <ul class="sidebar">
+        <li><a href="/target/campaign/new">Start a Campaign</a>
+        <li><a href="/target/company/new">Add a Company</a>
+        <li><a href="/target/product/new">Add a Product</a>
+      </ul>
       {% endif %}
-    </ul>
-  </div>
-  </div>
-
-  <div id="sidebar">
-    {% if user.is_authenticated %}
-    <ul class="sidebar">
-      <li><a href="/target/campaign/new">Start a Campaign</a>
-      <li><a href="/target/company/new">Add a Company</a>
-      <li><a href="/target/product/new">Add a Product</a>
-    </ul>
-    <br>
-    {% endif %}
-    <ul class="sidebar">
-      <li><a href="/target/campaign">Campaigns</a>
-      <li><a href="/target/company">Companies</a>
-      <li><a href="/target/product">Products</a>
-      <li><a href="/community/user">Users</a>
-    </ul>
-  </div>
-
-  <div id="content">
-    {%if message%}
-    <div id="message">
-      {{message}}
+      <ul class="sidebar">
+        <hr>
+        <li><a href="/target/campaign">Campaigns</a>
+        <li><a href="/target/company">Companies</a>
+        <li><a href="/target/product">Products</a>
+        <li><a href="/target/store">Stores</a>
+        <hr>
+        <li><a href="/about/us">About</a>
+        <li><a href="/about/legal">Legal</a>
+        <li><a href="/about/contact">Contact</a>
+      </ul>
     </div>
-    {%endif%}
-  
-  	{%block content%}
-  	{%endblock%}
-  </div>
 
+    <div id="content">
+      {%if message%}
+      <div id="message">
+        {{message}}
+      </div>
+      {%endif%}
+  
+    	{%block content%}
+    	{%endblock%}
+    	<div id="copyleft">
+    	  <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/us/80x15.png" /></a>
+      	<br>
+      	<a href="http://www.mit.edu">MIT</a>
+      	<a href="http://civic.mit.edu">C4FCM</a>
+    	</div>
+    </div>
+      &nbsp;
+  </div>
   	{%block scripts%}
   	{%endblock%}
     {% initialize_facebook_connect %}

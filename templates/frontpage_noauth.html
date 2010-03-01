@@ -7,27 +7,39 @@
 {% block title %}Toolkit{% endblock %}
 
 {%block content%}
-<h2>What is this site about?</h2>
-<p>Boy.co.tt provides tools for consumers to organize collective economic action. You can learn about the politics behind everyday companies and products, pledge to join a campaign, and share information with your friends.</p>
-<p>Join the community to <a href="/target/campaign/new">start a new campaign</a>, <a href="/target/company/new">add a company</a>, or <a href="/target/product/new">product</a>. You can login with an account you probably already have: Facebook, Google, OpenID.</p>
+<div class="block" id="main_block">
+<p><em>Boy.co.tt</em> provides tools for consumers to organize collective economic action. You can learn about the politics behind everyday companies and products, pledge to join a campaign, and share information with your friends.</p>
+<p>Join the community to <a href="/target/campaign/new">start a new campaign</a>, <a href="/target/company/new">add a company</a>, or <a href="/target/product/new">product</a>.</p>
+</div>
 
-<h2>Ongoing Campaigns:</h2>
-  {% for campaign in campaigns %}<a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}
+<div class="block" id="highlight_block">
+Search for <b>products</b>, <b>companies</b> or <b>locations</b>
+<form action="/search" method="get">
+  <input type="text" id="entry" />
+  <input type="submit" value="Search" />
+</form>
+</div>
 
-<h2>Listed Products:</h2>
+  {% for campaign in campaigns %}
+  <div class="block" style="width:200px;"><h2>Boycott</h2>
+    <h3><a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a></h3>
+    <h4><a href="">{{campaign.users_joined_campaign.count}} {{campaign.users_joined_campaign.count|pluralize:"person,people"}}</a>, <a href="">{{campaign.products.count}} product{{campaign.products.count|pluralize}}</a></h4></div>
+  {%endfor%}
+
+  <div style="float:left">
+  <hr>
+  <h2>Tracked Products</h2>
   <table id="product_shelf">
     <tr>
     {%for p in products %}
-    <td><a href="{{p.get_absolute_url}}"><img src="{{p.image.thumbnail.url}}" alt="{{p.name}}"></a></td>
+    <td><a class="product_link" href="{{p.get_absolute_url}}"><img src="{{p.image.thumbnail.url}}" alt="{{p.name}}"></a><br>{{p.name}}</td>
+    {% if forloop.counter|divisibleby:"3" %}
+    </tr>
+    <tr>
+    {%endif%}
     {%endfor%}
     </tr>
   </table>
+  </div>
   
-<div id="search_box">
-<b>Search for more:</b>
-  <ul>
-    <li><a href="/target/search/name/">by name</a>
-    <li><a href="/target/search/upc/">by barcode</a>
-    <li><a href="/target/search/location/">by location</a>
-</div>
 {%endblock%}
