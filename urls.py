@@ -28,7 +28,7 @@ urlpatterns += patterns('',
 )
 urlpatterns += patterns('boycott.views',
     (r'^$','frontpage_view'),
-    (r'^search/(?P<string>[\w-]+)/$','search_view'),
+    (r'^search/$','search_view'), #query sent in request
     #put this last so it can't override urls that already exist
     (r'^(?P<slug>[\w-]+)/$','highlight_campaign_view'),
 )

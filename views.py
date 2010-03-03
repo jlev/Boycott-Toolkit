@@ -4,7 +4,8 @@ from django.shortcuts import render_to_response,get_object_or_404,redirect,Http4
 from django.views.decorators.cache import cache_control
 
 from django.contrib.auth.models import User
-from target.models import Campaign,Product
+from target.models import Campaign,Product,Company
+from geography.models import Location
 
 def deslug(name):
 	bits = name.split('-')
@@ -56,6 +57,15 @@ def highlight_campaign_view(request,slug):
     else:
         raise Http404
 
-def search_view(request,string):
-    #p = Products.objects.filter(name__istarts_wth=string)
-    pass
+def search_view(request):
+    '''The non-ajax search view'''
+    query = request.GET.get('q', '')
+    results = {}
+    if query:
+        results['products'] = Product.objects.filter(name__icontains=query)
+        results['companies'] = Company.objects.filter(name__icontains=query)
+        results['locations'] = Location.objects.filter(name__icontains=query)
+    return render_to_response('search.html',
+        {'query':query,'results':results},
+        context_instance = RequestContext(request))
+        

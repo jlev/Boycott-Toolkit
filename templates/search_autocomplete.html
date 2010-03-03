@@ -1,0 +1,43 @@
+Search for <b>products</b>, <b>companies</b> or <b>locations</b>
+<form action="/search/" method="GET" id="search_form">
+  <input type="text" id="entry" name="q" />
+  <input type="submit" value="Search" />
+</form>
+  <script type="text/javascript">
+    /* JQuery search as you type
+    * Overrides the action and method of the form
+    *
+    */
+      $().ready(function() {
+        $("#entry").autocomplete("/autocomplete/search/",
+          { cacheLength:1, multiple:false, minchars:1, mustMatch:false,
+            highlight:false,
+            formatItem: function(x) {
+              return x[0];
+            },
+            formatResult: function(x) {
+              if(x[1]) {
+                //real object, with a url field
+                return x[0];
+              } else {
+                //a header, return null character
+                return "\0";
+              }
+            }
+          });
+          $("#entry").result(function(event, data, formatted) {
+            //url info is the second field in the data object
+            if (data[1]) {
+              $("#search_form").attr('action',data[1]);
+              //stash the url in the form action field
+              $("#entry").attr('name','');
+              //remove the query string from the resulting url
+            } else {
+              $("#search_form").attr('action',"/search/");
+              $("#entry").attr('name','q');
+              //reset it to the non-ajax search
+            }
+              
+          });
+    });
+  </script>
