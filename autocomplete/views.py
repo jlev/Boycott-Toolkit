@@ -6,7 +6,8 @@ from django.db.models import get_model
 from target.models import Product,Company
 from geography.models import Location
 
-def main_search(request):
+def main_search_ajax(request):
+    '''The AJAX search view'''
     try:
         query = request.GET['q']
     except KeyError:
