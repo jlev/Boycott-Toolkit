@@ -11,18 +11,15 @@ html {
     font-size:14pt;
     color:#4C4C4C;
     background-color:#3A3A3A;
-    height:100%;
 }
 
 body {
-    height:100%;
 }
 
 /* PAGE LAYOUT */
 #main {
     background-color:white;
     width:800px;
-    height:100%;
     margin:0 auto;
     padding:5px;
 }
@@ -176,4 +173,5 @@ td {
     float:right;
     clear:left;
 }
+
 
