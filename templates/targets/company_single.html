@@ -7,8 +7,17 @@
 {% block title %}{{company.name}}{% endblock %}
 
 {%block content%}
-<ul>
-  <div id="contact-box">
+  <div class="block" id="main_block">
+    {% if company.logo %}
+    <img src="{{MEDIA_URL}}{{company.logo}}" id="product_image">
+    {% endif %}
+    <em>{{company.name}}</em><br>
+    <h3><a href="{{company.get_absolute_url}}">View Map</a> |
+    Tags: {% for tag in company.get_tag_list %}<a href="/target/tag/{{tag}}">{{tag}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}</h3>
+    {{company.description|markdown}}
+  </div>
+  
+  <div class="block" id="highlight_block">
     <ul><i>Contact</i>
       <li><b>Location:</b> {{company.location.name}}
       <ul style="address"><b>Address:</b>
@@ -22,19 +31,27 @@
         {%else%}<a href='{{company.get_absolute_url}}edit'>add</a>{%endif%}
   </div>
 
-<li><b>Name:</b> {{company.name}}
-  <li><b>Tags:</b> {% for tag in company.get_tag_list %}<a href="/target/tag/{{tag}}">{{tag}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}
-<li><p><b>Description:</b> {{company.description|markdown}}
-<li><b>Products:</b>
-  {% for p in products %}<a href="{{p.get_absolute_url}}">{{p.name}}</a>{%endfor%}
-<li><b>Community:
-<ul>
+<table class="product_shelf">
+  <tr>
+  {%for p in products %}
+  <td><a class="product_link" href="{{p.get_absolute_url}}"><img src="{{p.image.thumbnail.url}}" alt="{{p.name}}"></a><br>{{p.name}}</td>
+  {% if forloop.counter|divisibleby:"3" %}
+  </tr>
+  <tr>
+  {%endif%}
+  {%endfor%}
+  </tr>
+</table>
+
+<div style="float:left">
 <li>Added by: <a href="{{company.added_by.get_absolute_url}}">{{company.added_by}}</a>
-<li>Edited by: {% for user in company.edited_by.all %} <a href="{{user.get_absolute_url}}">{{user}}</a> {%endfor%}
-<li>Supported by: #TODO
-<li>Opposed by: #TODO
-</ul>
-{% if user.is_staff %}<li><i><a href="/admin/target/company/{{company.id}}">edit in admin</a></i>{%endif%}
-</ul>
+<li>Edited by: {% for user in company.edited_by.all %} <a href="{{user.get_absolute_url}}">{{user}}</a> {%endfor%}<br>
+
+{% if user.is_staff %}<i><a href="/admin/target/campaign/{{campaign.id}}">edit in admin</a></i>{%endif%}
+{% with company as discussion %}
+{% include "comments/snippet.html" %}
+{% endwith %}
+</div>
+
 {%endblock%}
 

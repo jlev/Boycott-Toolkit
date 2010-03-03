@@ -7,37 +7,40 @@
 {% block title %}{{campaign.name}}{% endblock %}
 
 {%block content%}
-<ul>
-<li><b>Name:</b> {{campaign.name}}
+<div class="block" id="main_block">
+{{campaign.name}}
 <li><b>Tags:</b> {% for tag in campaign.get_tag_list %}<a href="/targets/tag/{{tag}}">{{tag}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}
-<li><p><b>Description:</b> {{campaign.description|markdown}}
+<p>{{campaign.description|markdown}}</p>
+</div>
   
-<li><b>Companies:</b>
-  <ul>
-    {%for company in companies %}
-    <li><a href="{{company.get_absolute_url}}">{{company.name}}</a>
-    {%endfor%}
-   </ul>
-      
-<li><b>Products:</b>
-  <ul>
-    {%for product in products %}
-    <li><a href="{{product.get_absolute_url}}">{{product.name}}</a>
-    {%endfor%}
-  </ul>
+{%for company in companies %}
+<div class="block" style="width:200px;"><h2>Boycott</h2>
+  <h3><a href="{{company.get_absolute_url}}">{{company.name}}</a></h3>
+  <h4><a href="">{{company.product_set.count}} Product{{company.product_set.count|pluralize}}</a></h4>
+</div>
+{%endfor%}
+    
+<table class="product_shelf">
+  <tr>
+  {%for p in products %}
+  <td><a class="product_link" href="{{p.get_absolute_url}}"><img src="{{p.image.thumbnail.url}}" alt="{{p.name}}"></a><br>{{p.name}}</td>
+  {% if forloop.counter|divisibleby:"3" %}
+  </tr>
+  <tr>
+  {%endif%}
+  {%endfor%}
+  </tr>
+</table>
 
-<li><b>Community:</b>
-<ul>
-<li>Added by: <a href="{{campaign.added_by.profile.get_absolute_url}}">{{campaign.added_by}}</a>
-<li>Edited by: {% for user in campaign.edited_by.all %} <a href="{{user.profile.get_absolute_url}}">{{user}}</a> {%endfor%}
-<li>Supported by: #TODO
-<li>Opposed by: #TODO
-</ul>
-{% if user.is_staff %}<li><i><a href="/admin/target/campaign/{{campaign.id}}">edit in admin</a></i>{%endif%}
-</ul>
+<div style="float:left">
+Added by: <a href="{{campaign.added_by.profile.get_absolute_url}}">{{campaign.added_by}}</a><br>
+Edited by: {% for user in campaign.edited_by.all %} <a href="{{user.profile.get_absolute_url}}">{{user}}</a> {%endfor%}<br>
+Supported by: {% for user in campaign.user_joined_campaign.all %}  <a href="{{user.get_absolute_url}}">{{user}}</a>{%empty%}No one yet{%endfor%}<br>
+{% if user.is_staff %}<br><i><a href="/admin/target/campaign/{{campaign.id}}">edit in admin</a></i>{%endif%}
 {% with campaign as discussion %}
 {% include "comments/snippet.html" %}
 {% endwith %}
+</div>
 
 {%endblock%}
 

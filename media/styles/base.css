@@ -156,6 +156,11 @@ body {
     width:450px;
 }
 
+table {
+    float:left;
+    clear:left;
+}
+
 td {
     border-width: 1px;
     padding: 15px;

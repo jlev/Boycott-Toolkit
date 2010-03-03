@@ -1,6 +1,6 @@
 #comments {
     margin-top:10px;
-    border:1px solid gray;
+    float:left;
 }
 
 #comments hr {
@@ -17,6 +17,7 @@
 
 #comment-form {
     margin-top:10px;
+    float:left;
 }
 
 #comment-form form label {

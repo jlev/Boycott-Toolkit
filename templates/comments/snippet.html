@@ -11,10 +11,12 @@
     <div class="comment-left">{{comment.comment}}</div>
     <div class="comment-right">{{comment.name}} @ {{comment.submit_date|date:"D d M Y P" }}</div>
 {% endfor %}
+<div id="comment-form">
 <hr><hr>
 <p>Add your own comment</p>
 {% get_comment_form for discussion as comment_form %}
 {% render_comment_form for discussion %}
+</div>
 </div>
 {%block scripts %}
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
