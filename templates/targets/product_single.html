@@ -7,19 +7,42 @@
 {% block title %}{{product.name}}{% endblock %}
 
 {%block content%}
-<ul>
-<li><b>Name:</b> {{product.name}}
-<li><b>Company:</b> <a href={{product.company.get_absolute_url}}>{{product.company}}</a>
-<li><b>Tags:</b> {% for tag in product.get_tag_list %}<a href="/target/tag/{{tag}}">{{tag}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}
-<li><p><b>Description:</b> {{product.description|markdown}}
-<li><b>Community:
-<ul>
-<li>Added by: <a href="{{product.added_by.profile.get_absolute_url}}">{{product.added_by}}</a>
-<li>Edited by: {% for user in product.edited_by.all %} <a href="{{user.profile.get_absolute_url}}">{{user}}</a> {%endfor%}
-<li>Supported by: #TODO
-<li>Opposed by: #TODO
-</ul>
+
+<div class="block" id="main_block">
+  <img src="{{MEDIA_URL}}{{product.image}}" id="product_image">
+  <em>{{product.name}}</em><br>
+  <a href="{{product.company.get_absolute_url}}">{{product.company}}</a><br>
+  <h3><a href="{{product.location.get_absolute_url}}">View Map</a> |
+  Tags: {% for tag in product.get_tag_list %}<a href="/target/tag/{{tag}}">{{tag}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}</h3>
+  {{product.description|markdown}}
+</div>
+
+<div class="block" id="highlight_block">
+<h2>Take action!</h2>
+Ask other users to boycott this product.<br>
+Or tell your # Facebook friends about this product.
+</div>
+
+<h2>Campaigns about this product:</h2>
+{% for campaign in product.campaign_set.all %}
+<div class="block" style="width:200px;"><h2>Boycott</h2>
+  <h3><a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a></h3>
+  <h4><a href="">{{campaign.users_joined_campaign.count}} {{campaign.users_joined_campaign.count|pluralize:"person,people"}}</a>, <a href="">{{campaign.products.count}} product{{campaign.products.count|pluralize}}</a></h4>
+</div>
+{%endfor%}
+
+
+<div style="float:left">
+Added by: <a href="{{product.added_by.profile.get_absolute_url}}">{{product.added_by}}</a>
+Edited by: {% for user in product.edited_by.all %} <a href="{{user.profile.get_absolute_url}}">{{user}}</a> {%endfor%}
+
+Supported by: #TODO
+Opposed by: #TODO
+
+<small>
 {% if user.is_staff %}<li><i><a href="/admin/target/product/{{product.id}}">edit in admin</a></i>{%endif%}
-</ul>
+</small>
+
+</div>
 {%endblock%}
 
