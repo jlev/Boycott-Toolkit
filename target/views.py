@@ -34,9 +34,13 @@ def company_view(request,slug):
         #there's only one
         c = c[0]
         p = Product.objects.filter(company=c)
+        try:
+            logo_img = c.logo.thumbnail
+        except AttributeError:
+            logo_img = None
         return render_to_response('targets/company_single.html',
             {'company':c,
-            'logo_img':c.logo.thumbnail,
+            'logo_img':logo_img,
             'products':p},
             context_instance = RequestContext(request))
 
@@ -114,9 +118,13 @@ def product_view(request,slug):
     else:
         #there's only one
         p = p[0]
+        try:
+            logo_img = p.image.thumbnail
+        except AttributeError:
+            logo_img = None
         return render_to_response('targets/product_single.html',
             {'product':p,
-            'logo_img':p.image.thumbnail},
+            'logo_img':logo_img},
             context_instance = RequestContext(request))
             
 
