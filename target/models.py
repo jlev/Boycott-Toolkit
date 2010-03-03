@@ -26,7 +26,7 @@ class TargetBase(models.Model):
 
 
 class Company(TargetBase):
-    logo = StdImageField(upload_to="uploads/logos",blank=True,size=(400,400),thumbnail_size=(150,120))
+    logo = StdImageField(upload_to="uploads/logos",blank=True,size=(250,250),thumbnail_size=(150,75))
     location = models.ForeignKey('geography.Location',blank=True,null=True)
     website = models.URLField(blank=True,null=True)
     phone = models.CharField(max_length=15,blank=True,null=True) #validate?
@@ -39,7 +39,7 @@ class Company(TargetBase):
 class Product(TargetBase):
     company = models.ForeignKey('Company')
     upc = models.CharField('UPC',max_length=13,blank=True,null=True)
-    image = StdImageField(upload_to="uploads/products",blank=True,size=(400,400),thumbnail_size=(150,120))
+    image = StdImageField(upload_to="uploads/products",blank=True,size=(250,250),thumbnail_size=(150,75))
     @models.permalink
     def get_absolute_url(self):
         return ('target.views.product_view', [slugify(self.name)])
