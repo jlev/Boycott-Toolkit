@@ -37,8 +37,8 @@ def frontpage_view(request,message=None):
         my_companies_oppose = my_profile.opposes.all()
         my_products_buy = my_profile.buy.all()
         my_products_dontbuy = my_profile.dontbuy.all()
-        if not message:
-            message = 'Welcome back Boycotter!'
+        #if not message:
+        #    message = 'Welcome back Boycotter!'
         return render_to_response('frontpage_auth.html',
             {'message':message,
             'user':request.user,
@@ -57,3 +57,7 @@ def highlight_campaign_view(request,slug):
         return redirect(campaign)
     else:
         raise Http404
+
+def search_view(request,string):
+    #p = Products.objects.filter(name__istarts_wth=string)
+    pass
