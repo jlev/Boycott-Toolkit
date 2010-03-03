@@ -1,6 +1,10 @@
 #contact-box {
     float:right;
-    border:1px solid black;
     padding:5px;
     width:200px;
+}
+
+#product_image {
+    float:right;
+    text-align:right;
 }
