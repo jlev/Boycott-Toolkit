@@ -1,8 +1,32 @@
 from django.http import HttpResponse
-from django.core import serializers
+from django.utils import simplejson as json
 from tagging.models import Tag
 from django.db.models import get_model
 
+from target.models import Product,Company
+from geography.models import Location
+
+def main_search(request):
+    try:
+        query = request.GET['q']
+    except KeyError:
+        return HttpResponse("No query string", mimetype='text/plain')
+    products = Product.objects.filter(name__istartswith=query)
+    companies = Company.objects.filter(name__istartswith=query)
+    locations = Location.objects.filter(name__istartswith=query)
+    
+    r = []
+    r.append("<div class='ac_header'>Companies</div>")
+    for c in companies:
+        r.append("%s|%s" % (c.name,c.get_absolute_url()))
+    r.append("<div class='ac_header'>Products</div>")
+    for p in products:
+        r.append("%s|%s" % (p.name,p.get_absolute_url()))
+    r.append("<div class='ac_header'>Locations</div>")
+    for l in locations:
+        r.append("%s|%s" % (l.name,"")) #l.get_absolute_url()))
+    return HttpResponse('\n'.join(r), mimetype='text/plain')
+    
 def list_objects(request,model):
     '''Query the objects saved for a particular model'''
     try:

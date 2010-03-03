@@ -23,10 +23,14 @@ urlpatterns += patterns('',
 urlpatterns += patterns('',
     (r'^target/', include('target.urls')),
     (r'^community/', include('community.urls')),
+    (r'^location/', include('geography.urls')),
+    (r'^source/', include('info.urls')),
 )
 urlpatterns += patterns('boycott.views',
     (r'^$','frontpage_view'),
-    (r'^(?P<slug>[\w-]+)/$','highlight_campaign_view'), #put this last so it can't override urls that already exist
+    (r'^search/(?P<string>[\w-]+)/$','search_view'),
+    #put this last so it can't override urls that already exist
+    (r'^(?P<slug>[\w-]+)/$','highlight_campaign_view'),
 )
 
 #let django serve the static media when in debug mode

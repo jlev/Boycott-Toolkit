@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {%block css %}
 <link rel="stylesheet" href="{{MEDIA_URL}}styles/frontpage.css" type="text/css"/>
+<link href="{{MEDIA_URL}}/jquery/autocomplete/jquery.autocomplete.css" type="text/css" media="all" rel="stylesheet" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}/jquery/autocomplete/jquery.autocomplete.js"></script>
 {%endblock%}
 
 {% block title %}Toolkit{% endblock %}
@@ -13,11 +16,42 @@
 
 <div class="block" id="highlight_block">
 Search for <b>products</b>, <b>companies</b> or <b>locations</b>
-<form action="/search" method="get">
+<form action="" method="GET" id="search_form">
   <input type="text" id="entry" />
   <input type="submit" value="Search" />
 </form>
 </div>
+  <script type="text/javascript">
+      $().ready(function() {
+        $("#entry").autocomplete("/autocomplete/search/",
+          { cacheLength:1, multiple:false, minchars:1, mustMatch:false,
+            highlight:false,
+            formatItem: function(x) {
+              return x[0];
+            },
+            formatResult: function(x) {
+              if(x[1]) {
+                //real object, with a url field
+                return x[0];
+              } else {
+                //a header, return null character
+                return "\0";
+              }
+            }
+          });
+          $("#entry").result(function(event, data, formatted) {
+            //url info is the second field in the data object
+            if (data[1]) {
+              $("#search_form").attr('action',data[1]);
+              //stash the url in the form action field
+            } else {
+              $("#search_form").attr('action',"");
+              //reset it to none
+            }
+              
+          });
+    });
+  </script>
 
   {% for campaign in campaigns %}
   <div class="block" style="width:200px;"><h2>Boycott</h2>

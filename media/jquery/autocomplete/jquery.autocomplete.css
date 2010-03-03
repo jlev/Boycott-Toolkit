@@ -1,9 +1,17 @@
 .ac_results {
 	padding: 0px;
-	border: 1px solid black;
-	background-color: white;
+	border: 2px solid #CB7840;
+	border-top: 0px;
+	background-color: #FFF2D5;
+	color:#612823;
 	overflow: hidden;
 	z-index: 99999;
+}
+
+.ac_header {
+    font-style:italic;
+    font-weight:bold;
+    border-bottom: 1px solid #9B716E;
 }
 
 .ac_results ul {
@@ -39,10 +47,10 @@
 }
 
 .ac_odd {
-	background-color: #eee;
+	/*background-color: #eee;*/
 }
 
 .ac_over {
-	background-color: #0A246A;
-	color: white;
+	background-color: #FFD9B3;
+	color: #612823;
 }
