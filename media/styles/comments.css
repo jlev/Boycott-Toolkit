@@ -4,7 +4,10 @@
 }
 
 #comments hr {
-    width:400px;
+}
+
+#comments-list {
+    font-size:10pt;
 }
 
 .comment-left {
@@ -12,12 +15,12 @@
 }
 .comment-right {
     text-align:right;
-    
 }
 
 #comment-form {
     margin-top:10px;
     float:left;
+    font-size:12pt;
 }
 
 #comment-form form label {

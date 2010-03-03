@@ -3,20 +3,23 @@
 <link rel="stylesheet" href="{{MEDIA_URL}}styles/comments.css" type="text/css"/>
 
 <div id="comments">
-{% get_comment_count for discussion as comment_count %}
-{{comment_count|apnumber|capfirst}} comment{{ comment_count|pluralize}} so far:<br>
-{% get_comment_list for discussion as comment_list %}
-{% for comment in comment_list %}
-    {% if not forloop.first %}<hr>{%endif%}
-    <div class="comment-left">{{comment.comment}}</div>
-    <div class="comment-right">{{comment.name}} @ {{comment.submit_date|date:"D d M Y P" }}</div>
-{% endfor %}
-<div id="comment-form">
-<hr><hr>
-<p>Add your own comment</p>
-{% get_comment_form for discussion as comment_form %}
-{% render_comment_form for discussion %}
-</div>
+  {% get_comment_count for discussion as comment_count %}
+  <a id="toggle-comments">{{comment_count|apnumber|capfirst}} comment{{ comment_count|pluralize}} so far >></a><br>
+  <hr>
+  {% get_comment_list for discussion as comment_list %}
+  <div id="comments-list">
+    {% for comment in comment_list %}
+        {% if not forloop.first %}<hr>{%endif%}
+        <div class="comment-left">{{comment.comment|escape}}<br>{{comment.name}}</div>
+        <div class="comment-right">{{comment.submit_date|date:"D d M Y" }} @ {{comment.submit_date|date:"P" }}</div>
+    {% endfor %}
+  </div>
+  <hr>
+  <a id="add-comment">Add your own comment >></a><br>
+  {% get_comment_form for discussion as comment_form %}
+  <div id="comment-form">
+  {% render_comment_form for discussion %}
+  </div>
 </div>
 {%block scripts %}
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
@@ -51,6 +54,20 @@ $(document).ready(function() {
     $('#id_name')[0].value = "{{user.get_full_name}}";
     $('#id_email')[0].value = "{{user.email}}";
     {%endif%}
+     
+     $('a#toggle-comments').click(function() {
+         $('#comments-list').toggle(400);
+         return false;
+       });
+    $('#comments-list').show();
+    //comment list default visible
+    
+    $('a#add-comment').click(function() {
+         $('#comment-form').toggle(400);
+         return false;
+       });
+    $('#comment-form').hide();
+    //comment form default hidden
 });  
 
 </script>
