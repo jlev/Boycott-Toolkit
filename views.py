@@ -4,8 +4,6 @@ from django.shortcuts import render_to_response,get_object_or_404,redirect,Http4
 from django.views.decorators.cache import cache_control
 
 from django.contrib.auth.models import User
-
-from community.models import UserProfile
 from target.models import Campaign,Product
 
 def deslug(name):
@@ -31,7 +29,7 @@ def frontpage_view(request,message=None):
             'products':products},
             context_instance = RequestContext(request))
     else:
-        my_profile = UserProfile.objects.select_related().get(user=request.user)
+        my_profile = request.user.profile
         my_campaigns = my_profile.campaigns.all()
         my_companies_support = my_profile.supports.all()
         my_companies_oppose = my_profile.opposes.all()
