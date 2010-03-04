@@ -26,9 +26,10 @@
   {%endfor%}
 
   <div style="float:left">
-  <hr>
   <h2>Tracked Products</h2>
-  <table id="product_shelf">
+  <div class="shelf">
+  <hr>
+  <table>
     <tr>
     {%for p in products %}
     <td><a class="product_link" href="{{p.get_absolute_url}}"><img src="{{p.image.thumbnail.url}}" alt="{{p.name}}"></a><br>{{p.name}}</td>
@@ -39,6 +40,8 @@
     {%endfor%}
     </tr>
   </table>
+  </div>
+  
   </div>
   
 {%endblock%}

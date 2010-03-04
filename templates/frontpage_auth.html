@@ -25,9 +25,11 @@
   {%endfor%}
 
   <div style="float:left">
-  <hr>
+  
+  <div class="shelf">
+  <hr class="heavy">
   <h2>Products I Buy</h2>
-  <table class="product_shelf">
+  <table>
     <tr>
     {%for p in products_buy %}
     <td><a class="product_link" href="{{p.get_absolute_url}}"><img src="{{p.image.thumbnail.url}}" alt="{{p.name}}"></a><br>{{p.name}}</td>
@@ -38,11 +40,12 @@
     {%endfor%}
     </tr>
   </table>
+  </div>
   
+  <div class="shelf">
   <hr>
-  
   <h2>Products I Don't Buy</h2>
-  <table class="product_shelf">
+  <table>
     <tr>
     {%for p in products_dontbuy %}
     <td><a class="product_link" href="{{p.get_absolute_url}}"><img src="{{p.image.thumbnail.url}}" alt="{{p.name}}"></a><br>{{p.name}}</td>
@@ -53,14 +56,15 @@
     {%endfor%}
     </tr>
   </table>
+  </div>
 
-<hr class="heavy"><hr>
-
-<h2>Companies I Support</h2>
-  <table id="company_shelf">
+  <div class="shelf">
+  <hr class="heavy">
+  <h2>Companies I Support</h2>
+  <table>
     <tr>
     {%for c in companies_support %}
-    <td><a href="{{c.get_absolute_url}}"><img src="{{c.logo.thumbnail.url}}" alt="{{c.name}}"></a></td>
+    <td><a href="{{c.get_absolute_url}}"><img src="{{c.logo.thumbnail.url}}" alt="{{c.name}}"></a><br>{{c.name}}</td>
     {% if forloop.counter|divisibleby:"3" %}
     </tr>
     <hr>
@@ -69,14 +73,15 @@
     {%endfor%}
     </tr>
   </table>
-    
+  </div>
+  
+  <div class="shelf">
   <hr>
-      
-<h2>Companies I Oppose</h2>
-  <table id="company_shelf">
+  <h2>Companies I Oppose</h2>
+  <table>
     <tr>
     {%for c in companies_oppose %}
-    <td><a href="{{c.get_absolute_url}}"><img src="{{c.logo.thumbnail.url}}" alt="{{c.name}}"></a></td>
+    <td><a href="{{c.get_absolute_url}}"><img src="{{c.logo.thumbnail.url}}" alt="{{c.name}}"></a><br>{{c.name}}</td>
     {% if forloop.counter|divisibleby:"3" %}
     </tr>
     <tr>
@@ -84,6 +89,8 @@
     {%endfor%}
     </tr>
   </table>
+  <hr class="heavy">
+  </div>
   
   </div>
 

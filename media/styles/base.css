@@ -109,13 +109,14 @@ body {
 
 #content hr {
     color:#C2C2C2;
-    width:400px;
 }
 
-#content hr .heavy {
-    color:#C2C2C2;
-    width:400px;
-    height:5px;
+hr.heavy {
+    color:#373737;
+    background-color:#373737;
+    height:4px;
+    width:100%;
+    clear:left;
 }
 
 /* BLOCKS */
@@ -159,6 +160,12 @@ body {
 table {
     float:left;
     clear:left;
+}
+
+.shelf {
+    float:left;
+    clear:left;
+    width:450px;
 }
 
 td {
