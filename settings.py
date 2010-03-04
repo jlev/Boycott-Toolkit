@@ -78,6 +78,7 @@ MIDDLEWARE_CLASSES = (
     #'django.contrib.csrf.middleware.CsrfMiddleware', #doesn't play nice with facebook connect
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'facebookconnect.middleware.FacebookConnectMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware'
 )
 
 INTERNAL_IPS = ('127.0.0.1',)
@@ -102,6 +103,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'django.contrib.markup',
     'django.contrib.comments',
+    'django.contrib.flatpages',
     'django_evolution',
     'reversion',
     'facebookconnect',

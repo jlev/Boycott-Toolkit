@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{%load markup%}
+{%block css%}
+ <link rel="stylesheet" href="{{MEDIA_URL}}styles/target.css" type="text/css"/>
+{%endblock%}
+{% block title %} | {{ flatpage.title }}{% endblock %}
+
+{%block content%}
+<div style="float:left;">
+{{ flatpage.content|markdown }}
+</div>
+{%endblock%}
