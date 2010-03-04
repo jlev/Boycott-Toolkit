@@ -36,7 +36,10 @@
 Added by: <a href="{{campaign.added_by.profile.get_absolute_url}}">{{campaign.added_by}}</a><br>
 Edited by: {% for user in campaign.edited_by.all %} <a href="{{user.profile.get_absolute_url}}">{{user}}</a> {%endfor%}<br>
 Supported by: {% for user in campaign.user_joined_campaign.all %}  <a href="{{user.get_absolute_url}}">{{user}}</a>{%empty%}No one yet{%endfor%}<br>
-{% if user.is_staff %}<br><i><a href="/admin/target/campaign/{{campaign.id}}">edit in admin</a></i>{%endif%}
+
+<i><a href="/target/campaign/{{campaign.name|slugify}}/edit">Edit this campaign</a></i>
+{% if user.is_staff %}| 
+<i><a href="/admin/target/campaign/{{campaign.id}}">Edit in admin</a></i>{%endif%}
 {% with campaign as discussion %}
 {% include "comments/snippet.html" %}
 {% endwith %}

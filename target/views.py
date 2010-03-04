@@ -49,7 +49,7 @@ def company_edit(request,slug):
     name = deslug(slug)
     company = Company.objects.get(name__iexact=name)
     if request.method == 'POST':
-        form = CompanyForm(request.POST)
+        form = CompanyForm(request.POST,instance=company)
         if form.is_valid():
             company = form.save()
             company.edited_by.add(request.user)
@@ -133,12 +133,12 @@ def product_edit(request,slug):
     name = deslug(slug)
     product = Product.objects.get(name__iexact=name)
     if request.method == 'POST':
-        form = ProductForm(request.POST)
+        form = ProductForm(request.POST,instance=product)
         if form.is_valid():
             product = form.save()
             product.edited_by.add(request.user)
             product.save()
-            return render_to_response('targets/company_single.html',
+            return render_to_response('targets/product_single.html',
                 {'message':"Thanks for updating the entry for %s" % product.name,
                 'product':product},
                 context_instance = RequestContext(request))
@@ -202,7 +202,7 @@ def campaign_edit(request,slug):
     name = deslug(slug)
     campaign = Campaign.objects.get(name__iexact=name)
     if request.method == 'POST':
-        form = CampaignForm(request.POST)
+        form = CampaignForm(request.POST,instance=campaign)
         if form.is_valid():
             campaign = form.save()
             campaign.edited_by.add(request.user)
