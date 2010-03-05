@@ -4,7 +4,15 @@
     width:200px;
 }
 
-#product_image {
+.product_image {
+    padding:8px;
+    background:white;
+    margin:6px;
     float:right;
-    text-align:right;
+}
+
+
+.description {
+    font-size:12px;
+    margin-top:6px;
 }

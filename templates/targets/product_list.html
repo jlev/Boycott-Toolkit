@@ -1,12 +1,23 @@
 {% extends "base.html" %}
+{%load markup%}
 {%block css%}
  <link rel="stylesheet" href="{{MEDIA_URL}}styles/target.css" type="text/css"/>
 {%endblock%}
 {% block title %}Products{% endblock %}
 
 {%block content%}
-<ul>
-{% for p in products %}
-<li><a href={{p.get_absolute_url}}>{{p.name}}</a>
+
+{% for product in products %}
+<div class="block" style="width:400px;">
+    <em>{{product.name}}</em><br>
+    <a href="{{product.company.get_absolute_url}}">{{product.company}}</a><br>
+    <h3>Tags: {% for tag in product.get_tag_list %}<a href="/target/tag/{{tag}}">{{tag}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}</h3>
+  <div class="description">
+    {% if product.image %}
+      <img src="{{MEDIA_URL}}{{product.image}}" class="product_image">
+    {% endif %}
+    {{product.description}}
+    </div>
+  </div>
 {%endfor%}
 {%endblock%}

@@ -1,14 +1,16 @@
 {% extends "base.html" %}
+{%load markup%}
 {%block css%}
  <link rel="stylesheet" href="{{MEDIA_URL}}styles/target.css" type="text/css"/>
 {%endblock%}
 {% block title %} Campaigns{% endblock %}
 
 {%block content%}
-<ul>
   {% for campaign in campaigns %}
-<li><a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a>: {{campaign.description}}, {{campaign.users_joined_campaign.count}} user
+<div class="block" style="width:400px;">
+  <h2><a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a>:</h2> <h3>{{campaign.users_joined_campaign.count}} user{{campaign.users_joined_campaign.count|pluralize}}</h3>
+{{campaign.description|markdown}}
+</div>
   {%endfor%}
-</ul>
 {%endblock%}
 

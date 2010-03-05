@@ -8,11 +8,11 @@
 
 {%block content%}
   <div class="block" id="main_block">
-    {% if company.logo %}
-    <img src="{{MEDIA_URL}}{{company.logo}}" id="product_image">
-    {% endif %}
     <em>{{company.name}}</em><br>
-    <h3><a href="{{company.get_absolute_url}}">View Map</a> |
+    {% if company.logo %}
+    <img src="{{MEDIA_URL}}{{company.logo}}" class="product_image">
+    {% endif %}
+    <h3><a href="{{company.get_absolute_url}}">View Map</a><br>
     Tags: {% for tag in company.get_tag_list %}<a href="/target/tag/{{tag}}">{{tag}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}</h3>
     {{company.description|markdown}}
   </div>
