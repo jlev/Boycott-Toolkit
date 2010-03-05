@@ -9,7 +9,7 @@
 
 {% for product in products %}
 <div class="block" style="width:400px;">
-    <em>{{product.name}}</em><br>
+    <em><a href="{{product.get_absolute_url}}">{{product.name}}</a></em><br>
     <a href="{{product.company.get_absolute_url}}">{{product.company}}</a><br>
     <h3>Tags: {% for tag in product.get_tag_list %}<a href="/target/tag/{{tag}}">{{tag}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}</h3>
   <div class="description">
