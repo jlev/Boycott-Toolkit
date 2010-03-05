@@ -33,6 +33,7 @@ body {
 
 /* LEFT SIDE */
 #sidebar {
+    font-size:14pt;
     float:left;
     text-align:right;
     width:150px;
@@ -141,15 +142,16 @@ hr.heavy {
     font-size:10pt;
 }
 
-#main_block {
-    width:450px;
-    font-size:14pt;
-}
-#main_block em {
+.block em {
     font-style:italic;
     font-weight:bold;
     font-size:16pt;
     color:#1F1F1F;
+}
+
+#main_block {
+    width:450px;
+    font-size:14pt;
 }
 
 #highlight_block {

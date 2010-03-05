@@ -8,7 +8,7 @@
 {%block content%}
   {% for campaign in campaigns %}
 <div class="block" style="width:400px;">
-  <h2><a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a>:</h2> <h3>{{campaign.users_joined_campaign.count}} user{{campaign.users_joined_campaign.count|pluralize}}</h3>
+  <em><a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a>:</em> <h3>{{campaign.users_joined_campaign.count}} user{{campaign.users_joined_campaign.count|pluralize}}</h3>
 {{campaign.description|markdown}}
 </div>
   {%endfor%}
