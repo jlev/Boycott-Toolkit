@@ -6,7 +6,7 @@ from target.models import Product,Company,Campaign
 
 class TrackedObjectForm(forms.ModelForm):
     class Meta:
-        exclude=('added_by','edited_by','added_date')
+        exclude=('added_by','edited_by','added_date','slug')
 
 class CompanyForm(TrackedObjectForm):
     tags = TagField(widget=TagAutocomplete(), required=False)
@@ -20,6 +20,7 @@ class ProductForm(TrackedObjectForm):
        
 class CampaignForm(TrackedObjectForm):
     tags = TagField(widget=TagAutocomplete(), required=False)
+    exclude = ('highlight')
     class Meta(TrackedObjectForm.Meta):
         model = Campaign
         
