@@ -4,6 +4,7 @@ from target.forms import ProductForm,CompanyForm,CampaignForm
 from reversion.admin import VersionAdmin
 
 class TrackedAdmin(VersionAdmin):
+    prepopulated_fields = {"slug": ("name",)}
     def save_model(self, request, obj, form, change):
         print form
         if not change:
