@@ -10,6 +10,7 @@ from geography.models import Location
 class TargetBase(models.Model):
     name = models.CharField('Name',max_length=200)
     slug = models.CharField('Slug',max_length=200,null=True)
+    slug = models.CharField('Slug',max_length=200,null=True,db_index=True)
     description = models.TextField(help_text='''Can contain formatting in
         <a href=http://en.wikipedia.org/wiki/Markdown#Syntax_examples target=_blank>Markdown syntax</a>''',blank=True,null=True)
     tags = tagging.fields.TagField()
