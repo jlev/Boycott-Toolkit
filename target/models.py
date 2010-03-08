@@ -8,6 +8,7 @@ from tagging.utils import parse_tag_input
 
 class TargetBase(models.Model):
     name = models.CharField('Name',max_length=200)
+    slug = models.CharField('Slug',max_length=200,null=True)
     description = models.TextField(help_text='''Can contain formatting in
         <a href=http://en.wikipedia.org/wiki/Markdown#Syntax_examples target=_blank>Markdown syntax</a>''',blank=True,null=True)
     tags = tagging.fields.TagField()
@@ -27,7 +28,7 @@ class TargetBase(models.Model):
 
 class Company(TargetBase):
     logo = StdImageField(upload_to="uploads/logos",blank=True,size=(250,250),thumbnail_size=(150,75))
-    location = models.ForeignKey('geography.Location',blank=True,null=True)
+    location = models.ForeignKey(Location,blank=True,null=True)
     website = models.URLField(blank=True,null=True)
     phone = models.CharField(max_length=15,blank=True,null=True) #validate?
     class Meta(TargetBase.Meta):

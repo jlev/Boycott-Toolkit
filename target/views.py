@@ -2,7 +2,6 @@ from django.http import HttpResponse,HttpResponseNotFound
 from django.template import RequestContext
 from django.shortcuts import render_to_response,get_object_or_404,get_list_or_404
 from django.contrib.auth.decorators import login_required
-from boycott.views import deslug
 
 from target.models import Company,Product,Campaign
 from target.forms import CompanyForm,ProductForm,CampaignForm
@@ -17,8 +16,7 @@ def company_view_all(request):
         context_instance = RequestContext(request))
 
 def company_view(request,slug):
-    name = deslug(slug)
-    c = Company.objects.filter(name__istartswith=name)
+    c = Company.objects.filter(slug__istartswith=slug)
     if len(c) == 0:
         #there isn't one, add it?
         message = "We don't have a company named %s. Would you like to add it?" % name
@@ -46,8 +44,7 @@ def company_view(request,slug):
 
 @login_required
 def company_edit(request,slug):
-    name = deslug(slug)
-    company = Company.objects.get(name__iexact=name)
+    company = Company.objects.get(slug=slug)
     if request.method == 'POST':
         form = CompanyForm(request.POST,instance=company)
         if form.is_valid():
@@ -102,8 +99,7 @@ def product_view_all(request):
         context_instance = RequestContext(request))
         
 def product_view(request,slug):
-    name = deslug(slug)
-    p = Product.objects.filter(name__istartswith=name)
+    p = Product.objects.filter(slug__istartswith=slug)
     if len(p) == 0:
         #there isn't one, add it?
         message = "We don't have a product named %s. Would you like to add it?" % name
@@ -130,8 +126,7 @@ def product_view(request,slug):
 
 @login_required
 def product_edit(request,slug):
-    name = deslug(slug)
-    product = Product.objects.get(name__iexact=name)
+    product = Product.objects.get(slug=slug)
     if request.method == 'POST':
         form = ProductForm(request.POST,instance=product)
         if form.is_valid():
@@ -187,8 +182,7 @@ def campaign_view_all(request):
         context_instance = RequestContext(request))
 
 def campaign_view(request,slug):
-    name = deslug(slug)
-    campaign = get_object_or_404(Campaign,name__iexact=name)
+    campaign = get_object_or_404(Campaign,slug=slug)
     users = campaign.users_joined_campaign
     products = campaign.products.get_query_set()
     companies = campaign.companies.get_query_set()
@@ -199,8 +193,7 @@ def campaign_view(request,slug):
 
 @login_required
 def campaign_edit(request,slug):
-    name = deslug(slug)
-    campaign = Campaign.objects.get(name__iexact=name)
+    campaign = Campaign.objects.get(slug=slug)
     if request.method == 'POST':
         form = CampaignForm(request.POST,instance=campaign)
         if form.is_valid():

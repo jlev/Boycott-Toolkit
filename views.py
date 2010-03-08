@@ -7,12 +7,6 @@ from django.contrib.auth.models import User
 from target.models import Campaign,Product,Company
 from geography.models import Location
 
-def deslug(name):
-	bits = name.split('-')
-	for i,b in enumerate(bits):
-	    bits[i] = b.capitalize()
-	return " ".join(bits)
-
 
 @cache_control(must_revalidate=True) #so the view refreshes when we logout
 def frontpage_view(request,message=None):
@@ -49,8 +43,7 @@ def frontpage_view(request,message=None):
             context_instance = RequestContext(request))
         
 def highlight_campaign_view(request,slug):
-    name = deslug(slug)
-    campaign = get_object_or_404(Campaign,name__iexact=name)
+    campaign = get_object_or_404(Campaign,slug=slug)
     print campaign
     if campaign.highlight:
         return redirect(campaign)
