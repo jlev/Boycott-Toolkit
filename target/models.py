@@ -5,6 +5,7 @@ from django_stdimage import StdImageField
 import tagging.fields
 from tagging.utils import parse_tag_input
 
+from geography.models import Location
 
 class TargetBase(models.Model):
     name = models.CharField('Name',max_length=200)
