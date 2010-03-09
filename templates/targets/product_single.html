@@ -38,7 +38,7 @@ Or tell your # Facebook friends about this product.
 Added by: <a href="{{product.added_by.profile.get_absolute_url}}">{{product.added_by}}</a><br>
 Edited by: {% for user in product.edited_by.all %} <a href="{{user.profile.get_absolute_url}}">{{user}}</a>{%endfor%}<br>
 
-<i><a href="/target/product/{{product.name|slugify}}/edit">Edit this product</a></i>
+<i><a href="{{product.get_absolute_url}}edit">Edit this product</a></i>
 {% if user.is_staff %}| <i><a href="/admin/target/product/{{product.id}}">Edit in admin</a></i>{%endif%}
 {% with product as discussion %}
 {% include "comments/snippet.html" %}

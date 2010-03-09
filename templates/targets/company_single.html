@@ -47,7 +47,7 @@
 <li>Added by: <a href="{{company.added_by.get_absolute_url}}">{{company.added_by}}</a>
 <li>Edited by: {% for user in company.edited_by.all %} <a href="{{user.get_absolute_url}}">{{user}}</a> {%endfor%}<br>
 
-<i><a href="/target/company/{{company.name|slugify}}/edit">Edit this company</a></i>
+<i><a href="{{company.get_absolute_url}}edit">Edit this company</a></i>
 {% if user.is_staff %}| <i><a href="/admin/target/company/{{company.id}}">Edit in admin</a></i>{%endif%}
 {% with company as discussion %}
 {% include "comments/snippet.html" %}
