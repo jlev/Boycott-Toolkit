@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{%load markup%}
 {%block css%}
  <link rel="stylesheet" href="{{MEDIA_URL}}styles/target.css" type="text/css"/>
 {%endblock%}
@@ -14,7 +13,7 @@
   {% if company.logo %}
     <img src="{{MEDIA_URL}}{{company.logo}}" class="product_image">
   {% endif %}
-  {{company.description}}
+  {{company.description|urlize|linebreaks}}
   </div>
 </div>
 {%endfor%}

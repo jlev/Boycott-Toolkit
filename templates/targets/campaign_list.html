@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{%load markup%}
 {%block css%}
  <link rel="stylesheet" href="{{MEDIA_URL}}styles/target.css" type="text/css"/>
 {%endblock%}
@@ -9,7 +8,7 @@
   {% for campaign in campaigns %}
 <div class="block" style="width:400px;">
   <em><a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a>:</em> <h3>{{campaign.users_joined_campaign.count}} user{{campaign.users_joined_campaign.count|pluralize}}</h3>
-{{campaign.description|markdown}}
+{{campaign.description|urlize|linebreaks}}
 </div>
   {%endfor%}
 {%endblock%}
