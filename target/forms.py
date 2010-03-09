@@ -23,8 +23,9 @@ class ProductForm(TrackedObjectForm):
 class CampaignForm(TrackedObjectForm):
     tags = TagField(widget=TagAutocomplete(), required=False)
     class Meta(TrackedObjectForm.Meta):
-        #can't seem to edit this dynamically, so just copy from super
-        exclude = ('added_by','edited_by','added_date','slug','highlight')
+        exclude = TrackedObjectForm.Meta.exclude + ('highlight','companies','products')
+        #highlight isn't user editable
+        #companies and products are added after by the ProductAction and CompanyAction intermediates
         model = Campaign
    
 #ADMIN FORMS
@@ -33,15 +34,15 @@ class TrackedObjectAdminForm(forms.ModelForm):
 
 class CompanyAdminForm(TrackedObjectAdminForm):
     tags = TagField(widget=TagAutocomplete(), required=False)
-    class Meta(TrackedObjectForm.Meta):
+    class Meta(TrackedObjectAdminForm.Meta):
         model = Company
 
 class ProductAdminForm(TrackedObjectAdminForm):
     tags = TagField(widget=TagAutocomplete(), required=False)
-    class Meta(TrackedObjectForm.Meta):
+    class Meta(TrackedObjectAdminForm.Meta):
         model = Product
 
 class CampaignAdminForm(TrackedObjectAdminForm):
     tags = TagField(widget=TagAutocomplete(), required=False)
-    class Meta(TrackedObjectForm.Meta):
+    class Meta(TrackedObjectAdminForm.Meta):
         model = Campaign
