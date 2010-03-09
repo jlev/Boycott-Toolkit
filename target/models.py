@@ -95,6 +95,8 @@ class ProductAction(models.Model):
             return False
 
 class Campaign(TargetBase):
+    verb = models.CharField(choices=PRODUCT_VERB_CHOICES,default="BOYCOTT",max_length=10,
+                            help_text="Is this a buy or boycott campaign?")
     criteria = models.TextField(blank=True,null=True)
     complete = models.BooleanField(default=False)
     companies = models.ManyToManyField('Company',through='CompanyAction')
