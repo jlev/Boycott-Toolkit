@@ -1,10 +1,9 @@
 from django.contrib import admin
 from target.models import Product,Company,Campaign,ProductAction,CompanyAction
-from target.forms import ProductForm,CompanyForm,CampaignForm
+from target.forms import ProductAdminForm,CompanyAdminForm,CampaignAdminForm
 from reversion.admin import VersionAdmin
 
 class TrackedAdmin(VersionAdmin):
-    prepopulated_fields = {"slug": ("name",)}
     def save_model(self, request, obj, form, change):
         '''Override the save_model so that we can keep track of who edited the object in the admin.
         Views take care of this separately.'''
@@ -16,13 +15,13 @@ class TrackedAdmin(VersionAdmin):
         obj.save() #save again
 
 class ProductAdmin(TrackedAdmin):
-    form = ProductForm
+    form = ProductAdminForm
     
 class CompanyAdmin(TrackedAdmin):
-    form = CompanyForm
+    form = CompanyAdminForm
     
 class CampaignAdmin(TrackedAdmin):
-    form = CampaignForm
+    form = CampaignAdminForm
 
 admin.site.register(Product,ProductAdmin)
 admin.site.register(Company,CompanyAdmin)
