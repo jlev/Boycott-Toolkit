@@ -7,6 +7,4 @@ urlpatterns = patterns('community.views',
     url(r'register/$','register_view'),
     url(r'user/$','user_view_all'),
     url(r'user/(?P<username>[\w-]+)/$','user_view'),
-    url(r'user/(?P<username>[\w-]+)/campaigns/$','user_campaign_view'),
-    url(r'user/(?P<username>[\w-]+)/cart/$','user_cart_view'),
 )
