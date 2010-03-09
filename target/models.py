@@ -9,7 +9,7 @@ from geography.models import Location
 class TargetBase(models.Model):
     name = models.CharField('Name',max_length=200)
     slug = models.SlugField('Slug',max_length=200,null=True)
-    description = models.TextField(help_text='''Description field. URLS and linebreaks will be converted to HTML.''',blank=True,null=True)
+    description = models.TextField(help_text='''Description field.<br><small>URLs and linebreaks will be converted to HTML.</small>''',blank=True,null=True)
     tags = tagging.fields.TagField()
     
     #these are required, but need to be null=true so that they can pass validation
@@ -27,7 +27,7 @@ class TargetBase(models.Model):
 
 class Company(TargetBase):
     logo = StdImageField(upload_to="uploads/logos",blank=True,size=(250,250),thumbnail_size=(150,75))
-    location = models.ForeignKey(Location,blank=True,null=True)
+    location = models.ForeignKey(Location,blank=True,null=True,help_text="Where is this Company located?")
     website = models.URLField(blank=True,null=True)
     phone = models.CharField(max_length=15,blank=True,null=True) #validate?
     class Meta(TargetBase.Meta):
@@ -37,7 +37,7 @@ class Company(TargetBase):
         return ('target.views.company_view', [self.slug])
 
 class Product(TargetBase):
-    company = models.ForeignKey('Company')
+    company = models.ForeignKey('Company',help_text="Who makes this product?")
     upc = models.CharField('UPC',max_length=13,blank=True,null=True)
     image = StdImageField(upload_to="uploads/products",blank=True,size=(250,250),thumbnail_size=(150,75))
     @models.permalink
@@ -102,7 +102,7 @@ CAMPAIGN_VERB_CHOICES = (
 class Campaign(TargetBase):
     verb = models.CharField(choices=CAMPAIGN_VERB_CHOICES,default="BOYCOTT",max_length=10,
                             help_text="Is this a support or boycott campaign?")
-    criteria = models.TextField(blank=True,null=True)
+    criteria = models.TextField(blank=True,null=True,help_text="When will this campaign be complete?")
     complete = models.BooleanField(default=False)
     companies = models.ManyToManyField('Company',through='CompanyAction')
     products =  models.ManyToManyField('Product',through='ProductAction')
