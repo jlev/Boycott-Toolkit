@@ -19,20 +19,21 @@
 {% include "search_autocomplete.html" %}
 </div>
 
-  {% for campaign in campaigns %}
-  <div class="block" style="width:200px;"><h2>Boycott</h2>
-    <h3><a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a></h3>
-    <h4>{{campaign.users_joined_campaign.count}} {{campaign.users_joined_campaign.count|pluralize:"person,people"}}, {{campaign.products.count}} product{{campaign.products.count|pluralize}}</h4></div>
-  {%endfor%}
+{%for campaign in campaigns %}
+<div class="block" style="width:200px;"><h2>{{campaign.get_verb_display}}</h2>
+  <h3><a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a></h3>
+  <h4>{{campaign.users_joined_campaign.count}} {{campaign.users_joined_campaign.count|pluralize:"person,people"}}, {{campaign.products.count}} product{{campaign.products.count|pluralize}}</h4>
+</div>
+{%endfor%}
 
-  <div style="float:left">
+<div style="float:left">
   <h2>Tracked Products</h2>
   <div class="shelf">
   <hr>
   <table>
     <tr>
-    {%for p in products %}
-    <td><a class="product_link" href="{{p.get_absolute_url}}"><img src="{{p.image.thumbnail.url}}" alt="{{p.name}}"></a><br>{{p.name}}</td>
+    {%for a in product_actions %}
+    <td><a class="product_link" href="{{a.product.get_absolute_url}}"><img src="{{a.product.image.thumbnail.url}}" alt="{{a.product.name}}" title="{{a.reason}}"></a><br>{{a.get_verb_display}} {{a.product.name}}</td>
     {% if forloop.counter|divisibleby:"3" %}
     </tr>
     <tr>
@@ -41,7 +42,22 @@
     </tr>
   </table>
   </div>
-  
+
+  <h2>Tracked Companies</h2>
+  <div class="shelf">
+  <hr>
+  <table>
+    <tr>
+    {%for a in company_actions %}
+    <td><a class="product_link" href="{{a.company.get_absolute_url}}"><img src="{{a.company.logo.thumbnail.url}}" alt="{{a.company.name}}" title="{{a.reason}}"></a><br>{{a.get_verb_display}} {{a.company.name}}</td>
+    {% if forloop.counter|divisibleby:"3" %}
+    </tr>
+    <tr>
+    {%endif%}
+    {%endfor%}
+    </tr>
+  </table>
   </div>
+</div>
   
 {%endblock%}

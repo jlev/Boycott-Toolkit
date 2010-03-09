@@ -3,16 +3,101 @@
  <link rel="stylesheet" href="{{MEDIA_URL}}styles/community.css" type="text/css"/>
 {%endblock%}
 
-{% block title %} User {{user.get_full_name}}{% endblock %}
+{% block title %} User {{the_user.get_full_name}}{% endblock %}
 
 {%block content%}
-<ul>
-<li><b>Name:</b> {{user.get_full_name}}
-{% if user.facebook_profile %}
-<div id="profile_pic"><img src="{{user.facebook_profile.picture_url}}"></div>
+<div class="block" id="main_block">
+<em>{{the_user.get_full_name}}</em>
+{% if the_user.facebook_profile %}
+<div id="profile_pic"><img src="{{the_user.facebook_profile.picture_url}}"></div>
 {%endif%}
-<li><p>{{user.profile.description}}</p>
-</ul>
-<i><a href="/admin/community/userprofile/{{user.id}}">edit in admin</a></i>
+<p>{{the_user.profile.description}}</p>
+
+  <div style="clear:left;">
+  {% ifequal the_user.id user.id %}
+  <br><i><a href="edit">edit my profile</a></i>
+  {% endifequal %}
+  {% if user.is_staff %}
+  <br><i><a href="/admin/community/userprofile/{{user.profile.id}}">edit in admin</a></i>
+  {%endif%}
+  </div>
+
+</div>
+
+{% for campaign in campaigns %}
+<div class="block" style="width:200px;"><h2>Boycott</h2>
+  <h3><a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a></h3>
+  <h4>{{campaign.users_joined_campaign.count}} {{campaign.users_joined_campaign.count|pluralize:"person,people"}}, {{campaign.products.count}} product{{campaign.products.count|pluralize}}</h4></div>
+{%endfor%}
+
+<div style="float:left">
+
+<div class="shelf">
+<hr class="heavy">
+<h2>Products I Buy</h2>
+<table>
+  <tr>
+  {%for p in products_buy %}
+  <td><a class="product_link" href="{{p.get_absolute_url}}"><img src="{{p.image.thumbnail.url}}" alt="{{p.name}}"></a><br>{{p.name}}</td>
+  {% if forloop.counter|divisibleby:"3" %}
+  </tr>
+  <tr>
+  {%endif%}
+  {%endfor%}
+  </tr>
+</table>
+</div>
+
+<div class="shelf">
+<hr>
+<h2>Products I Don't Buy</h2>
+<table>
+  <tr>
+  {%for p in products_dontbuy %}
+  <td><a class="product_link" href="{{p.get_absolute_url}}"><img src="{{p.image.thumbnail.url}}" alt="{{p.name}}"></a><br>{{p.name}}</td>
+  {% if forloop.counter|divisibleby:"3" %}
+  </tr>
+  <tr>
+  {%endif%}
+  {%endfor%}
+  </tr>
+</table>
+</div>
+
+<div class="shelf">
+<hr class="heavy">
+<h2>Companies I Support</h2>
+<table>
+  <tr>
+  {%for c in companies_support %}
+  <td><a href="{{c.get_absolute_url}}"><img src="{{c.logo.thumbnail.url}}" alt="{{c.name}}"></a><br>{{c.name}}</td>
+  {% if forloop.counter|divisibleby:"3" %}
+  </tr>
+  <hr>
+  <tr>
+  {%endif%}
+  {%endfor%}
+  </tr>
+</table>
+</div>
+
+<div class="shelf">
+<hr>
+<h2>Companies I Oppose</h2>
+<table>
+  <tr>
+  {%for c in companies_oppose %}
+  <td><a href="{{c.get_absolute_url}}"><img src="{{c.logo.thumbnail.url}}" alt="{{c.name}}"></a><br>{{c.name}}</td>
+  {% if forloop.counter|divisibleby:"3" %}
+  </tr>
+  <tr>
+  {%endif%}
+  {%endfor%}
+  </tr>
+</table>
+<hr class="heavy">
+</div>
+
+</div>
 {%endblock%}
 
