@@ -22,8 +22,9 @@ class ProductForm(TrackedObjectForm):
        
 class CampaignForm(TrackedObjectForm):
     tags = TagField(widget=TagAutocomplete(), required=False)
-    exclude = ('highlight')
     class Meta(TrackedObjectForm.Meta):
+        #can't seem to edit this dynamically, so just copy from super
+        exclude = ('added_by','edited_by','added_date','slug','highlight')
         model = Campaign
    
 #ADMIN FORMS
