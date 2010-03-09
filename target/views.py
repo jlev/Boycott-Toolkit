@@ -1,4 +1,4 @@
-from django.http import HttpResponse,HttpResponseNotFound
+from django.http import HttpResponse,HttpResponseNotFound,HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response,get_object_or_404,get_list_or_404
 from django.contrib.auth.decorators import login_required
@@ -15,18 +15,9 @@ def company_view_all(request):
         'companies':c},
         context_instance = RequestContext(request))
 
-def company_view(request,slug):
+def company_view(request,slug,message=None):
     c = Company.objects.get(slug=slug)
     p = Product.objects.filter(company=c)
-    
-    #Determine whether the company is "good" or "bad"
-    actions = CompanyAction.objects.filter(company=c)
-    i = 0
-    for a in actions:
-        if a.positive: i += 1
-        else: i -= 1
-    if i > 0: pos = True #it's positive, display green circle
-    else: pos = None #it's not, display red slash
     
     try:
         logo_img = c.logo.thumbnail
@@ -34,8 +25,9 @@ def company_view(request,slug):
         logo_img = None
     return render_to_response('targets/company_single.html',
         {'company':c,
-        'logo_img':logo_img,'positive':pos,
-        'products':p},
+        'logo_img':logo_img,
+        'products':p,
+        'message':message},
         context_instance = RequestContext(request))
 
 @login_required
@@ -47,10 +39,7 @@ def company_edit(request,slug):
             company = form.save()
             company.edited_by.add(request.user)
             company.save()
-            return render_to_response('targets/company_single.html',
-                {'message':"Thanks for updating the entry for %s" % company.name,
-                'company':company},
-                context_instance = RequestContext(request))
+            return HttpResponseRedirect(company.get_absolute_url())
         else:
             return render_to_response('targets/company_edit.html',
                 {'message':"Please correct the errors below",
@@ -70,10 +59,7 @@ def company_add(request,message=None):
             company = form.save()
             company.added_by = request.user
             company.save()
-            return render_to_response('targets/company_single.html',
-                {'message':"Thanks for adding %s to our database" % company.name,
-                'company':company},
-                context_instance = RequestContext(request))
+            return HttpResponseRedirect(company.get_absolute_url())
         else:
             return render_to_response('targets/company_add.html',
                 {'message':"Please correct the errors below",
@@ -101,7 +87,7 @@ def product_view(request,slug):
     except AttributeError:
         logo_img = None
    
-    #Determine whether the company is "good" or "bad"
+    #Determine whether the product is "good" or "bad"
     actions = ProductAction.objects.filter(product=p)
     i = 0
     for a in actions:
@@ -125,10 +111,7 @@ def product_edit(request,slug):
             product = form.save()
             product.edited_by.add(request.user)
             product.save()
-            return render_to_response('targets/product_single.html',
-                {'message':"Thanks for updating the entry for %s" % product.name,
-                'product':product},
-                context_instance = RequestContext(request))
+            return HttpResponseRedirect(product.get_absolute_url())
         else:
             return render_to_response('targets/product_edit.html',
                 {'message':"Please correct the errors below",
@@ -148,10 +131,7 @@ def product_add(request,message=None):
             product = form.save()
             product.added_by = request.user
             product.save()
-            return render_to_response('targets/product_single.html',
-                {'message':"Thanks for adding %s to our database" % product.name,
-                'product':product},
-                context_instance = RequestContext(request))
+            return HttpResponseRedirect(product.get_absolute_url())
         else:
             return render_to_response('targets/product_add.html',
                 {'message':"Please correct the errors below",
@@ -192,10 +172,7 @@ def campaign_edit(request,slug):
             campaign = form.save()
             campaign.edited_by.add(request.user)
             campaign.save()
-            return render_to_response('targets/campaign_single.html',
-                {'message':"Thanks for updating the entry for %s" % campaign.name,
-                'campaign':campaign},
-                context_instance = RequestContext(request))
+            return HttpResponseRedirect(campaign.get_absolute_url())
         else:
             return render_to_response('targets/campaign_edit.html',
                 {'message':"Please correct the errors below",
@@ -215,17 +192,14 @@ def campaign_add(request,message=None):
             campaign = form.save()
             campaign.added_by = request.user
             campaign.save()
-            return render_to_response('targets/campaign_single.html',
-                {'message':"Thanks for starting the %s campaign" % campaign.name,
-                'campaign':campaign},
-                context_instance = RequestContext(request))
+            return HttpResponseRedirect(campaign.get_absolute_url())
         else:
             return render_to_response('targets/campaign_add.html',
                 {'message':"Please correct the errors below",
                 "form":form},
                 context_instance = RequestContext(request))
     else:
-        form = ProductForm()
+        form = CampaignForm()
         if message is None:
             message = "Add the campaign details below"
         return render_to_response("targets/campaign_add.html",
