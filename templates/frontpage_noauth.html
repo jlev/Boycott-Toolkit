@@ -22,7 +22,7 @@
   {% for campaign in campaigns %}
   <div class="block" style="width:200px;"><h2>Boycott</h2>
     <h3><a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a></h3>
-    <h4><a href="">{{campaign.users_joined_campaign.count}} {{campaign.users_joined_campaign.count|pluralize:"person,people"}}</a>, <a href="">{{campaign.products.count}} product{{campaign.products.count|pluralize}}</a></h4></div>
+    <h4>{{campaign.users_joined_campaign.count}} {{campaign.users_joined_campaign.count|pluralize:"person,people"}}, {{campaign.products.count}} product{{campaign.products.count|pluralize}}</h4></div>
   {%endfor%}
 
   <div style="float:left">
