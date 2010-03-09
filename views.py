@@ -8,7 +8,7 @@ from target.models import Campaign,Product,Company,CompanyAction,ProductAction
 from geography.models import Location
 
 def frontpage_view(request,message=None):
-    campaigns = Campaign.objects.filter(highlight=True)
+    campaigns = Campaign.objects.filter(highlight=True).select_related('productaction_set','companyaction_set')
     product_actions = ProductAction.objects.filter(campaign__in=campaigns)
     company_actions = CompanyAction.objects.filter(campaign__in=campaigns)
     
