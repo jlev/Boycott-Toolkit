@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.template.defaultfilters import slugify
 from django_stdimage import StdImageField
 import tagging.fields
 from tagging.utils import parse_tag_input
@@ -35,7 +34,7 @@ class Company(TargetBase):
         verbose_name_plural = "Companies"
     @models.permalink
     def get_absolute_url(self):
-        return ('target.views.company_view', [slugify(self.name)])
+        return ('target.views.company_view', [self.slug])
 
 class Product(TargetBase):
     company = models.ForeignKey('Company')
@@ -43,14 +42,65 @@ class Product(TargetBase):
     image = StdImageField(upload_to="uploads/products",blank=True,size=(250,250),thumbnail_size=(150,75))
     @models.permalink
     def get_absolute_url(self):
-        return ('target.views.product_view', [slugify(self.name)])
-        
+        return ('target.views.product_view', [self.slug])
+
+COMPANY_VERB_CHOICES = (
+    ('OPPOSE','Oppose'),
+    ('SUPPORT','Support'),
+)
+
+class CompanyAction(models.Model):
+    '''Intermediate model between a campaign and a company.
+    Defines whether the relationship is negative (the default) or positive (the exception).
+    So we can have campaigns that include both companies to boycott and alternatives to support.'''
+    campaign = models.ForeignKey('Campaign')
+    company = models.ForeignKey('Company')
+    verb = models.CharField(choices=COMPANY_VERB_CHOICES,default="OPPOSE",max_length=10,
+                        help_text="Are you asking users to support or oppose this company?")
+    reason = models.TextField(blank=True,null=True,max_length=500,
+                              help_text="One sentence reason why users should take this action.")
+    class Meta:
+        unique_together = ("campaign", "company")
+    def __unicode__(self):
+        return "%s:%s %s" % (self.campaign,self.get_verb_display(),self.company)
+    def positive(self):
+        if self.verb is 'SUPPORT':
+            return True
+        else:
+            return False
+
+PRODUCT_VERB_CHOICES = (
+    ('BOYCOTT','Boycott'),
+    ('BUY','Buy'),
+)
+
+class ProductAction(models.Model):
+    '''Intermediate model between a campaign and a product.
+    Defines whether the relationship is negative (the default) or positive (the exception).
+    So we can have campaigns that include both products to boycott and alternatives to support.'''
+    campaign = models.ForeignKey('Campaign')
+    product = models.ForeignKey('Product')
+    verb = models.CharField(choices=PRODUCT_VERB_CHOICES,default="BOYCOTT",max_length=10,
+                            help_text="Are you asking users to buy or boycott this product?")
+    reason = models.TextField(blank=True,null=True,max_length=500,
+                              help_text="One sentence reason why users should take this action.")
+    class Meta:
+        unique_together = ("campaign", "product")
+    def __unicode__(self):
+        return "%s:%s %s" % (self.campaign,self.get_verb_display(),self.product)
+    def positive(self):
+        if self.verb is "BUY":
+            return True
+        else:
+            return False
+
 class Campaign(TargetBase):
     criteria = models.TextField(blank=True,null=True)
     complete = models.BooleanField(default=False)
-    companies = models.ManyToManyField(Company)
-    products =  models.ManyToManyField(Product)
+    companies = models.ManyToManyField('Company',through='CompanyAction')
+    products =  models.ManyToManyField('Product',through='ProductAction')
     highlight = models.BooleanField(default=False, help_text="Highlight on the frontpage, and lets the top-level url resolve")
     @models.permalink
     def get_absolute_url(self):
-        return ('target.views.campaign_view', [slugify(self.name)])
+        return ('target.views.campaign_view', [self.slug])
+    

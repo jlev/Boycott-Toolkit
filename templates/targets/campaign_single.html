@@ -12,17 +12,18 @@
 <p>{{campaign.description|urlize|linebreaks}}</p>
 </div>
   
-{%for company in companies %}
-<div class="block" style="width:200px;"><h2>Boycott</h2>
-  <h3><a href="{{company.get_absolute_url}}">{{company.name}}</a></h3>
-  <h4><a href="">{{company.product_set.count}} Product{{company.product_set.count|pluralize}}</a></h4>
+{%for a in company_actions %}
+<div class="block" style="width:200px;"><h2>{{a.get_verb_display}}</h2>
+  <h3><a href="{{a.company.get_absolute_url}}">{{a.company.name}}</a></h3>
+  <h4><a href="">{{a.company.product_set.count}} Product{{a.company.product_set.count|pluralize}}</a></h4>
 </div>
 {%endfor%}
     
 <table class="product_shelf">
   <tr>
-  {%for p in products %}
-  <td><a class="product_link" href="{{p.get_absolute_url}}"><img src="{{p.image.thumbnail.url}}" alt="{{p.name}}"></a><br>{{p.name}}</td>
+  {%for a in product_actions %}
+  <td><a class="product_link" href="{{a.product.get_absolute_url}}"><img src="{{a.product.image.thumbnail.url}}" alt="{{a.product.name}}"></a><br>{{a.get_verb_display}} {{a.product.name}}<br>
+    Why? {{a.reason}}</td>
   {% if forloop.counter|divisibleby:"3" %}
   </tr>
   <tr>

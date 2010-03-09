@@ -25,10 +25,11 @@ Or tell your # Facebook friends about this product.
 </div>
 
 <h2>Campaigns about this product:</h2>
-{% for campaign in product.campaign_set.all %}
-<div class="block" style="width:200px;"><h2>Boycott</h2>
-  <h3><a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a></h3>
-  <h4><a href="">{{campaign.users_joined_campaign.count}} {{campaign.users_joined_campaign.count|pluralize:"person,people"}}</a>, <a href="">{{campaign.products.count}} product{{campaign.products.count|pluralize}}</a></h4>
+{% for action in product.productaction_set.all %}
+<div class="block" style="width:200px;"><h2>{{action.get_verb_display}}</h2>
+  <h3><a href="{{action.campaign.get_absolute_url}}">{{action.campaign.name}}</a></h3>
+  <h4><a href="">{{action.campaign.users_joined_campaign.count}} {{action.campaign.users_joined_campaign.count|pluralize:"person,people"}}</a>, <a href="">{{action.campaign.products.count}} product{{action.campaign.products.count|pluralize}}</a><br>
+    Why? {{action.reason}}</h4>
 </div>
 {%endfor%}
 

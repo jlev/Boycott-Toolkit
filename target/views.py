@@ -3,7 +3,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response,get_object_or_404,get_list_or_404
 from django.contrib.auth.decorators import login_required
 
-from target.models import Company,Product,Campaign
+from target.models import Company,Product,Campaign,ProductAction,CompanyAction
 from target.forms import CompanyForm,ProductForm,CampaignForm
 from tagging.models import Tag,TaggedItem
 
@@ -16,31 +16,27 @@ def company_view_all(request):
         context_instance = RequestContext(request))
 
 def company_view(request,slug):
-    c = Company.objects.filter(slug__istartswith=slug)
-    if len(c) == 0:
-        #there isn't one, add it?
-        message = "We don't have a company named %s. Would you like to add it?" % name
-        return company_add(request,message)
-    if len(c) > 1:
-        #we got more than one, user needs to filter down
-        message = "These are the companies we track that start with %s:" % name
-        return render_to_response('targets/company_list.html',
-               {'message':message,
-               'companies':c},
-               context_instance = RequestContext(request))
-    else:
-        #there's only one
-        c = c[0]
-        p = Product.objects.filter(company=c)
-        try:
-            logo_img = c.logo.thumbnail
-        except AttributeError:
-            logo_img = None
-        return render_to_response('targets/company_single.html',
-            {'company':c,
-            'logo_img':logo_img,
-            'products':p},
-            context_instance = RequestContext(request))
+    c = Company.objects.get(slug=slug)
+    p = Product.objects.filter(company=c)
+    
+    #Determine whether the company is "good" or "bad"
+    actions = CompanyAction.objects.filter(company=c)
+    i = 0
+    for a in actions:
+        if a.positive: i += 1
+        else: i -= 1
+    if i > 0: pos = True #it's positive, display green circle
+    else: pos = None #it's not, display red slash
+    
+    try:
+        logo_img = c.logo.thumbnail
+    except AttributeError:
+        logo_img = None
+    return render_to_response('targets/company_single.html',
+        {'company':c,
+        'logo_img':logo_img,'positive':pos,
+        'products':p},
+        context_instance = RequestContext(request))
 
 @login_required
 def company_edit(request,slug):
@@ -99,30 +95,26 @@ def product_view_all(request):
         context_instance = RequestContext(request))
         
 def product_view(request,slug):
-    p = Product.objects.filter(slug__istartswith=slug)
-    if len(p) == 0:
-        #there isn't one, add it?
-        message = "We don't have a product named %s. Would you like to add it?" % name
-        return product_add(request,message)
-    if len(p) > 1:
-        #we got more than one, user needs to filter down
-        message = "These are the products we track that start with %s:" % name
-        return render_to_response('targets/product_list.html',
-               {'message':message,
-               'products':p},
-               context_instance = RequestContext(request))
-    else:
-        #there's only one
-        p = p[0]
-        try:
-            logo_img = p.image.thumbnail
-        except AttributeError:
-            logo_img = None
-        return render_to_response('targets/product_single.html',
-            {'product':p,
-            'logo_img':logo_img},
-            context_instance = RequestContext(request))
-            
+    p = Product.objects.get(slug=slug)
+    try:
+        logo_img = p.image.thumbnail
+    except AttributeError:
+        logo_img = None
+   
+    #Determine whether the company is "good" or "bad"
+    actions = ProductAction.objects.filter(product=p)
+    i = 0
+    for a in actions:
+        if a.positive: i += 1
+        else: i -= 1
+    if i > 0: pos = True #it's positive, display green circle
+    else: pos = None #it's not, display red slash
+    
+    return render_to_response('targets/product_single.html',
+        {'product':p,
+        'logo_img':logo_img,'positive':pos},
+        context_instance = RequestContext(request))
+        
 
 @login_required
 def product_edit(request,slug):
@@ -184,10 +176,10 @@ def campaign_view_all(request):
 def campaign_view(request,slug):
     campaign = get_object_or_404(Campaign,slug=slug)
     users = campaign.users_joined_campaign
-    products = campaign.products.get_query_set()
-    companies = campaign.companies.get_query_set()
+    product_actions = campaign.productaction_set.get_query_set()
+    company_actions = campaign.companyaction_set.get_query_set()
     return render_to_response("targets/campaign_single.html",
-        {'campaign':campaign,'users':users,'products':products,'companies':companies},
+        {'campaign':campaign,'users':users,'product_actions':product_actions,'company_actions':company_actions},
         context_instance = RequestContext(request))
 
 
