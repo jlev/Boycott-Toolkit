@@ -39,3 +39,12 @@
 input {
     float:left;
 }
+
+hr {
+    clear:left;
+}
+
+h2 {
+    float:left;
+    clear:left;
+}
