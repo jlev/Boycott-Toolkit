@@ -5,18 +5,18 @@
 {% block title %}Search{% endblock %}
 
 {%block content%}
+<div class="block" id="highlight_block">
 <h1>Search</h1>
 <form action="." method="GET">
-  <input type="text" name="q" value="{{ query|escape }}">
+  <input type="text" name="q" value="{{ query|escape }}" style="width:375px">
   <input type="submit" value="Search">
 </form>
+</div>
 
 {% if query %}
-  <h2>Results that contain "{{ query|escape }}":</h2>
-
   {% if results %}
-    <ul>
-      Products
+    <div class="block" style="width:400px">
+      <em>Products</em>
       <ul>
       {% for p in results.products %}
       <li><a href={{p.get_absolute_url}}>{{p.name}}</a>
@@ -24,8 +24,10 @@
       <li>None
       {%endfor%}
       </ul>
-
-      Companies
+    </div>
+      
+    <div class="block" style="width:400px">
+      <em>Companies</em>
       <ul>
       {% for c in results.companies %}
       <li><a href={{c.get_absolute_url}}>{{c.name}}</a>
@@ -33,8 +35,10 @@
       <li>None
       {%endfor%}
       </ul>
+    </div>
 
-      Locations
+    <div class="block" style="width:400px">
+      <em>Locations</em>
       <ul>
       {% for l in results.locations %}
       <li><a href={{l.get_absolute_url}}>{{l.name}}</a>
@@ -42,7 +46,7 @@
       <li>None
       {%endfor%}
       </ul>
-    </ul>
+    </div>
   {% else %}
     <p>No results found</p>
   {% endif %}
