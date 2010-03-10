@@ -2,9 +2,10 @@ from django.http import HttpResponse,HttpResponseNotFound,HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response,get_object_or_404,get_list_or_404
 from django.contrib.auth.decorators import login_required
+from django.template.defaultfilters import slugify
 
 from target.models import Company,Product,Campaign,ProductAction,CompanyAction
-from target.forms import CompanyForm,ProductForm,CampaignForm
+from target.forms import CompanyForm,ProductForm,CampaignForm,CompanyActionForm,ProductActionInlineForm
 from tagging.models import Tag,TaggedItem
 
 def company_view_all(request):
@@ -57,7 +58,10 @@ def company_add(request,message=None):
         form = CompanyForm(request.POST)
         if form.is_valid():
             company = form.save()
+            #set the user who created it
             company.added_by = request.user
+            #set the slug
+            company.slug = slugify(company.name)
             company.save()
             return HttpResponseRedirect(company.get_absolute_url())
         else:
@@ -196,7 +200,10 @@ def campaign_add(request,message=None):
         form = CampaignForm(request.POST)
         if form.is_valid():
             campaign = form.save()
+            #set the user who added it
             campaign.added_by = request.user
+            #set the slug
+            campaign.slug = slugify(campaign.name)
             campaign.save()
             return HttpResponseRedirect(campaign.get_absolute_url())
         else:
