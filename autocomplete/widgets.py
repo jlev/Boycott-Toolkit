@@ -37,7 +37,7 @@ class Autocomplete(Input):
         ajax_url = reverse('autocomplete-list',kwargs={'model':self.attrs.pop('model')})
         html = super(Autocomplete, self).render(name, value, attrs)
         js = u'''<script type="text/javascript">
-            $().ready(function() { $("#%s").autocomplete("%s", { multiple: true }); });
+            $().ready(function() { $("#%s").autocomplete("%s", { multiple: false }); });
             </script>''' % (attrs['id'],ajax_url)
         return mark_safe("\n".join([html, js]))
     
