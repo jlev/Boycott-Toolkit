@@ -3,11 +3,18 @@
  <link rel="stylesheet" href="{{MEDIA_URL}}styles/form.css" type="text/css"/>
  {{form.media}}
 {%endblock%}
-{% block title %} a new product{% endblock %}
+{% block title %}Add a new product{% endblock %}
 
 {%block content%}
 <form action="." method="POST">
+{% with product_form as form %}
 {% include "form_snippet.html" %}
+{%endwith%}
+<hr>
+<h2>Add the product to a campaign</h2>
+{% with action_form as form %}
+{% include "form_snippet.html" %}
+{%endwith%}
 <input type="submit" value="Add" />
 </form>
 {%endblock%}

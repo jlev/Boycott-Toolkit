@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.template.defaultfilters import slugify
 
 from target.models import Company,Product,Campaign,ProductAction,CompanyAction
-from target.forms import CompanyForm,ProductForm,CampaignForm,CompanyActionForm,ProductActionInlineForm
+from target.forms import CompanyForm,ProductForm,CampaignForm,CompanyActionInlineForm,ProductActionInlineForm
 from tagging.models import Tag,TaggedItem
 
 def company_view_all(request):
@@ -55,26 +55,35 @@ def company_edit(request,slug):
 @login_required
 def company_add(request,message=None):
     if request.method == 'POST':
-        form = CompanyForm(request.POST)
-        if form.is_valid():
-            company = form.save()
+        company_form = CompanyForm(request.POST,prefix="company")
+        action_form = CompanyActionInlineForm(request.POST,prefix="action")
+        if company_form.is_valid():
+            company = company_form.save()
             #set the user who created it
             company.added_by = request.user
             #set the slug
             company.slug = slugify(company.name)
             company.save()
-            return HttpResponseRedirect(company.get_absolute_url())
+            #send the new company to the action form
+            action_form.company = company
+            
+            if action_form.is_valid():
+                return HttpResponseRedirect(company.get_absolute_url())
         else:
             return render_to_response('targets/company_add.html',
                 {'message':"Please correct the errors below",
-                "form":form},
+                "company_form":company_form,
+                "action_form":action_form},
                 context_instance = RequestContext(request))
     else:
-        form = CompanyForm()
+        company_form = CompanyForm(prefix='company')
+        action_form = CompanyActionInlineForm(prefix='action')
         if message is None:
             message = "Add the company details below"
         return render_to_response("targets/company_add.html",
-                        {"form": form,"message":message},
+                        {"message":message,
+                        "company_form":company_form,
+                        "action_form":action_form},
         context_instance = RequestContext(request))
         
 def product_view_all(request):
@@ -115,43 +124,54 @@ def product_view(request,slug):
 def product_edit(request,slug):
     product = Product.objects.get(slug=slug)
     if request.method == 'POST':
-        form = ProductForm(request.POST,instance=product)
-        if form.is_valid():
-            product = form.save()
+        product_form = ProductForm(request.POST,instance=product)
+        if product_form.is_valid():
+            product = product_form.save()
             product.edited_by.add(request.user)
             product.save()
             return HttpResponseRedirect(product.get_absolute_url())
         else:
             return render_to_response('targets/product_edit.html',
                 {'message':"Please correct the errors below",
-                "form":form},
+                "product_form":product_form},
                 context_instance = RequestContext(request))
     else:
-        form = ProductForm(instance=product)
+        product_form = ProductForm(instance=product)
         return render_to_response("targets/product_edit.html",
-                        {"message":"Edit the product details below","form": form},
+                        {"message":"Edit the product details below","product_form": product_form},
         context_instance = RequestContext(request))
 
 @login_required
 def product_add(request,message=None):
     if request.method == 'POST':
-        form = ProductForm(request.POST)
-        if form.is_valid():
-            product = form.save()
+        product_form = ProductForm(request.POST,prefix='product')
+        action_form = ProductActionInlineForm(request.POST,prefix='action')
+        if product_form.is_valid():
+            product = product_form.save()
+            #set the user who added it
             product.added_by = request.user
+            #set the slug
+            product.slug = slugify(product.name)
             product.save()
-            return HttpResponseRedirect(product.get_absolute_url())
+            #send the new product to the action form
+            action_form.product = product
+            
+            if action_form.is_valid():
+                return HttpResponseRedirect(product.get_absolute_url())
         else:
             return render_to_response('targets/product_add.html',
                 {'message':"Please correct the errors below",
-                "form":form},
+                "product_form":product_form,
+                "action_form":action_form},
                 context_instance = RequestContext(request))
     else:
-        form = ProductForm()
+        product_form = ProductForm(prefix='product')
+        action_form = ProductActionInlineForm(prefix='action')
         if message is None:
             message = "Add the product details below"
         return render_to_response("targets/product_add.html",
-                        {"form": form,
+                        {"product_form": product_form,
+                        "action_form":action_form,
                         "message":message},
         context_instance = RequestContext(request))
             

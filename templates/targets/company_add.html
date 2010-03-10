@@ -7,7 +7,14 @@
 
 {%block content%}
 <form action="." method="POST">
-{% include "form_snippet.html" %}
+  {% with company_form as form %}
+  {% include "form_snippet.html" %}
+  {%endwith%}
+  <hr>
+  <h2>Add the company to a campaign</h2>
+  {% with action_form as form %}
+  {% include "form_snippet.html" %}
+  {%endwith%}
 <input type="submit" value="Add" />
 </form>
 {%endblock%}
