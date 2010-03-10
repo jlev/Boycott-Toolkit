@@ -38,8 +38,7 @@
               <img src="{{logo_img.url}}">&nbsp;
             </div>
             <div class="logo-img">
-              {% if positive %}<img src="{{MEDIA_URL}}logo/green.png">&nbsp;{% endif %}
-              {% if negative %}<img src="{{MEDIA_URL}}logo/slash.png">&nbsp;{%endif%}
+              {% if logo_overlay %}<img src="{{MEDIA_URL}}logo/{{logo_overlay}}.png">&nbsp;{% endif %}
             </div>
             {% else %}
             <h1>{{logo_text|upper|default:"BOYCOTT<br>TOOLKIT"}}</h1>

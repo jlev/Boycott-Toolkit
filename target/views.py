@@ -91,14 +91,19 @@ def product_view(request,slug):
     actions = ProductAction.objects.filter(product=p)
     i = 0
     for a in actions:
-        if a.positive: i += 1
+        if a.positive(): i += 1
         else: i -= 1
-    if i > 0: pos = True #it's positive, display green circle
-    else: pos = None #it's not, display red slash
+    if (i > 0): 
+        logo_overlay = "green" #it's positive, display green circle
+    else:
+        if i < 0:
+            logo_overlay = "slash" #it's not, display red slash
+        else: 
+            logo_overlay = None #it's neither, or there are no actions, just display the logo
     
     return render_to_response('targets/product_single.html',
         {'product':p,
-        'logo_img':logo_img,'positive':pos},
+        'logo_img':logo_img,'logo_overlay':logo_overlay},
         context_instance = RequestContext(request))
         
 
@@ -158,6 +163,7 @@ def campaign_view(request,slug):
     users = campaign.users_joined_campaign
     product_actions = campaign.productaction_set.get_query_set()
     company_actions = campaign.companyaction_set.get_query_set()
+    
     return render_to_response("targets/campaign_single.html",
         {'campaign':campaign,'users':users,'product_actions':product_actions,'company_actions':company_actions},
         context_instance = RequestContext(request))
