@@ -1,7 +1,30 @@
+from django import forms
+from tagging.forms import TagField
+from autocomplete.widgets import TagAutocomplete
+
 from django.contrib import admin
 from target.models import Product,Company,Campaign,ProductAction,CompanyAction
-from target.forms import ProductAdminForm,CompanyAdminForm,CampaignAdminForm
 from reversion.admin import VersionAdmin
+
+#ADMIN FORMS
+class TrackedObjectAdminForm(forms.ModelForm):
+    class Meta:
+        pass
+
+class CompanyAdminForm(TrackedObjectAdminForm):
+    tags = TagField(widget=TagAutocomplete(), required=False)
+    class Meta(TrackedObjectAdminForm.Meta):
+        model = Company
+
+class ProductAdminForm(TrackedObjectAdminForm):
+    tags = TagField(widget=TagAutocomplete(), required=False)
+    class Meta(TrackedObjectAdminForm.Meta):
+        model = Product
+
+class CampaignAdminForm(TrackedObjectAdminForm):
+    tags = TagField(widget=TagAutocomplete(), required=False)
+    class Meta(TrackedObjectAdminForm.Meta):
+        model = Campaign
 
 class TrackedAdmin(VersionAdmin):
     def save_model(self, request, obj, form, change):
