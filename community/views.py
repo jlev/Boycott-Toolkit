@@ -14,6 +14,8 @@ from community.forms import RegistrationForm
 from django.contrib.auth.forms import AuthenticationForm,PasswordChangeForm
 from django.views.decorators.cache import never_cache
 
+from boycott import settings
+
 @never_cache
 def login_view(request):
     "Displays the login form and handles the login action."
