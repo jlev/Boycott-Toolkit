@@ -8,9 +8,9 @@ from target.models import Campaign,Product,Company,CompanyAction,ProductAction
 from geography.models import Location
 
 def frontpage_view(request,message=None):
-    campaigns = Campaign.objects.filter(highlight=True).select_related('productaction_set','companyaction_set')
-    product_actions = ProductAction.objects.filter(campaign__in=campaigns)
-    company_actions = CompanyAction.objects.filter(campaign__in=campaigns)
+    campaigns = Campaign.objects.select_related('user_joined_campaign').filter(highlight=True)
+    product_actions = ProductAction.objects.select_related('product').filter(campaign__in=campaigns)
+    company_actions = CompanyAction.objects.select_related('company').filter(campaign__in=campaigns)
     
     return render_to_response('frontpage.html',
         {'message':message,
