@@ -28,6 +28,7 @@ class TargetBase(models.Model):
 class Company(TargetBase):
     logo = StdImageField(upload_to="uploads/logos",blank=True,size=(250,250),thumbnail_size=(150,75))
     location = models.ForeignKey(Location,blank=True,null=True,help_text="Where is this Company located?")
+    address = models.TextField(max_length=100,null=True,blank=True)
     website = models.URLField(blank=True,null=True)
     phone = models.CharField(max_length=15,blank=True,null=True) #validate?
     class Meta(TargetBase.Meta):

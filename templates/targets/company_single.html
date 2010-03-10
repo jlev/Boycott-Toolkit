@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load humanize %}
 {%block css%}
  <link rel="stylesheet" href="{{MEDIA_URL}}styles/target.css" type="text/css"/>
 {%endblock%}
@@ -16,17 +17,20 @@
   </div>
   
   <div class="block" id="highlight_block">
-    <ul><i>Contact</i>
-      <li><b>Location:</b> {{company.location.name}}
-      <ul style="address"><b>Address:</b>
-        <li>{{company.location.address}}
-        <li>{{company.location.city}} {{company.location.state}}
-        <li>{{company.location.country}}
-      </ul>
+    <em>Contact</em>
+      <ul>
+      <li><b>Website:</b> {% if company.website %}{{company.website|urlize}}
+          {%else%}<a href='{{company.get_absolute_url}}edit'>add</a>{%endif%}
       <li><b>Phone:</b> {%if company.phone%}{{company.phone}}
         {%else%}<a href='{{company.get_absolute_url}}edit'>add</a>{%endif%}
-      <li><b>Website:</b> {% if company.website %}{{company.website|urlize}}
-        {%else%}<a href='{{company.get_absolute_url}}edit'>add</a>{%endif%}
+        <li><div class="address">
+              <div style="clear:left;"><b>Address:</b></div>
+                {{company.address|linebreaks}}
+            </div>
+            {% if company.location.embed_code %}
+                {{company.location.embed_code|safe}}
+            {%endif%}
+      </ul>
   </div>
 
 <table class="product_shelf">

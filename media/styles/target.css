@@ -11,6 +11,9 @@
     float:right;
 }
 
+.address p {
+    padding-left:10px;
+}
 
 .description {
     font-size:12px;
