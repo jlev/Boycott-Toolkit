@@ -6,7 +6,7 @@ from geography.models import Location
 
 class LocationAdmin(admin.ModelAdmin):
     tags = TagField(widget=TagAutocomplete(), required=False)
-    class Meta():
+    class Meta:
         model = Location
     
 admin.site.register(Location,LocationAdmin)
