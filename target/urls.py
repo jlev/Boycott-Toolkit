@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import patterns
+from django.conf.urls.defaults import *
 
 urlpatterns = patterns('target.views',
     (r'company/$','company_view_all'),
@@ -14,4 +14,6 @@ urlpatterns = patterns('target.views',
     (r'campaign/new/$','campaign_add'),
     (r'campaign/(?P<slug>[\w-]+)/$','campaign_view'),
     (r'campaign/(?P<slug>[\w-]+)/edit/$','campaign_edit'),
+    (r'store/$','store_view_all'),
+    #(r'store/(?P<slug>[\w-]+)/$','store_view_'),
 )

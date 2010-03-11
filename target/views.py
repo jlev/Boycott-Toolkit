@@ -239,6 +239,10 @@ def campaign_add(request,message=None):
                         {"message":message,"form": form},
         context_instance = RequestContext(request))
 
+def store_view_all(request):
+    #TODO: implement location view
+    return render_to_response("base.html",{'message':"store view not yet implemented"},
+        context_instance = RequestContext(request))
 
 def tag_view(request,tag):
     tag = get_object_or_404(Tag,name__iexact=tag)
