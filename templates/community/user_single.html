@@ -3,7 +3,7 @@
  <link rel="stylesheet" href="{{MEDIA_URL}}styles/community.css" type="text/css"/>
 {%endblock%}
 
-{% block title %} User {{the_user.get_full_name}}{% endblock %}
+{% block title %} {{the_user.get_full_name}}{% endblock %}
 
 {%block content%}
 <div class="block" id="main_block">
@@ -24,79 +24,56 @@
 
 </div>
 
-{% for campaign in campaigns %}
-<div class="block" style="width:200px;"><h2>Boycott</h2>
+<div style="float:left;">
+  <br>
+<h2>My Campaigns</h2>
+</div>
+<div style="clear:left;">
+{%for campaign in campaigns %}
+<div class="block" style="width:200px;"><h2>{{campaign.get_verb_display}}</h2>
   <h3><a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a></h3>
-  <h4>{{campaign.users_joined_campaign.count}} {{campaign.users_joined_campaign.count|pluralize:"person,people"}}, {{campaign.products.count}} product{{campaign.products.count|pluralize}}</h4></div>
+  {% with campaign.users_joined_campaign.count as num_users %}
+  <h4>{{num_users}} {{num_users|pluralize:"person,people"}},{%endwith%}
+    {% with campaign.products.count as num_products %}{{num_products}} product{{num_products|pluralize}}</h4>
+    {%endwith%}
+</div>
 {%endfor%}
+</div>
 
 <div style="float:left">
-
-<div class="shelf">
-<hr class="heavy">
-<h2>Products I Buy</h2>
-<table>
-  <tr>
-  {%for p in products_buy %}
-  <td><a class="product_link" href="{{p.get_absolute_url}}"><img src="{{p.image.thumbnail.url}}" alt="{{p.name}}"></a><br>{{p.name}}</td>
-  {% if forloop.counter|divisibleby:"3" %}
-  </tr>
-  <tr>
-  {%endif%}
-  {%endfor%}
-  </tr>
-</table>
-</div>
-
-<div class="shelf">
-<hr>
-<h2>Products I Don't Buy</h2>
-<table>
-  <tr>
-  {%for p in products_dontbuy %}
-  <td><a class="product_link" href="{{p.get_absolute_url}}"><img src="{{p.image.thumbnail.url}}" alt="{{p.name}}"></a><br>{{p.name}}</td>
-  {% if forloop.counter|divisibleby:"3" %}
-  </tr>
-  <tr>
-  {%endif%}
-  {%endfor%}
-  </tr>
-</table>
-</div>
-
-<div class="shelf">
-<hr class="heavy">
-<h2>Companies I Support</h2>
-<table>
-  <tr>
-  {%for c in companies_support %}
-  <td><a href="{{c.get_absolute_url}}"><img src="{{c.logo.thumbnail.url}}" alt="{{c.name}}"></a><br>{{c.name}}</td>
-  {% if forloop.counter|divisibleby:"3" %}
-  </tr>
+  <br>
+  <h2>My Tracked Products</h2>
+  <div class="shelf">
   <hr>
-  <tr>
-  {%endif%}
-  {%endfor%}
-  </tr>
-</table>
-</div>
+  <table>
+    <tr>
+    {%for a in product_actions %}
+    <td><a class="product_link" href="{{a.product.get_absolute_url}}"><img src="{{a.product.image.thumbnail.url}}" alt="{{a.product.name}}" title="{{a.reason}}"></a><br>{{a.get_verb_display}} {{a.product.name}}</td>
+    {% if forloop.counter|divisibleby:"3" %}
+    </tr>
+    <tr>
+    {%endif%}
+    {%endfor%}
+    </tr>
+  </table>
+  </div>
 
-<div class="shelf">
-<hr>
-<h2>Companies I Oppose</h2>
-<table>
-  <tr>
-  {%for c in companies_oppose %}
-  <td><a href="{{c.get_absolute_url}}"><img src="{{c.logo.thumbnail.url}}" alt="{{c.name}}"></a><br>{{c.name}}</td>
-  {% if forloop.counter|divisibleby:"3" %}
-  </tr>
-  <tr>
-  {%endif%}
-  {%endfor%}
-  </tr>
-</table>
-<hr class="heavy">
-</div>
+  <br>
+  <h2>My Tracked Companies</h2>
+  <div class="shelf">
+  <hr>
+  <table>
+    <tr>
+    {%for a in company_actions %}
+    <td><a class="product_link" href="{{a.company.get_absolute_url}}"><img src="{{a.company.logo.thumbnail.url}}" alt="{{a.company.name}}" title="{{a.reason}}"></a><br>{{a.get_verb_display}} {{a.company.name}}</td>
+    {% if forloop.counter|divisibleby:"3" %}
+    </tr>
+    <tr>
+    {%endif%}
+    {%endfor%}
+    </tr>
+  </table>
+  </div>
 
 </div>
 {%endblock%}

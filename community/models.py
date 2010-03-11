@@ -11,11 +11,6 @@ class UserProfile(models.Model):
     description = models.CharField(max_length=50)
     location = models.ForeignKey(Location,null=True,blank=True)
     campaigns = models.ManyToManyField(Campaign,related_name="users_joined_campaign",help_text="Campaigns I have joined",blank=True,null=True)
-    buy = models.ManyToManyField(Product,related_name="users_buy",help_text="Products I buy",blank=True,null=True)
-    dontbuy = models.ManyToManyField(Product,related_name="users_dontbuy",help_text="Products I don't buy",blank=True,null=True)
-    supports = models.ManyToManyField(Company,related_name="users_support",help_text="Companies I support",blank=True,null=True)
-    opposes = models.ManyToManyField(Company,related_name="users_oppose",help_text="Companies I oppose",blank=True,null=True)
-    private = models.BooleanField("Hide this user from the public site",default=False)
     
     @models.permalink
     def get_absolute_url(self):

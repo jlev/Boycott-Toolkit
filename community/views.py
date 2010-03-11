@@ -15,6 +15,7 @@ from django.contrib.auth.forms import AuthenticationForm,PasswordChangeForm
 from django.views.decorators.cache import never_cache
 
 from boycott import settings
+from target.models import ProductAction,CompanyAction
 
 @never_cache
 def login_view(request):
@@ -97,15 +98,11 @@ def user_view(request,username):
     my_profile = u.profile
     #TODO, upgrade this to actions
     my_campaigns = my_profile.campaigns.all()
-    my_companies_support = my_profile.supports.all()
-    my_companies_oppose = my_profile.opposes.all()
-    my_products_buy = my_profile.buy.all()
-    my_products_dontbuy = my_profile.dontbuy.all()
+    my_product_actions = ProductAction.objects.select_related('product').filter(campaign__in=my_campaigns)
+    my_company_actions = CompanyAction.objects.select_related('company').filter(campaign__in=my_campaigns)
     return render_to_response('community/user_single.html',
         {'the_user':u, #don't use "user", because that will overwrite the request context user
         'campaigns':my_campaigns,
-        'companies_support':my_companies_support,
-        'companies_oppose':my_companies_oppose,
-        'products_buy':my_products_buy,
-        'products_dontbuy':my_products_dontbuy},
+        'company_actions':my_company_actions,
+        'product_actions':my_product_actions},
         context_instance = RequestContext(request))
