@@ -25,7 +25,7 @@ def main_search_ajax(request):
         r.append("%s|%s" % (p.name,p.get_absolute_url()))
     r.append("<div class='ac_header'>Locations</div>")
     for l in locations:
-        r.append("%s|%s" % (l.name,"")) #l.get_absolute_url()))
+        r.append("%s|%s" % (l.name,l.get_absolute_url()))
     return HttpResponse('\n'.join(r), mimetype='text/plain')
     
 def list_objects(request,model):

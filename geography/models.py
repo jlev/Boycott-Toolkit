@@ -9,4 +9,4 @@ class Location(models.Model):
     def __unicode__(self):
         return self.name
     def get_absolute_url(self):
-        return "/location/%s",self.name
+        return "/location/%s" % self.id
