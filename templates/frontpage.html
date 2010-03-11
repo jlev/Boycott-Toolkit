@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load humanize %}
 
 {%block css %}
 <link rel="stylesheet" href="{{MEDIA_URL}}styles/frontpage.css" type="text/css"/>
@@ -21,8 +20,8 @@
 <div class="block" style="width:200px;"><h2>{{campaign.get_verb_display}}</h2>
   <h3><a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a></h3>
   {% with campaign.users_joined_campaign.count as num_users %}
-  <h4>{{num_users|apnumber|capfirst }} {{num_users|pluralize:"person,people"}},{%endwith%}
-    {% with campaign.products.count as num_products %}{{num_products|apnumber|capfirst}} product{{num_products|pluralize}}</h4>
+  <h4>{{num_users}} {{num_users|pluralize:"person,people"}},{%endwith%}
+    {% with campaign.products.count as num_products %}{{num_products}} product{{num_products|pluralize}}</h4>
     {%endwith%}
 </div>
 {%endfor%}
