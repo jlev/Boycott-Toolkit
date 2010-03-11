@@ -1,4 +1,6 @@
-# Create your views here.
+from django.http import HttpResponse,HttpResponseNotFound
+from django.template import RequestContext
+from django.shortcuts import render_to_response
 
 def location_by_name(request,slug):
     #TODO: implement location view
