@@ -7,9 +7,26 @@
 
 {%block content%}
 <form enctype="multipart/form-data" action="." method="POST">
-  {% with company_form as form %}
-  {% include "form_snippet.html" %}
+  {% for field in company_form %}
+  <div class="fieldWrapper">
+  	<div class="fieldError">{{ field.errors }}</div>
+  	{%if field.is_required %}<b>{%endif%}
+  	<div class="fieldLabel">{{ field.label_tag }}:</div>
+  	{%if field.is_required %}</b>{%endif%}
+  	<div class="field">{{ field }}</div>
+  	<div class="fieldHelpText">{{ field.help_text|safe }}</div>
+  </div>
+  
+  {% ifequal field.name "address" %}
+  <a id="mapGeocode">Geocode</a>
+  <div class="fieldWrapper" id="mapWrapper">
+    {% with map_form as form %}
+    {% include "geography/edit_map_snippet.html" %}
   {%endwith%}
+  </div>
+  {%endifequal%}
+  
+  {% endfor %}
   <hr>
   <h2>Add the company to a campaign</h2>
   {% with action_form as form %}

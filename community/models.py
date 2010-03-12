@@ -3,13 +3,10 @@ from django.contrib.auth.models import User
 from target.models import Product,Company,Campaign
 from django_stdimage import StdImageField
 
-from geography.models import Location
-
 class UserProfile(models.Model):
     user = models.ForeignKey(User, unique=True)
     image = StdImageField(upload_to="uploads/users",blank=True,size=(400,400),thumbnail_size=(100,100))
     description = models.CharField(max_length=50)
-    location = models.ForeignKey(Location,null=True,blank=True)
     campaigns = models.ManyToManyField(Campaign,related_name="users_joined_campaign",help_text="Campaigns I have joined",blank=True,null=True)
     
     @models.permalink

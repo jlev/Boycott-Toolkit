@@ -4,7 +4,7 @@ from django_stdimage import StdImageField
 import tagging.fields
 from tagging.utils import parse_tag_input
 
-from geography.models import Location
+from geography.models import Map
 
 class TargetBase(models.Model):
     name = models.CharField('Name',max_length=200)
@@ -23,12 +23,13 @@ class TargetBase(models.Model):
         return self.name
     class Meta:
         abstract=True
+    #TODO: connect post_save signal here to user log
 
 
 class Company(TargetBase):
     logo = StdImageField(upload_to="uploads/logos",blank=True,size=(250,250),thumbnail_size=(150,75))
-    location = models.ForeignKey(Location,blank=True,null=True,help_text="Where is this Company located?")
     address = models.TextField(max_length=100,null=True,blank=True)
+    map = models.ForeignKey(Map,blank=True,null=True)
     website = models.URLField(blank=True,null=True)
     phone = models.CharField(max_length=15,blank=True,null=True) #validate?
     class Meta(TargetBase.Meta):

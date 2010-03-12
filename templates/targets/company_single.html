@@ -16,6 +16,18 @@
     {{company.description|urlize|linebreaks}}
   </div>
   
+  <table class="product_shelf">
+    <tr>
+    {%for p in products %}
+    <td><a class="product_link" href="{{p.get_absolute_url}}"><img src="{{p.image.thumbnail.url}}" alt="{{p.name}}"></a><br>{{p.name}}</td>
+    {% if forloop.counter|divisibleby:"3" %}
+    </tr>
+    <tr>
+    {%endif%}
+    {%endfor%}
+    </tr>
+  </table>
+  
   <div class="block" id="highlight_block">
     <em>Contact</em>
       <ul>
@@ -23,27 +35,23 @@
           {%else%}<a href='{{company.get_absolute_url}}edit'>add</a>{%endif%}
       <li><b>Phone:</b> {%if company.phone%}{{company.phone}}
         {%else%}<a href='{{company.get_absolute_url}}edit'>add</a>{%endif%}
-        <li><div class="address">
-              <div style="clear:left;"><b>Address:</b></div>
-                {{company.address|linebreaks}}
+        <li><div style="clear:left;"><b>Address:</b></div>
+            {% if company.address %}
+              <div class="address">
+              {{company.address|linebreaks}}
+              </div>
+            {%else%}
+              <a href='{{company.get_absolute_url}}edit'>add</a>
+            {%endif%}
+            {% if company.map %}
+            <div style="float:left; clear:left;">
+                {% with company.map as map %}
+                {% include "geography/map_snippet.html" %}
+                {% endwith %}
             </div>
-            {% if company.location.embed_code %}
-                {{company.location.embed_code|safe}}
             {%endif%}
       </ul>
   </div>
-
-<table class="product_shelf">
-  <tr>
-  {%for p in products %}
-  <td><a class="product_link" href="{{p.get_absolute_url}}"><img src="{{p.image.thumbnail.url}}" alt="{{p.name}}"></a><br>{{p.name}}</td>
-  {% if forloop.counter|divisibleby:"3" %}
-  </tr>
-  <tr>
-  {%endif%}
-  {%endfor%}
-  </tr>
-</table>
 
 <div style="float:left">
 <li>Added by: <a href="{{company.added_by.get_absolute_url}}">{{company.added_by}}</a>

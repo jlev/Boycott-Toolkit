@@ -1,11 +1,11 @@
 
 {% for field in form %}
 <div class="fieldWrapper">
-	<div class="fieldError">{{ field.errors }}</div>
 	{%if field.is_required %}<b>{%endif%}
 	<div class="fieldLabel">{{ field.label_tag }}:</div>
 	{%if field.is_required %}</b>{%endif%}
 	<div class="field">{{ field }}</div>
+	<div class="fieldError">{{ field.errors }}</div>
 	<div class="fieldHelpText">{{ field.help_text|safe }}</div>
 </div>
 {% endfor %}

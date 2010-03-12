@@ -28,12 +28,14 @@
 .fieldLabel label {
     vertical-align:top;
     float:left;
+    clear:left;
 }
 
 .fieldError {
     font-weight:bold;
     color:red;
     float:left;
+    clear:left;
 }
 
 input {

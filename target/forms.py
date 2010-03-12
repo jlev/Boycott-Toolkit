@@ -12,6 +12,7 @@ class TrackedObjectForm(forms.ModelForm):
 class CompanyForm(TrackedObjectForm):
     tags = TagField(widget=TagAutocomplete(), required=False)
     class Meta(TrackedObjectForm.Meta):
+        exclude = TrackedObjectForm.Meta.exclude + ('map',)
         model = Company
  
 class ProductForm(TrackedObjectForm):
