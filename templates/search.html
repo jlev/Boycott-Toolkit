@@ -40,8 +40,8 @@
     <div class="block" style="width:400px">
       <em>Locations</em>
       <ul>
-      {% for l in results.locations %}
-      <li><a href={{l.get_absolute_url}}>{{l.name}}</a>
+      {% for c in results.locations %}
+      <li><a href={{c.get_absolute_url}}>{{c.address}}</a>
       {%empty%}
       <li>None
       {%endfor%}

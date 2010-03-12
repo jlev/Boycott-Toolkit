@@ -5,7 +5,6 @@ from django.views.decorators.cache import cache_control
 
 from django.contrib.auth.models import User
 from target.models import Campaign,Product,Company,CompanyAction,ProductAction
-from geography.models import Location
 
 def frontpage_view(request,message=None):
     campaigns = Campaign.objects.select_related('user_joined_campaign').filter(highlight=True)
@@ -31,7 +30,7 @@ def search_view(request):
     if query:
         results['products'] = Product.objects.filter(name__icontains=query)
         results['companies'] = Company.objects.filter(name__icontains=query)
-        results['locations'] = Location.objects.filter(name__icontains=query)
+        results['locations'] = Company.objects.filter(address__icontains=query)
     return render_to_response('search.html',
         {'query':query,'results':results},
         context_instance = RequestContext(request))

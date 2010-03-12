@@ -4,7 +4,6 @@ from tagging.models import Tag
 from django.db.models import get_model
 
 from target.models import Product,Company
-from geography.models import Location
 
 def main_search_ajax(request):
     '''The AJAX search view'''
@@ -14,7 +13,7 @@ def main_search_ajax(request):
         return HttpResponse("No query string", mimetype='text/plain')
     products = Product.objects.filter(name__istartswith=query)
     companies = Company.objects.filter(name__istartswith=query)
-    locations = Location.objects.filter(name__istartswith=query)
+    locations = Company.objects.filter(address__icontains=query)
     
     r = []
     r.append("<div class='ac_header'>Companies</div>")
@@ -25,7 +24,11 @@ def main_search_ajax(request):
         r.append("%s|%s" % (p.name,p.get_absolute_url()))
     r.append("<div class='ac_header'>Locations</div>")
     for l in locations:
-        r.append("%s|%s" % (l.name,l.get_absolute_url()))
+        address = l.address.replace('\n',',')
+        #convert linebreaks to commas
+        address = address.replace('\r','')
+        #remove feed returns 
+        r.append("%s|%s" % (address,l.get_absolute_url()))
     return HttpResponse('\n'.join(r), mimetype='text/plain')
     
 def list_objects(request,model):
