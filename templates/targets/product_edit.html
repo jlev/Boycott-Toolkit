@@ -6,8 +6,10 @@
 {% block title %}{{product.name}} | Edit{% endblock %}
 
 {%block content%}
-<form action="." method="POST">
-{% include "form_snippet.html" %}
+<form enctype="multipart/form-data" action="." method="POST">
+  {% with product_form as form %}
+  {% include "form_snippet.html" %}
+  {%endwith%}
 <input type="submit" value="Save" />
 </form>
 {%endblock%}

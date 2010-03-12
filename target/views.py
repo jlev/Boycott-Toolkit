@@ -35,27 +35,28 @@ def company_view(request,slug,message=None):
 def company_edit(request,slug):
     company = Company.objects.get(slug=slug)
     if request.method == 'POST':
-        form = CompanyForm(request.POST,instance=company)
-        if form.is_valid():
-            company = form.save()
+        company_form = CompanyForm(request.POST,request.FILES,instance=company)
+        if company_form.is_valid():
+            company = company_form.save()
             company.edited_by.add(request.user)
             company.save()
             return HttpResponseRedirect(company.get_absolute_url())
         else:
             return render_to_response('targets/company_edit.html',
                 {'message':"Please correct the errors below",
-                "form":form},
+                "company_form":company_form},
                 context_instance = RequestContext(request))
     else:
-        form = CompanyForm(instance=company)
+        company_form = CompanyForm(instance=company)
         return render_to_response("targets/company_edit.html",
-                        {"form": form,"message":"Edit the company details below"},
+                        {"company_form": company_form,
+                        "message":"Edit the company details below"},
         context_instance = RequestContext(request))
         
 @login_required
 def company_add(request,message=None):
     if request.method == 'POST':
-        company_form = CompanyForm(request.POST,prefix="company")
+        company_form = CompanyForm(request.POST,request.FILES,prefix="company")
         action_form = CompanyActionInlineForm(request.POST,prefix="action")
         if company_form.is_valid():
             company = company_form.save()
@@ -124,7 +125,7 @@ def product_view(request,slug):
 def product_edit(request,slug):
     product = Product.objects.get(slug=slug)
     if request.method == 'POST':
-        product_form = ProductForm(request.POST,instance=product)
+        product_form = ProductForm(request.POST,request.FILES,instance=product)
         if product_form.is_valid():
             product = product_form.save()
             product.edited_by.add(request.user)
@@ -144,7 +145,7 @@ def product_edit(request,slug):
 @login_required
 def product_add(request,message=None):
     if request.method == 'POST':
-        product_form = ProductForm(request.POST,prefix='product')
+        product_form = ProductForm(request.POST,request.FILES,prefix='product')
         action_form = ProductActionInlineForm(request.POST,prefix='action')
         if product_form.is_valid():
             product = product_form.save()

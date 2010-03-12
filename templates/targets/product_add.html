@@ -6,7 +6,7 @@
 {% block title %}Add a new product{% endblock %}
 
 {%block content%}
-<form action="." method="POST">
+<form enctype="multipart/form-data" action="." method="POST">
 {% with product_form as form %}
 {% include "form_snippet.html" %}
 {%endwith%}
