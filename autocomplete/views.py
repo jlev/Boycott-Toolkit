@@ -3,6 +3,9 @@ from django.utils import simplejson as json
 from tagging.models import Tag
 from django.db.models import get_model
 
+from urllib2 import urlopen
+from geopy import geocoders
+
 from target.models import Product,Company
 
 def main_search_ajax(request):
@@ -14,6 +17,7 @@ def main_search_ajax(request):
     products = Product.objects.filter(name__istartswith=query)
     companies = Company.objects.filter(name__istartswith=query)
     locations = Company.objects.filter(address__icontains=query)
+    #TODO add stores
     
     r = []
     r.append("<div class='ac_header'>Companies</div>")
@@ -63,3 +67,34 @@ def list_fields(request,model_name):
     for f in model_fields:
         response.append(f.name)
     return HttpResponse('\n'.join(response))
+    
+def geocode(request):
+    try:
+        query = request.GET['q']
+    except KeyError:
+        return HttpResponse("No query string", mimetype='text/plain')
+        
+    r = []
+    #first check groundtruth
+    gt = urlopen('http://groundtruth.media.mit.edu/search/?q=%s' % query)
+    r.append(gt.read())
+    
+    #check google
+    GMAPS_API_KEY = "ABQIAAAAT9uyY_WHXEyDYZHQMelCKhRlte5-xCx01c0gtBmqgDnMLJYMmRS1vGz6k_iWjoIXmQBGNhXYV2UXBQ"
+    try:
+        r.append("<div class='ac_header'>Google Results</div>")
+        g = geocoders.Google(GMAPS_API_KEY)
+        place, (lat, lng) = g.geocode(query)
+        #transform the response into geojson, just like groundtruth
+        geo = {}
+        geo['type']='Feature'
+        geo['crs'] = dict(properties=dict(name='EPSG:4326'))
+        the_geom = {}
+        the_geom['coordinates'] = [0,0]
+        the_geom['coordinates'][0] = lng
+        the_geom['coordinates'][1] = lat
+        geo['geometry']=the_geom
+        r.append("%s|x|%s" % (place,json.dumps(geo)))
+    except ValueError:
+        pass
+    return HttpResponse('\n'.join(r), mimetype='text/plain') 
