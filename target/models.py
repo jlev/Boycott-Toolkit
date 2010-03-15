@@ -14,8 +14,8 @@ class TargetBase(models.Model):
     
     #these are required, but need to be null=true so that they can pass validation
     #filled in TrackedAdmin.save_model and the related edit views
-    added_by = models.ForeignKey(User,related_name="%(class)s_add",null=True,blank=True)
-    edited_by = models.ManyToManyField(User,related_name="%(class)s_edit",null=True,blank=True)
+    added_by = models.ForeignKey(User,related_name="%(class)s_add",null=True)
+    edited_by = models.ManyToManyField(User,related_name="%(class)s_edit",null=True)
     added_date = models.DateTimeField(auto_now_add=True)
     def get_tag_list(self):
         return parse_tag_input(self.tags)
@@ -56,7 +56,7 @@ class CompanyAction(models.Model):
     Defines whether the relationship is negative (the default) or positive (the exception).
     So we can have campaigns that include both companies to boycott and alternatives to support.'''
     campaign = models.ForeignKey('Campaign')
-    company = models.ForeignKey('Company')
+    company = models.ForeignKey('Company',null=True) #null so the inline form can create, then add fk later
     verb = models.CharField(choices=COMPANY_VERB_CHOICES,default="OPPOSE",max_length=10,
                         help_text="Are you asking users to support or oppose this company?")
     reason = models.TextField(blank=True,null=True,max_length=500,
@@ -81,7 +81,7 @@ class ProductAction(models.Model):
     Defines whether the relationship is negative (the default) or positive (the exception).
     So we can have campaigns that include both products to boycott and alternatives to support.'''
     campaign = models.ForeignKey('Campaign')
-    product = models.ForeignKey('Product')
+    product = models.ForeignKey('Product',null=True) #null so the inline form can create, then add fk later
     verb = models.CharField(choices=PRODUCT_VERB_CHOICES,default="BOYCOTT",max_length=10,
                             help_text="Are you asking users to buy or boycott this product?")
     reason = models.TextField(blank=True,null=True,max_length=500,

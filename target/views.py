@@ -61,7 +61,7 @@ def company_add(request,message=None):
         company_form = CompanyForm(request.POST,request.FILES,prefix="company")
         action_form = CompanyActionInlineForm(request.POST,prefix="action")
         map_form = MapInlineForm(request.POST,prefix="map")
-        if company_form.is_valid() and action_form.is_valid() and map_form.is_valid():
+        if company_form.is_valid() and map_form.is_valid():
             company = company_form.save()
             company.added_by = request.user #set the user who created it
             company.slug = slugify(company.name) #set the slug
@@ -74,9 +74,11 @@ def company_add(request,message=None):
             company.map = map #set the map
 
             #send the new company to the other forms
-            action_form.cleaned_data['company'] = company
-            action = action_form.save()
-            #TODO, set action_form with new company_id
+            if action_form.is_valid():
+                #send the new product to the action form
+                action = action_form.save()
+                action.company = company
+                action.save()
 
             #resave the company to finish up
             company.save()
@@ -159,12 +161,15 @@ def product_add(request,message=None):
             product.added_by = request.user
             #set the slug
             product.slug = slugify(product.name)
-            product.save()
-            #send the new product to the action form
-            #action_form.product = product
             
             if action_form.is_valid():
-                return HttpResponseRedirect(product.get_absolute_url())
+                #send the new product to the action form
+                action = action_form.save()
+                action.product = product
+                action.save()
+            #resave the product to finish up
+            product.save()    
+            return HttpResponseRedirect(product.get_absolute_url())
         else:
            message = "Please correct the errors below"
     else:
