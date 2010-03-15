@@ -8,21 +8,20 @@
 {% block title %}Log in{% endblock %}
 
 {% block content %}
-<div style="float:left">
-<h1>Log in with an existing account:</h1>
+<div class="block" id="highlight_block">
+<em>Log in with an existing account:</em>
 {% show_connect_button %}
-<br>
-<p>Or for accounts registered with us directly:</p>
-{% if form.errors %}
-<br>
-<p class="fieldError">That username and password didn't authenticate.</p>
-{% endif %}
+</div>
 
+<div class="block">
+<em>Or for accounts registered with us directly:</em>
 <form method="post" action="" class="wide">
   {% include "form_snippet.html" %}
-  <br>
+  {% if form.errors %}
+  <div class="fieldError">That username and password didn't authenticate.</div><br>
+  {% endif %}
   <p class="submit"><input type="submit" value="Login"></p>
 </form>
-
 </div>
+
 {% endblock %}

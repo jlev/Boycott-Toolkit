@@ -7,20 +7,23 @@
 
 {% block content %}
 
-  {% if form.errors %}
-  <p class="errors">Please correct the errors below: {{ form.non_field_errors }}</p>
-  {% endif %}
-
+  <div class="block" id="highlight_block">
   <h1>Create an account</h1>
   
-  <p>Fill out this simple form to create an account and login immediately.<br>
+  <p>Fill out this simple form to create an account and login immediately.
     Your username and password will be emailed back to you for your reference.</p>
   <br>
+  </div>
   
+  <div class="block">
   <form method="post" action="" class="wide">
     {% include "form_snippet.html" %}
+    {% if form.errors %}
+    <p class="errors">Please correct the errors below: {{ form.non_field_errors }}</p>
+    {% endif %}
     <br>
     <p class="submit"><input type="submit" value="Register &rarr;"></p>
   </form>
+  </div>
 
 {% endblock %}

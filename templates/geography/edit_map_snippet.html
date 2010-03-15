@@ -14,8 +14,8 @@
 }
 
 #layerswitcher {
-    float:left;
-    width:150px;
+    float:right;
+    width:100px;
     height:400px;
 }
 
@@ -53,9 +53,7 @@
      $(document).ready(function() {
         initMap();
         
-        result = false;
-        
-        $('#id_map-name').autocomplete("/autocomplete/geocode/", { multiple: false, delay:100 });
+        $('#id_map-name').autocomplete("/autocomplete/geocode/", { multiple: false, delay:100, minChars:3, mode:"abort" });
         $("#id_map-name").result(function(event, data, formatted) {
           if (data[1]) { //we have a real response
             var searchResult = eval('('+data[2]+')'); //third field has the geojson, turn it into an object
@@ -63,15 +61,20 @@
             //get the projection from the geojson
             var theProj = new OpenLayers.Projection(searchResult.crs.properties.name);
             var lonlat = new OpenLayers.LonLat(coords[0], coords[1]);
-            result = lonlat.transform(theProj,sphericalMercator);
-            console.log(result);
+            var result = lonlat.transform(theProj,sphericalMercator);
             //TODO: determine zoom dynamically
             map.setCenter(result,10);
           } else { //it's a header
-
+            return "\0"; //null character
           }
             
         });
+        //stop enter events on autocomplete fields
+        $('#id_map-name').bind("keydown", function (e) {
+            var key = e.keyCode || e.which;
+            if (key === 13) { return false; }
+        });
+        
         
         /* Make the map info fields un-editable */
         $('#id_map-zoom').attr('readonly',true);

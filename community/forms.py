@@ -7,7 +7,7 @@ from django.template import loader,Context
 
 class RegistrationForm(forms.ModelForm):
     username = forms.RegexField(label=_("Username"), max_length=30, regex=r'^\w+$',
-        help_text = _("Must be 30 characters or fewer. Please use alphanumeric characters only (letters, digits and underscores)."),
+        help_text = _("Thirty alphanumeric characters or less."),
         error_message = _("This value must contain only letters, numbers and underscores."))
     email = forms.EmailField(label=_("E-mail"),help_text="We hate spam as much as you do.", max_length=75)
     password = forms.CharField(label=_("Password"), max_length=50, widget=forms.PasswordInput(render_value=False),

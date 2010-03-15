@@ -2,34 +2,28 @@
     padding-bottom:10px;
     float:left;
     clear:left;
-}
-
-.field {
-    padding-left:5px;
-    display:inline;
-    vertical-align:top;
-    float:left;
+    border-top:1px solid #C2C2C2;
+    padding-top:10px;
+    width:500px;
 }
 
 .fieldHelpText {
     color:gray;
     font-style:italic;
-    padding-left:10px;
+    //padding-left:10px;
+    font-size:10pt;
+    width:150px;
     float:left;
 }
 
 .fieldLabel {
+    vertical-align:top;
     font-weight:bold;
     display:inline;
-    vertical-align:top;
     float:left;
+    width:150px;
 }
 
-.fieldLabel label {
-    vertical-align:top;
-    float:left;
-    clear:left;
-}
 
 .fieldError {
     font-weight:bold;
@@ -38,9 +32,22 @@
     clear:left;
 }
 
+.field {
+    padding-left:5px;
+    display:inline;
+    vertical-align:top;
+    float:right;
+    width:300px;
+}
+
 input {
     float:left;
     clear:left;
+    text-align:left;
+}
+
+textarea {
+    width:300px;
 }
 
 hr {

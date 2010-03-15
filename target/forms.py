@@ -37,25 +37,25 @@ class CampaignForm(TrackedObjectForm):
    
 #these are full action forms
 class CompanyActionForm(forms.ModelForm):
-    company = TagField(widget=Autocomplete(attrs={'model':'target.Company'}))
+    #company = TagField(widget=Autocomplete(attrs={'model':'target.Company'}))
     class Meta:
         model = CompanyAction
         
 class ProductActionForm(forms.ModelForm):
-    product = TagField(widget=Autocomplete(attrs={'model':'target.Product'}))
+    #product = TagField(widget=Autocomplete(attrs={'model':'target.Product'}))
     class Meta:
         model = ProductAction
         
 #these are inline forms that are used when the parent company or product is added
 class CompanyActionInlineForm(forms.ModelForm):
-    reason = forms.fields.CharField(widget=forms.widgets.TextInput(attrs={'size':'50'}),
+    reason = forms.fields.CharField(widget=forms.widgets.TextInput(),
                         help_text="One sentence reason why users should take this action.")
     class Meta:
         fields = ('campaign','verb','reason')
         model = CompanyAction
         
 class ProductActionInlineForm(forms.ModelForm):
-    reason = forms.fields.CharField(widget=forms.widgets.TextInput(attrs={'size':'50'}),
+    reason = forms.fields.CharField(widget=forms.widgets.TextInput(),
                         help_text="One sentence reason why users should take this action.")
     class Meta:
         fields = ('campaign','verb','reason')

@@ -36,9 +36,17 @@ Added by: <a href="{{campaign.added_by.profile.get_absolute_url}}">{{campaign.ad
 Edited by: {% for user in campaign.edited_by.all %} <a href="{{user.profile.get_absolute_url}}">{{user}}</a> {%endfor%}<br>
 Supported by: {% for user in campaign.user_joined_campaign.all %}  <a href="{{user.get_absolute_url}}">{{user}}</a>{%empty%}No one yet{%endfor%}<br>
 
-<i><a href="{{campaign.get_absolute_url}}edit">Edit this campaign</a></i>
-{% if user.is_staff %}| 
-<i><a href="/admin/target/campaign/{{campaign.id}}">Edit in admin</a></i>{%endif%}
+{% ifequal user campaign.added_by %}
+<i><a href="{{campaign.get_absolute_url}}edit">Edit this campaign</a></i>:
+{% else %}
+Edit this campaign:
+{%endifequal%}
+<i><a href="{{campaign.get_absolute_url}}add_company/">Add a company</a></i> | 
+<i><a href="{{campaign.get_absolute_url}}add_product/">Add a product</a></i>
+{% if user.is_staff %}
+<br><i><a href="/admin/target/campaign/{{campaign.id}}">Edit in admin</a></i>
+{%endif%}
+<br>
 {% with campaign as discussion %}
 {% include "comments/snippet.html" %}
 {% endwith %}
