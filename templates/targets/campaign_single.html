@@ -9,7 +9,7 @@
 <div class="block" id="main_block">
 <h1>{{campaign.get_verb_display}} {{campaign.name}}</h1>
 <h2>Tags: {% for tag in campaign.get_tag_list %}<a href="/target/tag/{{tag}}">{{tag}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}</h2>
-<p>{{campaign.description|urlize|linebreaks}}</p>
+<p>{{campaign.description|urlize|linebreaksbr}}</p>
 </div>
   
 {%for a in company_actions %}

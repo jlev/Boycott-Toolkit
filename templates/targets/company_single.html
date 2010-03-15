@@ -12,7 +12,7 @@
     <img src="{{MEDIA_URL}}{{company.logo}}" class="product_image">
     {% endif %}
     <h3>Tags: {% for tag in company.get_tag_list %}<a href="/target/tag/{{tag}}">{{tag}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}</h3>
-    {{company.description|urlize|linebreaks}}
+    {{company.description|urlize|linebreaksbr}}
   </div>
   
   <table class="product_shelf">
@@ -37,7 +37,7 @@
         <li><div style="clear:left;"><b>Address:</b></div>
             {% if company.address %}
               <div class="address">
-              {{company.address|linebreaks}}
+              {{company.address|linebreaksbr}}
               </div>
             {%else%}
               <a href='{{company.get_absolute_url}}edit'>add</a><br>
