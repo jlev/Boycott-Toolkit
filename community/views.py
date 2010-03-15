@@ -92,7 +92,6 @@ def user_view_all(request):
         {'users':u},
         context_instance = RequestContext(request))
 
-@login_required
 def user_view(request,username):
     u = get_object_or_404(User,username=username)
     my_profile = u.profile
