@@ -13,7 +13,7 @@
   {% if company.logo %}
     <img src="{{MEDIA_URL}}{{company.logo}}" class="product_image">
   {% endif %}
-  {{company.description|urlize|linebreaksbr}}
+  {{company.description|urlize|linebreaks}}
   </div>
 </div>
 {%endfor%}

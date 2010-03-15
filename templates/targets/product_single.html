@@ -13,8 +13,9 @@
   {% endif %}
   <em>{{product.name}}</em><br>
   <a href="{{product.company.get_absolute_url}}">{{product.company}}</a><br>
-  <h3>Tags: {% for tag in product.get_tag_list %}<a href="/target/tag/{{tag}}">{{tag}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}</h3>
-  {{product.description|urlize|linebreaksbr}}
+  <h3><a href="{{product.location.get_absolute_url}}">View Map</a> |
+  Tags: {% for tag in product.get_tag_list %}<a href="/target/tag/{{tag}}">{{tag}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}</h3>
+  {{product.description|urlize|linebreaks}}
 </div>
 
 <div class="block" id="highlight_block">

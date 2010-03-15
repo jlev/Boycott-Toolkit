@@ -37,7 +37,7 @@
         <li><div style="clear:left;"><b>Address:</b></div>
             {% if company.address %}
               <div class="address">
-              {{company.address|linebreaksbr}}
+              {{company.address|linebreaks}}
               </div>
             {%else%}
               <a href='{{company.get_absolute_url}}edit'>add</a><br>
