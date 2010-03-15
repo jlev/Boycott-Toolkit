@@ -11,8 +11,7 @@
     {% if company.logo %}
     <img src="{{MEDIA_URL}}{{company.logo}}" class="product_image">
     {% endif %}
-    <h3><a href="{{company.get_absolute_url}}">View Map</a><br>
-    Tags: {% for tag in company.get_tag_list %}<a href="/target/tag/{{tag}}">{{tag}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}</h3>
+    <h3>Tags: {% for tag in company.get_tag_list %}<a href="/target/tag/{{tag}}">{{tag}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}</h3>
     {{company.description|urlize|linebreaks}}
   </div>
   
@@ -41,7 +40,7 @@
               {{company.address|linebreaks}}
               </div>
             {%else%}
-              <a href='{{company.get_absolute_url}}edit'>add</a>
+              <a href='{{company.get_absolute_url}}edit'>add</a><br>
             {%endif%}
             {% if company.map %}
             <div style="float:left; clear:left;">
@@ -55,7 +54,7 @@
 
 <div style="float:left">
 <li>Added by: <a href="{{company.added_by.get_absolute_url}}">{{company.added_by}}</a>
-<li>Edited by: {% for user in company.edited_by.all %} <a href="{{user.get_absolute_url}}">{{user}}</a> {%endfor%}<br>
+<li>Edited by: {% for user in company.edited_by.all %} <a href="{{user.get_absolute_url}}">{{user}}</a> {%empty%}No one yet{%endfor%}<br>
 
 <i><a href="{{company.get_absolute_url}}edit">Edit this company</a></i>
 {% if user.is_staff %}| <i><a href="/admin/target/company/{{company.id}}">Edit in admin</a></i>{%endif%}

@@ -18,8 +18,7 @@
   </div>
   
   {% ifequal field.name "address" %}
-  <a id="mapGeocode">Geocode</a>
-  <div class="fieldWrapper" id="mapWrapper">
+  <div id="mapWrapper">
     {% with map_form as form %}
     {% include "geography/edit_map_snippet.html" %}
   {%endwith%}

@@ -9,7 +9,7 @@ from geography.models import Map
 class TargetBase(models.Model):
     name = models.CharField('Name',max_length=200)
     slug = models.SlugField('Slug',max_length=200,null=True)
-    description = models.TextField(help_text='''Description field.<br><small>URLs and linebreaks will be converted to HTML.</small>''',blank=True,null=True)
+    description = models.TextField(help_text='''URLs and linebreaks will be converted to HTML.''',blank=True,null=True)
     tags = tagging.fields.TagField()
     
     #these are required, but need to be null=true so that they can pass validation

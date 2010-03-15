@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{%block css%}
+ <link rel="stylesheet" href="{{MEDIA_URL}}styles/form.css" type="text/css"/>
+ {{form.media}}
+{%endblock%}
+{% block title %}{{campaign.get_verb_display}} {{campaign.name}} | Add a product{% endblock %}
+
+{%block content%}
+<form action="." method="POST">
+{% include "form_snippet.html" %}
+<input type="submit" value="Add" />
+</form>
+{%endblock%}

@@ -5,7 +5,9 @@ from django.contrib.auth.decorators import login_required
 from django.template.defaultfilters import slugify
 
 from target.models import Company,Product,Campaign,ProductAction,CompanyAction
-from target.forms import CompanyForm,ProductForm,CampaignForm,CompanyActionInlineForm,ProductActionInlineForm
+from target.forms import CampaignForm,CompanyForm,ProductForm
+from target.forms import CompanyActionForm,ProductActionForm
+from target.forms import CompanyActionInlineForm,ProductActionInlineForm
 from geography.forms import MapInlineForm
 from django.contrib.gis.geos import Point
 from tagging.models import Tag,TaggedItem
@@ -36,7 +38,7 @@ def company_view(request,slug,message=None):
 @login_required
 def company_edit(request,slug):
     company = Company.objects.get(slug=slug)
-    if request.method == 'POST':
+    if request.POST:
         company_form = CompanyForm(request.POST,request.FILES,instance=company)
         if company_form.is_valid():
             company = company_form.save()
@@ -55,7 +57,7 @@ def company_edit(request,slug):
         
 @login_required
 def company_add(request,message=None):
-    if request.method == 'POST':
+    if request.POST:
         company_form = CompanyForm(request.POST,request.FILES,prefix="company")
         action_form = CompanyActionInlineForm(request.POST,prefix="action")
         map_form = MapInlineForm(request.POST,prefix="map")
@@ -65,17 +67,19 @@ def company_add(request,message=None):
             company.slug = slugify(company.name) #set the slug
             
             map_form.name = company.name
+            #coords are like "lat,lon", need to be converted to real Point object
             coords = map_form.cleaned_data['center'].split(',')
             map_form.cleaned_data['center'] = Point(float(coords[0]),float(coords[1]),srid=4326)
             map = map_form.save()
             company.map = map #set the map
-            
-            company.save()
+
             #send the new company to the other forms
-            #action_form.cleaned_data['company'] = company
-            #action_form.save()
+            action_form.cleaned_data['company'] = company
+            action = action_form.save()
             #TODO, set action_form with new company_id
-            
+
+            #resave the company to finish up
+            company.save()
             return HttpResponseRedirect(company.get_absolute_url())
         else:
             message = "Please correct the errors below"
@@ -128,7 +132,7 @@ def product_view(request,slug):
 @login_required
 def product_edit(request,slug):
     product = Product.objects.get(slug=slug)
-    if request.method == 'POST':
+    if request.POST:
         product_form = ProductForm(request.POST,request.FILES,instance=product)
         if product_form.is_valid():
             product = product_form.save()
@@ -146,7 +150,7 @@ def product_edit(request,slug):
 
 @login_required
 def product_add(request,message=None):
-    if request.method == 'POST':
+    if request.POST:
         product_form = ProductForm(request.POST,request.FILES,prefix='product')
         action_form = ProductActionInlineForm(request.POST,prefix='action')
         if product_form.is_valid():
@@ -157,7 +161,7 @@ def product_add(request,message=None):
             product.slug = slugify(product.name)
             product.save()
             #send the new product to the action form
-            action_form.product = product
+            #action_form.product = product
             
             if action_form.is_valid():
                 return HttpResponseRedirect(product.get_absolute_url())
@@ -194,7 +198,7 @@ def campaign_view(request,slug):
 @login_required
 def campaign_edit(request,slug):
     campaign = Campaign.objects.get(slug=slug)
-    if request.method == 'POST':
+    if request.POST:
         form = CampaignForm(request.POST,instance=campaign)
         if form.is_valid():
             campaign = form.save()
@@ -212,7 +216,7 @@ def campaign_edit(request,slug):
 
 @login_required
 def campaign_add(request,message=None):
-    if request.method == 'POST':
+    if request.POST:
         form = CampaignForm(request.POST)
         if form.is_valid():
             campaign = form.save()
@@ -229,6 +233,48 @@ def campaign_add(request,message=None):
         message = "Add the campaign details below"
     return render_to_response("targets/campaign_add.html",
                     {"message":message,"form": form},
+                    context_instance = RequestContext(request))
+
+@login_required
+def campaign_add_product(request,slug):
+    campaign = Campaign.objects.get(slug=slug)
+    if request.POST:
+        form = ProductActionForm(request.POST)
+        if form.is_valid():
+            product_action = form.save()
+            print "saved",product_action
+            return HttpResponseRedirect(campaign.get_absolute_url())
+        else:
+            message = "Please correct the errors below"
+    else:
+        action = ProductAction(campaign=campaign)
+        form = ProductActionForm(instance=action)
+        message = "Edit the product action details below"
+    return render_to_response("targets/campaign_add_product.html",
+                    {"message":message,"form": form,
+                    'campaign':campaign},
+                    context_instance = RequestContext(request))
+                    
+@login_required
+def campaign_add_company(request,slug):
+    campaign = Campaign.objects.get(slug=slug)
+    if request.method == 'POST':
+        form = CompanyActionForm(request.POST)
+        print "POST"
+        if form.is_valid():
+            print "valid form"
+            company_action = form.save()
+            print "saved",company_action
+            return HttpResponseRedirect(campaign.get_absolute_url())
+        else:
+            message = "Please correct the errors below"
+    else:
+        action = CompanyAction(campaign=campaign) #create a temp object to prefill the campaign
+        form = CompanyActionForm(instance=action)
+        message = "Edit the company action details below"
+    return render_to_response("targets/campaign_add_company.html",
+                    {"message":message,"form": form,
+                    'campaign':campaign},
                     context_instance = RequestContext(request))
 
 def store_view_all(request):
