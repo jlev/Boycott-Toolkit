@@ -23,6 +23,7 @@ class TargetBase(models.Model):
         return self.name
     class Meta:
         abstract=True
+        ordering = ('name',)
     #TODO: connect post_save signal here to user log
 
 
