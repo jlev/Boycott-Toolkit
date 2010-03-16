@@ -1,2 +1,54 @@
-<iframe width="400" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-src="http://groundtruth.media.mit.edu/iframe/?lat={{map.center.get_coords.1}}&lng={{map.center.get_coords.0}}&zoom={{map.zoom}}"></iframe>
+<script type="text/javascript" src="{{MEDIA_URL}}openlayers/OpenLayers.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}openlayers/customLayerSwitcher.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}openlayers/cloudmade.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}map/map.js"></script>
+
+<style>
+#map {
+    width:400px;
+    height:400px;
+}
+
+#layerswitcher {
+    text-align:left;
+    width:150px;
+    font-size:9pt;
+}
+
+.olControlAttribution {
+  position:absolute;
+  bottom:0px;
+  left:0px;
+  font-size:10pt;
+}
+</style>
+
+<div class="block">
+  <em>Map</em>
+  <div id="map"></div>
+  <a id="layerswitcher_toggle">Layers</a>
+  <div id="layerswitcher"></div>
+</div>
+
+<script type="text/javascript">
+     //DECONFLICT JQUERY AND OPENLAYERS
+     $ = jQuery.noConflict();
+     
+     $(document).ready(function() {
+        initMap();
+        center = new OpenLayers.LonLat({{map.center.get_coords.0}}, {{map.center.get_coords.1}});
+        //convert to map coords
+        center.transform(gps, sphericalMercator);
+        map.setCenter(center,{{map.zoom}});
+        
+        //pull areainfo
+        {{map.area_info.script|safe}}
+        
+        //layerswitcher toggle link
+        $('a#layerswitcher_toggle').click(function() {
+            $('#layerswitcher').toggle('fast');
+            return false;
+          });
+        $('#layerswitcher').hide();
+      });
+</script>

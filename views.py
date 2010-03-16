@@ -77,10 +77,11 @@ def proxy(request,theURL):
             y = urllib2.urlopen(url)
 
             i = y.info()
-            if i.has_key("Content-Type"):
-                response.write("Content-Type: %s" % (i["Content-Type"]))
-            else:
-                response.write("Content-Type: text/plain\n")
+            #Content Type headers seem to mess up OL ajax requests, so forget it
+            #if i.has_key("Content-Type"):
+            #    response.write("Content-Type: %s" % (i["Content-Type"]))
+            #else:
+            #    response.write("Content-Type: text/plain\n")
             response.write(y.read())
             y.close()
         else:

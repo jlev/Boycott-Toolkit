@@ -42,15 +42,16 @@
             {%else%}
               <a href='{{company.get_absolute_url}}edit'>add</a><br>
             {%endif%}
-            {% if company.map %}
-            <div style="float:left; clear:left;">
-                {% with company.map as map %}
-                {% include "geography/map_snippet.html" %}
-                {% endwith %}
-            </div>
-            {%endif%}
       </ul>
   </div>
+
+  {% if company.map %}
+  <div style="float:left; clear:left;">
+      {% with company.map as map %}
+      {% include "geography/map_snippet.html" %}
+      {% endwith %}
+  </div>
+  {%endif%}
 
 <div style="float:left">
 <li>Added by: <a href="{{company.added_by.get_absolute_url}}">{{company.added_by}}</a>
