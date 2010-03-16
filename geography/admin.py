@@ -2,7 +2,7 @@ from django.contrib import admin
 from tagging.forms import TagField
 from autocomplete.widgets import TagAutocomplete
 
-from geography.models import Map
+from geography.models import Map,AreaInfo
 
 class MapAdmin(admin.ModelAdmin):
     tags = TagField(widget=TagAutocomplete(), required=False)
@@ -10,3 +10,4 @@ class MapAdmin(admin.ModelAdmin):
         model = Map
     
 admin.site.register(Map,MapAdmin)
+admin.site.register(AreaInfo)
