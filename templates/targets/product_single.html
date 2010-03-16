@@ -19,8 +19,19 @@
 
 <div class="block" id="highlight_block">
 <h2>Take action!</h2>
-Ask other users to boycott this product.<br>
-Or tell your # Facebook friends about this product.
+<ul class="action_list">
+  <li>Contact <a href="/store/">stores near you</a> that sell this product, and ask them to deshelve it.
+  <li>Contact {{product.company}} and tell them why you won't buy this product.
+{% if user.facebook_profile %}
+  <li><a href="">Tell your Facebook friends</a> about this product.
+{% endif %}
+<li>
+  <!-- AddThis Button BEGIN -->
+<div class="addthis_toolbox addthis_default_style">
+<a href="http://www.addthis.com/bookmark.php?v=250&amp;username=jlev" class="addthis_button_compact">Share with your friends</a>
+</div>
+<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=jlev"></script>
+<!-- AddThis Button END -->
 </div>
 
 <h2>Campaigns about this product:</h2>
@@ -33,12 +44,15 @@ Or tell your # Facebook friends about this product.
 {%endfor%}
 
 
-<div style="float:left">
+<div class="block">
 Added by: <a href="{{product.added_by.profile.get_absolute_url}}">{{product.added_by}}</a><br>
 Edited by: {% for user in product.edited_by.all %} <a href="{{user.profile.get_absolute_url}}">{{user}}</a>{%endfor%}<br>
 
 <i><a href="{{product.get_absolute_url}}edit">Edit this product</a></i>
 {% if user.is_staff %}| <i><a href="/admin/target/product/{{product.id}}">Edit in admin</a></i>{%endif%}
+</div>
+
+<div style="float:left; clear:left;">
 {% with product as discussion %}
 {% include "comments/snippet.html" %}
 {% endwith %}
