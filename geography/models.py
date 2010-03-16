@@ -6,7 +6,7 @@ class Map(models.Model):
     #tags = tagging.fields.TagField()
     center = models.PointField(srid=4326)
     zoom = models.PositiveSmallIntegerField()
-    area_info = models.ForeignKey('AreaInfo',blank=True,null=True)
+    area_info = models.ForeignKey('AreaInfo',blank=True,null=True,help_text="Add extra map layers for a specific region.")
     #markers = models.MultiPointField(srid=4326,blank=True,null=True)
     objects = models.GeoManager()
     def __unicode__(self):
