@@ -7,7 +7,11 @@
 {%block content%}
   {% for campaign in campaigns %}
 <div class="block" style="width:400px;">
-  <em><a href="{{campaign.get_absolute_url}}">{{campaign.get_verb_display}} {{campaign.name}}</a>:</em> <h3>{{campaign.users_joined_campaign.count}} user{{campaign.users_joined_campaign.count|pluralize}}</h3>
+  <em><a href="{{campaign.get_absolute_url}}">{{campaign.get_verb_display}} {{campaign.name}}</a>:</em>
+  <h3>{{campaign.users_joined_campaign.count}} user{{campaign.users_joined_campaign.count|pluralize}},
+    {% with campaign.products.count as num_products %}{{num_products}} product{{num_products|pluralize}}{%endwith%},
+    {% with campaign.companies.count as num_companies %}{{num_companies}} compan{{num_companies|pluralize:"y,ies"}}{%endwith%}
+  </h3>
 {{campaign.description|urlize|linebreaksbr}}
 </div>
   {%endfor%}
