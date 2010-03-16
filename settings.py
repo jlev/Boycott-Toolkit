@@ -84,6 +84,7 @@ MIDDLEWARE_CLASSES = (
 INTERNAL_IPS = ('127.0.0.1',)
 
 CACHE_BACKEND = 'dummy://'
+CACHE_MIDDLEWARE_SETTINGS = {'must-revalidate':True}
 
 AUTHENTICATION_BACKENDS = (
     'facebookconnect.models.FacebookBackend',
