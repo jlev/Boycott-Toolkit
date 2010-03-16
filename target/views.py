@@ -191,12 +191,15 @@ def campaign_view_all(request):
 
 def campaign_view(request,slug):
     campaign = get_object_or_404(Campaign,slug=slug)
-    users = campaign.users_joined_campaign
+    campaign_users = campaign.users_joined_campaign.get_query_set()
+    user_joined_campaign = (campaign in request.user.profile.campaigns.all())
     product_actions = campaign.productaction_set.get_query_set()
     company_actions = campaign.companyaction_set.get_query_set()
     
     return render_to_response("targets/campaign_single.html",
-        {'campaign':campaign,'users':users,'product_actions':product_actions,'company_actions':company_actions},
+        {'campaign':campaign,
+        'campaign_users':campaign_users,'user_joined_campaign':user_joined_campaign,
+        'product_actions':product_actions,'company_actions':company_actions},
         context_instance = RequestContext(request))
 
 
@@ -281,10 +284,29 @@ def campaign_add_company(request,slug):
                     {"message":message,"form": form,
                     'campaign':campaign},
                     context_instance = RequestContext(request))
+                    
+@login_required
+def user_join_campaign(request,slug):  
+    if request.method == "POST":
+        campaign = Campaign.objects.get(slug=slug)
+        request.user.profile.campaigns.add(campaign)
+        return HttpResponse("%s joined %s" % (request.user,campaign))
+    else:
+        return HttpResponse("don't try to GET a url that changes state")
+    
+@login_required
+def user_leave_campaign(request,slug):
+    if request.method == "POST":
+        campaign = Campaign.objects.get(slug=slug)
+        request.user.profile.campaigns.remove(campaign)
+        return HttpResponse("%s left %s" % (request.user,campaign))
+    else:
+        return HttpResponse("don't try to GET a url that changes state")
+    
 
 def store_view_all(request):
     #TODO: implement location view
-    return render_to_response("base.html",{'message':"store view not yet implemented"},
+    return render_to_response("base.html",{'message':"The store view is coming soon."},
         context_instance = RequestContext(request))
 
 def tag_view(request,tag):

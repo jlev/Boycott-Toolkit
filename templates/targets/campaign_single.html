@@ -10,6 +10,29 @@
 <h1>{{campaign.get_verb_display}} {{campaign.name}}</h1>
 <h2>Tags: {% for tag in campaign.get_tag_list %}<a href="/target/tag/{{tag}}">{{tag}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}</h2>
 <p>{{campaign.description|urlize|linebreaksbr}}</p>
+
+<p>
+{% if user_joined_campaign %}
+You are a member of this campaign.<br>
+Do you want to <a href="#" id="leave_link">leave?</a>
+{% else %}
+<a href="#" id="join_link">Join this campaign</a>
+{% endif %}
+</p>
+<script type="text/javascript">
+$().ready(function() {
+  $('#join_link').bind('click', function() {
+    $.post("{{campaign.get_absolute_url}}join/");
+    location.reload(); 
+  });
+  
+  $('#leave_link').bind('click', function() {
+    $.post("{{campaign.get_absolute_url}}leave/");
+    location.reload();
+  });
+});
+</script>
+
 </div>
   
 {%for a in company_actions %}
@@ -31,10 +54,10 @@
   </tr>
 </table>
 
-<div style="float:left">
+<div class="block">
 Added by: <a href="{{campaign.added_by.profile.get_absolute_url}}">{{campaign.added_by}}</a><br>
 Edited by: {% for user in campaign.edited_by.all %} <a href="{{user.profile.get_absolute_url}}">{{user}}</a> {%endfor%}<br>
-Supported by: {% for user in campaign.user_joined_campaign.all %}  <a href="{{user.get_absolute_url}}">{{user}}</a>{%empty%}No one yet{%endfor%}<br>
+Supported by: {% for user in campaign_users %}  <a href="{{user.get_absolute_url}}">{{user}}</a>{%empty%}No one yet{% if not forloop.last%}, {%endif%}{%endfor%}<br>
 
 {% ifequal user campaign.added_by %}
 <i><a href="{{campaign.get_absolute_url}}edit">Edit this campaign</a></i>:
@@ -46,7 +69,9 @@ Edit this campaign:
 {% if user.is_staff %}
 <br><i><a href="/admin/target/campaign/{{campaign.id}}">Edit in admin</a></i>
 {%endif%}
-<br>
+</div>
+
+<div style="float:left; clear:left;">
 {% with campaign as discussion %}
 {% include "comments/snippet.html" %}
 {% endwith %}

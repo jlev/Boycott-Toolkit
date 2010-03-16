@@ -16,6 +16,8 @@ urlpatterns = patterns('target.views',
     (r'^campaign/(?P<slug>[\w-]+)/edit/$','campaign_edit'),
     (r'^campaign/(?P<slug>[\w-]+)/add_product/$','campaign_add_product'),
     (r'^campaign/(?P<slug>[\w-]+)/add_company/$','campaign_add_company'),
+    (r'^campaign/(?P<slug>[\w-]+)/join/$','user_join_campaign'),
+    (r'^campaign/(?P<slug>[\w-]+)/leave/$','user_leave_campaign'),
     (r'^store/$','store_view_all'),
     #(r'store/(?P<slug>[\w-]+)/$','store_view_'),
 )
