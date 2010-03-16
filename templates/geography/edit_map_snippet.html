@@ -14,9 +14,11 @@
 }
 
 #layerswitcher {
-    float:right;
-    width:100px;
+    float:left;
+    width:150px;
     height:400px;
+    font-size:10pt;
+    padding-left:5px;
 }
 
 .olControlAttribution {
@@ -31,7 +33,7 @@
 {% for field in form %}
 {% ifequal field.name "center" %}
 <div id="map"></div>
-<div id="layerswitcher"></div>
+<div id="layerswitcher">Layers</div>
 {%endifequal%}
 
 <div class="fieldWrapper">
