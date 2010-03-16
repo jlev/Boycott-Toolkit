@@ -10,15 +10,15 @@
 <h1>{{campaign.get_verb_display}} {{campaign.name}}</h1>
 <h2>Tags: {% for tag in campaign.get_tag_list %}<a href="/target/tag/{{tag}}">{{tag}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}</h2>
 <p>{{campaign.description|urlize|linebreaksbr}}</p>
-
-<p>
-{% if user_joined_campaign %}
+<p>{{campaign.criteria|urlize|linebreaksbr}}</p>
+<p>{% if campaign.complete %}<img src="{{MEDIA_URL}}icons/green-check.png">This campaign is complete!
+{%else %}This campaign is ongoing.
+{%endif%}</p>
+<p>{% if user_joined_campaign %}
 You are a member of this campaign.<br>
 Do you want to <a href="#" id="leave_link">leave?</a>
-{% else %}
-<a href="#" id="join_link">Join this campaign</a>
-{% endif %}
-</p>
+{% else %}<a href="#" id="join_link">Join this campaign</a>
+{% endif %}</p>
 <script type="text/javascript">
 $().ready(function() {
   $('#join_link').bind('click', function() {

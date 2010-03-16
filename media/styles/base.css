@@ -89,6 +89,7 @@ body {
 
 #content p {
     float:left;
+    clear:left;
     font-size:12pt;
     font-weight:none;
     margin-top:5px;
