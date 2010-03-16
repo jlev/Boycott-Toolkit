@@ -17,23 +17,6 @@
   {{product.description|urlize|linebreaksbr}}
 </div>
 
-<div class="block" id="highlight_block">
-<h2>Take action!</h2>
-<ul class="action_list">
-  <li>Contact <a href="/store/">stores near you</a> that sell this product, and ask them to deshelve it.
-  <li>Contact {{product.company}} and tell them why you won't buy this product.
-{% if user.facebook_profile %}
-  <li><a href="">Tell your Facebook friends</a> about this product.
-{% endif %}
-<li>
-  <!-- AddThis Button BEGIN -->
-<div class="addthis_toolbox addthis_default_style">
-<a href="http://www.addthis.com/bookmark.php?v=250&amp;username=jlev" class="addthis_button_compact">Share with your friends</a>
-</div>
-<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=jlev"></script>
-<!-- AddThis Button END -->
-</div>
-
 <h2>Campaigns about this product:</h2>
 {% for action in product.productaction_set.all %}
 <div class="block" style="width:200px;"><h2>{{action.get_verb_display}}</h2>
@@ -42,6 +25,20 @@
     Why? {{action.reason}}</h4>
 </div>
 {%endfor%}
+
+<div class="block" id="highlight_block">
+<h2>Take action!</h2>
+<ul class="action_list">
+  <li>Contact <a href="/store/">stores near you</a> that sell this product, and ask them to deshelve it.
+  <li>Contact {{product.company}} and tell them why you won't buy this product.
+  <li>
+  <!-- AddThis Button BEGIN -->
+<div class="addthis_toolbox addthis_default_style">
+<a href="http://www.addthis.com/bookmark.php?v=250&amp;username=jlev" class="addthis_button_compact">Share with your friends</a>
+</div>
+<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=jlev"></script>
+<!-- AddThis Button END -->
+</div>
 
 
 <div class="block">
