@@ -20,3 +20,11 @@
     font-size:12px;
     margin-top:6px;
 }
+
+.action_list {
+}
+
+.action_list li {
+    list-style-type:disc;
+    margin-left:25px;
+}
