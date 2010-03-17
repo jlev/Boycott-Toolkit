@@ -113,4 +113,9 @@ class Campaign(TargetBase):
     @models.permalink
     def get_absolute_url(self):
         return ('target.views.campaign_view', [self.slug])
+    def positive(self):
+        if self.verb is "SUPPORT":
+            return True
+        else:
+            return False
     
