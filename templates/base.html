@@ -76,7 +76,7 @@
     <div id="top">
        <ul class="nav">
          {% if user.is_authenticated %}
-         Hi, <a href="/community/user/{{user}}">{{user.first_name}}</a> |
+          Hi, <a href="/community/user/{{user}}">{% if user.first_name%}{{user.first_name}}{%else%}{{user.username}}{%endif%}</a> |
          {% if user.is_staff %}
            <a href="/admin/">Admin</a> |
            {% endif %}
