@@ -22,14 +22,15 @@
 <div class="block" style="width:200px;"><h2>{{action.get_verb_display}}</h2>
   <h3><a href="{{action.campaign.get_absolute_url}}">{{action.campaign.name}}</a></h3>
   <h4>{{action.campaign.users_joined_campaign.count}} {{action.campaign.users_joined_campaign.count|pluralize:"person,people"}}, {{action.campaign.products.count}} product{{action.campaign.products.count|pluralize}}<br>
-    Why? {{action.reason}}</h4>
+    {% if action.reason %}Why? {{action.reason}} {%endif%}
+    </h4>
 </div>
 {%endfor%}
 
 <div class="block" id="highlight_block">
 <h2>Take action!</h2>
 <ul class="action_list">
-  <li>Contact <a href="/store/">stores near you</a> that sell this product, and ask them to deshelve it.
+  <li>Contact <a href="/store/">stores near you</a> that sell this product.
   <li>Contact {{product.company}} and tell them why you won't buy this product.
   <li>
   <!-- AddThis Button BEGIN -->
