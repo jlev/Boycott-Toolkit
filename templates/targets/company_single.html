@@ -27,6 +27,18 @@
     </tr>
   </table>
   
+  {% ifnotequal company.companyaction_set.count 0 %}
+  <h2>Campaigns about this company:</h2>
+  {% for action in company.companyaction_set.all %}
+  <div class="block" style="width:200px;"><h2>{{action.get_verb_display}}</h2>
+    <h3><a href="{{action.campaign.get_absolute_url}}">{{action.campaign.name}}</a></h3>
+    <h4>{{action.campaign.users_joined_campaign.count}} {{action.campaign.users_joined_campaign.count|pluralize:"person,people"}} joined<br>
+      {% if action.reason %}Why? {{action.reason}} {%endif%}
+      </h4>
+  </div>
+  {%endfor%}
+  {%endifnotequal%}
+  
   <div class="block" id="highlight_block">
     <em>Contact</em>
       <ul>
@@ -52,6 +64,7 @@
       {% endwith %}
   </div>
   {%endif%}
+
 
 <div style="float:left">
 <li>Added by: <a href="{{company.added_by.get_absolute_url}}">{{company.added_by}}</a>
