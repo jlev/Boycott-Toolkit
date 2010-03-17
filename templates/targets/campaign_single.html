@@ -10,27 +10,31 @@
 <h1>{{campaign.get_verb_display}} {{campaign.name}}</h1>
 <h2>Tags: {% for tag in campaign.get_tag_list %}<a href="/target/tag/{{tag}}">{{tag}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}</h2>
 <p>{{campaign.description|urlize|linebreaksbr}}</p>
-<p>{{campaign.criteria|urlize|linebreaksbr}}</p>
+{% if campaign.criteria %}<p><b>Criteria:</b> {{campaign.criteria|urlize|linebreaksbr}}</p>{%endif%}
 {% if campaign.complete %}<p><img src="{{MEDIA_URL}}icons/green-check.png">This campaign is complete!</p>{%endif%}
-<p>{% if user_joined_campaign %}
-You are a member of this campaign.<br>
-Do you want to <a href="#" id="leave_link">leave?</a>
-{% else %}<a href="#" id="join_link">Join this campaign</a>
-{% endif %}</p>
-<script type="text/javascript">
-$().ready(function() {
-  $('#join_link').bind('click', function() {
-    $.post("{{campaign.get_absolute_url}}join/");
-    location.reload(); 
-  });
-  
-  $('#leave_link').bind('click', function() {
-    $.post("{{campaign.get_absolute_url}}leave/");
-    location.reload();
-  });
-});
-</script>
+<p>
+  {% if user.is_anonymous %}
+    <a href="/community/register?next={{campaign.get_absolute_url}}">Sign up</a> or <a href="/community/login/?next={{campaign.get_absolute_url}}">log in</a> and join this campaign!
+  {%else%}
+    {% if user_joined_campaign %}
+      You are a member of this campaign.<br>
+      Do you want to <a href="#" id="leave_link">leave?</a>
+      {% else %}<a href="#" id="join_link">Join this campaign</a>
+    {% endif %}</p>
+    <script type="text/javascript">
+    $().ready(function() {
+      $('#join_link').bind('click', function() {
+        $.post("{{campaign.get_absolute_url}}join/");
+        location.reload(); 
+      });
 
+      $('#leave_link').bind('click', function() {
+        $.post("{{campaign.get_absolute_url}}leave/");
+        location.reload();
+      });
+    });
+    </script>
+  {%endif%}
 </div>
   
 {%for a in company_actions %}
