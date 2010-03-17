@@ -111,23 +111,23 @@ def product_view(request,slug):
     except AttributeError:
         logo_img = None
    
-    #Determine whether the product is "good" or "bad"
-    actions = ProductAction.objects.filter(product=p)
-    i = 0
-    for a in actions:
-        if a.positive(): i += 1
-        else: i -= 1
-    if (i > 0): 
-        logo_overlay = "green" #it's positive, display green circle
-    else:
-        if i < 0:
-            logo_overlay = "slash" #it's not, display red slash
-        else: 
-            logo_overlay = None #it's neither, or there are no actions, just display the logo
+#    #Determine whether the product is "good" or "bad"
+#    actions = ProductAction.objects.filter(product=p)
+#    i = 0
+#    for a in actions:
+#        if a.positive(): i += 1
+#        else: i -= 1
+#    if (i > 0): 
+#        logo_overlay = "green" #it's positive, display green circle
+#    else:
+#        if i < 0:
+#            logo_overlay = "slash" #it's not, display red slash
+#        else: 
+#            logo_overlay = None #it's neither, or there are no actions, just display the logo
     
     return render_to_response('targets/product_single.html',
         {'product':p,
-        'logo_img':logo_img,'logo_overlay':logo_overlay},
+        'logo_img':logo_img}, #'logo_overlay':logo_overlay},
         context_instance = RequestContext(request))
         
 
@@ -192,7 +192,10 @@ def campaign_view_all(request):
 def campaign_view(request,slug):
     campaign = get_object_or_404(Campaign,slug=slug)
     campaign_users = campaign.users_joined_campaign.get_query_set()
-    user_joined_campaign = (campaign in request.user.profile.campaigns.all())
+    if not request.user.is_anonymous():
+        user_joined_campaign = (campaign in request.user.profile.campaigns.all())
+    else:
+        user_joined_campaign = False 
     product_actions = campaign.productaction_set.get_query_set()
     company_actions = campaign.companyaction_set.get_query_set()
     
