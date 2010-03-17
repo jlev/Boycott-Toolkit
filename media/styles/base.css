@@ -153,11 +153,13 @@ hr.heavy {
 #main_block {
     width:450px;
     font-size:14pt;
+    clear:left;
 }
 
 #highlight_block {
     background-color:#A9B5C1;
     width:450px;
+    clear:left;
 }
 
 table {
