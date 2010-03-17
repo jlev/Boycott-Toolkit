@@ -29,3 +29,4 @@ class UserProfile(models.Model):
             return None
         
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
+
