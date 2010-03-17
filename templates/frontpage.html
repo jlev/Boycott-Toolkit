@@ -19,10 +19,19 @@
 {%for campaign in campaigns %}
 <div class="block" style="width:200px;"><h2>{{campaign.get_verb_display}}</h2>
   <h3><a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a></h3>
-  {% with campaign.users_joined_campaign.count as num_users %}
-  <h4>{{num_users}} {{num_users|pluralize:"person,people"}},{%endwith%}
-    {% with campaign.products.count as num_products %}{{num_products}} product{{num_products|pluralize}}</h4>
+  <h4>
+    {% with campaign.users_joined_campaign.count as num_users %}
+    {{num_users}} {{num_users|pluralize:"person,people"}},
     {%endwith%}
+  
+    {% with campaign.products.count as num_products %}
+    {{num_products}} product{{num_products|pluralize}},
+    {%endwith%}
+    
+    {% with campaign.companies.count as num_companies %}
+    {{num_companies}} compan{{num_companies|pluralize:"y,ies"}}
+    {%endwith%}
+  </h4>
 </div>
 {%endfor%}
 
