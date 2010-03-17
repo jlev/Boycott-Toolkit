@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{%block css%}
+ <link rel="stylesheet" href="{{MEDIA_URL}}styles/form.css" type="text/css"/>
+ {{form.media}}
+{%endblock%}
+{% block title %}{{user.username}} | Edit Profile{% endblock %}
+
+{%block content%}
+<form action="." enctype="multipart/form-data" method="POST">
+{% include "form_snippet.html" %}
+<input type="submit" value="Save" />
+</form>
+<br><br>
+<div style="float:left; clear:left;">Need to <a href="/community/change_password">change your password</a>?</div>
+{%endblock%}

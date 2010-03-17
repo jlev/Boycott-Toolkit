@@ -11,7 +11,7 @@
 {% if the_user.facebook_profile %}
 <div id="profile_pic"><img src="{{the_user.facebook_profile.picture_url}}"></div>
 {%endif%}
-<p>{{the_user.profile.description}}</p>
+{% if the_user.profile.description %}<p>{{the_user.profile.description}}</p>{%else%}{{the_user.username}} has not written anything about themselves yet.{%endif%}
 
   <div style="clear:left;">
   {% ifequal the_user.id user.id %}

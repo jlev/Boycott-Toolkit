@@ -16,6 +16,8 @@ from django.views.decorators.cache import never_cache
 
 from boycott import settings
 from target.models import ProductAction,CompanyAction
+from community.models import UserProfile
+from community.forms import UserProfileForm
 
 @never_cache
 def login_view(request):
@@ -50,14 +52,13 @@ def change_password_view(request):
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse("login_view"))
+            return HttpResponseRedirect(reverse("auth_login"))
     else:
         form = PasswordChangeForm(request.user)
-    return render_to_response(template_name, {
-        'form': form,
-    }, context_instance=RequestContext(request))
+    return render_to_response('community/change_password.html', {'form': form}, context_instance=RequestContext(request))
 
 def register_view(request):
+    redirect_to = request.REQUEST.get('next')
     if request.method == 'POST':
         form = RegistrationForm(data=request.POST)
         if form.is_valid():
@@ -73,7 +74,13 @@ def register_view(request):
             #so do it manually
             user.backend='django.contrib.auth.backends.ModelBackend'
             login(request, user)
-            return HttpResponseRedirect('/')
+            
+            # Light security check -- make sure redirect_to isn't garbage.
+            if not redirect_to or '//' in redirect_to or ' ' in redirect_to:
+                redirect_to = settings.LOGIN_REDIRECT_URL
+            if request.session.test_cookie_worked():
+                request.session.delete_test_cookie()
+            return HttpResponseRedirect(redirect_to)
     else:
         form = RegistrationForm()
     
@@ -105,3 +112,24 @@ def user_view(request,username):
         'company_actions':my_company_actions,
         'product_actions':my_product_actions},
         context_instance = RequestContext(request))
+        
+@login_required
+def user_edit(request,username):
+    #only let people edit their own profiles
+    if request.user.username != username:
+        return HttpResponseRedirect(request.user.profile.get_absolute_url() + 'edit')
+    
+    profile = get_object_or_404(UserProfile,user__username=username)
+    if request.POST:
+        form = UserProfileForm(request.POST,instance=profile)
+        if form.is_valid():
+            profile = form.save()
+            return HttpResponseRedirect(profile.get_absolute_url())
+        else:
+            message = "Please correct the errors below"
+    else:
+        form = UserProfileForm(instance=profile)
+        message = "Edit your user profile below"
+    return render_to_response("community/user_profile_edit.html",
+                    {"message":message,"form": form},
+                    context_instance = RequestContext(request))

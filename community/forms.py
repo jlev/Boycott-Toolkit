@@ -2,8 +2,9 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
-
 from django.template import loader,Context
+
+from community.models import UserProfile
 
 class RegistrationForm(forms.ModelForm):
     username = forms.RegexField(label=_("Username"), max_length=30, regex=r'^\w+$',
@@ -12,7 +13,6 @@ class RegistrationForm(forms.ModelForm):
     email = forms.EmailField(label=_("E-mail"),help_text="We hate spam as much as you do.", max_length=75)
     password = forms.CharField(label=_("Password"), max_length=50, widget=forms.PasswordInput(render_value=False),
                     help_text = _("Don't use a sensitive password, as it will be mailed back to you in cleartext."))
-
     class Meta:
         model = User
         fields = ("username","email","password")
@@ -62,3 +62,7 @@ class RegistrationForm(forms.ModelForm):
             t.render(Context(c)), None, [user.email], fail_silently=False)
         return user
 
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        exclude=('user',)
+        model = UserProfile
