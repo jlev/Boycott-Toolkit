@@ -17,7 +17,7 @@
   {{product.description|urlize|linebreaksbr}}
 </div>
 
-<h2>Campaigns about this product:</h2>
+<div style="float:left;"><h2>Campaigns about this product:</h2>
 {% for action in product.productaction_set.all %}
 <div class="block" style="width:200px;"><h2>{{action.get_verb_display}}</h2>
   <h3><a href="{{action.campaign.get_absolute_url}}">{{action.campaign.name}}</a></h3>
@@ -26,6 +26,7 @@
     </h4>
 </div>
 {%endfor%}
+</div>
 
 <div class="block" id="highlight_block">
 <h2>Take action!</h2>
