@@ -2,3 +2,14 @@
     display:inline;
 	vertical-align:middle;
 }
+
+.edit_list {
+    float:left;
+    clear:left;
+    width:450px;
+    font-size:12px;
+}
+
+.edit_list ul {
+    list-style:circle;
+}

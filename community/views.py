@@ -14,6 +14,8 @@ from community.forms import RegistrationForm
 from django.contrib.auth.forms import AuthenticationForm,PasswordChangeForm
 from django.views.decorators.cache import never_cache
 
+from reversion.models import Revision
+
 from boycott import settings
 from target.models import ProductAction,CompanyAction
 from community.models import UserProfile
@@ -102,15 +104,18 @@ def user_view_all(request):
 def user_view(request,username):
     u = get_object_or_404(User,username=username)
     my_profile = u.profile
-    #TODO, upgrade this to actions
     my_campaigns = my_profile.campaigns.all()
     my_product_actions = ProductAction.objects.select_related('product').filter(campaign__in=my_campaigns)
     my_company_actions = CompanyAction.objects.select_related('company').filter(campaign__in=my_campaigns)
+    my_revisions = Revision.objects.select_related('version').filter(user=u).order_by("-date_created")[:10]
+    
+    #clean up list
     return render_to_response('community/user_single.html',
         {'the_user':u, #don't use "user", because that will overwrite the request context user
         'campaigns':my_campaigns,
         'company_actions':my_company_actions,
-        'product_actions':my_product_actions},
+        'product_actions':my_product_actions,
+        'revisions':my_revisions},
         context_instance = RequestContext(request))
         
 @login_required
