@@ -7,7 +7,18 @@
 
 {%block content%}
 <form action="." method="POST">
-{% include "form_snippet.html" %}
+  {% for field in form %}
+  <div class="fieldWrapper">
+  	<div class="fieldLabel{%if field.is_required %} required{%endif%}">{{ field.label_tag }}:</div>
+  	<div class="field">{{ field }}</div>
+  	<div class="fieldError">{{ field.errors }}</div>
+  	<div class="fieldHelpText">{{ field.help_text|safe }}
+    	{% ifequal field.name "product" %}
+    	Don't see the product in this list? <a href="/target/product/new/">Add it to our database</a>
+    	{% endifequal %}
+    </div>
+  </div>
+  {% endfor %}
 <input type="submit" value="Add" />
 </form>
 {%endblock%}
