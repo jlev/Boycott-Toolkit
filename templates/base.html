@@ -50,7 +50,7 @@
         </div>
         <a href="/"><img id="logo-boy" src="{{MEDIA_URL}}logo/boycott-alpha.png"></a>
 
-      {% cache 500 sidebar %}
+      {% cache 500 sidebar user.is_authenticated %}
       {% if user.is_authenticated %}
       <ul class="sidebar">
         <li><a href="/target/campaign/new">Start a Campaign</a>
