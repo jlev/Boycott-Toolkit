@@ -16,7 +16,7 @@ def company_view_all(request):
     #TODO paginate
     c = Company.objects.all()
     return render_to_response('targets/company_list.html',
-        {'message':"These are all the companies we currently track:",
+        {'message':"All the companies we currently track:",
         'companies':c},
         context_instance = RequestContext(request))
 
@@ -100,7 +100,7 @@ def company_add(request,message=None):
 def product_view_all(request):
     p = Product.objects.all()
     return render_to_response('targets/product_list.html',
-        {'message':"These are all the products we currently track:",
+        {'message':"All the products we currently track:",
         'products':p},
         context_instance = RequestContext(request))
         
@@ -185,7 +185,7 @@ def product_add(request,message=None):
 def campaign_view_all(request):
     c = Campaign.objects.all()
     return render_to_response('targets/campaign_list.html',
-        {'message':"These are all the campaigns we are currently running:",
+        {'message':"All the campaigns which are currently running:",
         'campaigns':c},
         context_instance = RequestContext(request))
 
