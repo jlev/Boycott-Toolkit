@@ -114,7 +114,7 @@ class Campaign(TargetBase):
     def get_absolute_url(self):
         return ('target.views.campaign_view', [self.slug])
     def positive(self):
-        if self.verb is "SUPPORT":
+        if (self.verb == "SUPPORT"):
             return True
         else:
             return False

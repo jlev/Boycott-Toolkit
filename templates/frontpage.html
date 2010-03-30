@@ -17,7 +17,8 @@
 </div>
 
 {%for campaign in campaigns %}
-<div class="block" style="width:200px;"><h2>{{campaign.get_verb_display}}</h2>
+<div class="block" style="width:200px;">
+  <h2 style="color:{%if campaign.positive %}#3D7C1F{%else%}#DC201C{%endif%};">{{campaign.get_verb_display}}</h2>
   <h3><a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a></h3>
   <h4>
     {% with campaign.users_joined_campaign.count as num_users %}
