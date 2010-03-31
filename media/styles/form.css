@@ -58,3 +58,8 @@ h2 {
     float:left;
     clear:left;
 }
+
+.citation_save_link {
+    font-weight:bold;
+    font-style:italic;
+}

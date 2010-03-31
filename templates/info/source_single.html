@@ -5,12 +5,12 @@
 {% block title %}Source: {{source.name}}{% endblock %}
 
 {%block content%}
-<b>Source:<b>
+<b>Source:</b>
 <ul>
   <li><b>Name:</b> {{source.name}}
   <li><b>Author:</b> {{source.author}}
   <li><b>Date:</b> {{source.date}}
-  <li><b>URL:</b> <a href="{{source.url}}">{{source.url}}</a>
+  <li><b>URL:</b> <a href="{{source.url}}" target="_blank">{{source.url}}</a>
 </ul>
 <br>
 <b>Citations:</b>
@@ -19,7 +19,7 @@
   {% if cite.apply_to_all %}
   <li>{{cite.cited_field}} for all {{cite.cited_type}} 
   {% else %}
-  <li>{{cite.cited_field}} for <a href="{{cite.cited_object.get_absolute_url}}">{{cite.cited_object}}</a> {{cite.cited_type}} 
+  <li>{{cite.cited_field}} for <a href="{{cite.cited_object.get_absolute_url}}">{{cite.cited_object}}</a>
   {% endif %}
   {% endfor %}
   </ul>

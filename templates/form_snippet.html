@@ -1,7 +1,6 @@
-
 {% for field in form %}
 <div class="fieldWrapper">
-	<div class="fieldLabel{%if field.is_required %} required{%endif%}">{{ field.label_tag }}:</div>
+	{%if not field.is_hidden%}<div class="fieldLabel{%if field.is_required %} required{%endif%}">{{ field.label_tag }}:</div>{%endif%}
 	<div class="field">{{ field }}</div>
 	<div class="fieldError">{{ field.errors }}</div>
 	<div class="fieldHelpText">{{ field.help_text|safe }}</div>

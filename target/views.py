@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.template.defaultfilters import slugify
 
 from target.models import Company,Product,Campaign,ProductAction,CompanyAction
+from info.models import Citation,citation_from_json,citations_for_object
 from target.forms import CampaignForm,CompanyForm,ProductForm
 from target.forms import CompanyActionForm,ProductActionForm
 from target.forms import CompanyActionInlineForm,ProductActionInlineForm
@@ -23,6 +24,7 @@ def company_view_all(request):
 def company_view(request,slug,message=None):
     c = Company.objects.get(slug=slug)
     p = Product.objects.filter(company=c)
+    cites = citations_for_object(c)
     
     try:
         logo_img = c.logo.thumbnail
@@ -30,6 +32,7 @@ def company_view(request,slug,message=None):
         logo_img = None
     return render_to_response('targets/company_single.html',
         {'company':c,
+        'citations':cites,
         'logo_img':logo_img,
         'products':p,
         'message':message},
@@ -44,6 +47,8 @@ def company_edit(request,slug):
             company = company_form.save()
             company.edited_by.add(request.user)
             company.save()
+            #save the citations
+            citation_from_json(request.POST['citations_json'],company)
             return HttpResponseRedirect(company.get_absolute_url())
         else:
             message = "Please correct the errors below"
@@ -82,6 +87,8 @@ def company_add(request,message=None):
 
             #resave the company to finish up
             company.save()
+            #save the citations
+            citation_from_json(request.POST['citations_json'],company)
             return HttpResponseRedirect(company.get_absolute_url())
         else:
             message = "Please correct the errors below"
@@ -106,6 +113,7 @@ def product_view_all(request):
         
 def product_view(request,slug):
     p = Product.objects.get(slug=slug)
+    cites = citations_for_object(p)
     try:
         logo_img = p.image.thumbnail
     except AttributeError:
@@ -127,6 +135,7 @@ def product_view(request,slug):
     
     return render_to_response('targets/product_single.html',
         {'product':p,
+        'citations':cites,
         'logo_img':logo_img}, #'logo_overlay':logo_overlay},
         context_instance = RequestContext(request))
         
@@ -140,6 +149,8 @@ def product_edit(request,slug):
             product = product_form.save()
             product.edited_by.add(request.user)
             product.save()
+            #save the citations
+            citation_from_json(request.POST['citations_json'],product)
             return HttpResponseRedirect(product.get_absolute_url())
         else:
             message = "Please correct the errors below"
@@ -168,7 +179,9 @@ def product_add(request,message=None):
                 action.product = product
                 action.save()
             #resave the product to finish up
-            product.save()    
+            product.save()
+            #save the citations
+            citation_from_json(request.POST['citations_json'],product)
             return HttpResponseRedirect(product.get_absolute_url())
         else:
            message = "Please correct the errors below"
@@ -192,6 +205,7 @@ def campaign_view_all(request):
 def campaign_view(request,slug):
     campaign = get_object_or_404(Campaign,slug=slug)
     campaign_users = campaign.users_joined_campaign.get_query_set()
+    cites = citations_for_object(campaign)
     if not request.user.is_anonymous():
         user_joined_campaign = (campaign in request.user.profile.campaigns.all())
     else:
@@ -200,7 +214,7 @@ def campaign_view(request,slug):
     company_actions = campaign.companyaction_set.get_query_set()
     
     return render_to_response("targets/campaign_single.html",
-        {'campaign':campaign,
+        {'campaign':campaign,'citations':cites,
         'campaign_users':campaign_users,'user_joined_campaign':user_joined_campaign,
         'product_actions':product_actions,'company_actions':company_actions},
         context_instance = RequestContext(request))
@@ -215,6 +229,8 @@ def campaign_edit(request,slug):
             campaign = form.save()
             campaign.edited_by.add(request.user)
             campaign.save()
+            #save the citations
+            citation_from_json(request.POST['citations_json'],campaign)
             return HttpResponseRedirect(campaign.get_absolute_url())
         else:
             message = "Please correct the errors below"
@@ -236,6 +252,8 @@ def campaign_add(request,message=None):
             #set the slug
             campaign.slug = slugify(campaign.name)
             campaign.save()
+            #save the citations
+            citation_from_json(request.POST['citations_json'],campaign)
             return HttpResponseRedirect(campaign.get_absolute_url())
         else:
             message = "Please correct the errors below"
@@ -271,11 +289,8 @@ def campaign_add_company(request,slug):
     campaign = Campaign.objects.get(slug=slug)
     if request.method == 'POST':
         form = CompanyActionForm(request.POST)
-        print "POST"
         if form.is_valid():
-            print "valid form"
             company_action = form.save()
-            print "saved",company_action
             return HttpResponseRedirect(campaign.get_absolute_url())
         else:
             message = "Please correct the errors below"
