@@ -5,6 +5,7 @@
 {% block title %}Campaigns{% endblock %}
 
 {%block content%}
+  Start a <a href="/target/campaign/new">new campaign</a>.
   {% for campaign in campaigns %}
 <div class="block" style="width:400px;">
   <em><a href="{{campaign.get_absolute_url}}">{{campaign.get_verb_display}} {{campaign.name}}</a>:</em>
