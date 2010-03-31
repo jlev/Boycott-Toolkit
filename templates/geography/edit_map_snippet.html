@@ -82,12 +82,15 @@
         $('#id_map-zoom').attr('readonly',true);
         $('#id_map-center').attr('readonly',true);
         
-        /* JQuery to pull map info from iframe and save it to form fields */
+        /* JQuery to pull map info and save it to form fields */
         function mapCoordsToFormFields(e) {
           $('#id_map-zoom').val(map.zoom);
           center = map.center.clone();
           center.transform(sphericalMercator,gps);
-          $('#id_map-center').val(center.lon + "," + center.lat);
+          //truncate for display
+          display_lon = center.lon.toString().substring(0,10);
+          display_lat = center.lat.toString().substring(0,10);
+          $('#id_map-center').val(display_lon + "," + display_lat);
         }
         map.events.register( 'moveend', this, mapCoordsToFormFields);
       });
