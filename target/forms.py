@@ -1,6 +1,7 @@
 from django import forms
 from tagging.forms import TagField
 from autocomplete.widgets import TagAutocomplete,Autocomplete
+from info.widgets import CitationWidget
 from target.models import Product,Company,Campaign,ProductAction,CompanyAction
 
 #MAIN FORMS FOR USER DISPLAY
@@ -11,24 +12,34 @@ class TrackedObjectForm(forms.ModelForm):
 
 class CompanyForm(TrackedObjectForm):
     tags = TagField(widget=TagAutocomplete(), required=False)
+    
+    def __init__(self, *args, **kwargs):
+        super(CompanyForm, self).__init__(*args, **kwargs)
+        self.fields['description'] = forms.fields.CharField(widget=CitationWidget(attrs={'model':'target.company','field':'description'}))
+        self.fields['citations_json'] = forms.fields.CharField(widget=forms.widgets.HiddenInput()) #holds all the citations as json
     class Meta(TrackedObjectForm.Meta):
         exclude = TrackedObjectForm.Meta.exclude + ('map',)
         model = Company
  
 class ProductForm(TrackedObjectForm):
-    tags = TagField(widget=TagAutocomplete(), required=False)
-#    company = TagField(widget=Autocomplete(attrs={'model':'target.Company'}))
-#    def clean_company(self):
-#        name = self.cleaned_data['company']
-#        the_company = Company.objects.get(name=name)
-#        self.company = the_company
-#        return self.cleaned_data       
+    tags = TagField(widget=TagAutocomplete(), required=False)  
+    
+    def __init__(self, *args, **kwargs):
+        super(ProductForm, self).__init__(*args, **kwargs)
+        self.fields['description'] = forms.fields.CharField(widget=CitationWidget(attrs={'model':'target.product','field':'description'}))
+        self.fields['citations_json'] = forms.fields.CharField(widget=forms.widgets.HiddenInput()) #holds all the citations as json 
     class Meta(TrackedObjectForm.Meta):
         model = Product
        
 class CampaignForm(TrackedObjectForm):
     tags = TagField(widget=TagAutocomplete(), required=False)
-    #TODO: fill in slug after form save
+    
+    def __init__(self, *args, **kwargs):
+           super(CampaignForm, self).__init__(*args, **kwargs)
+           self.fields['description'] = forms.fields.CharField(widget=CitationWidget(attrs={'model':'target.campaign','field':'description'}))
+           self.fields['criteria'] = forms.fields.CharField(widget=CitationWidget(attrs={'model':'target.campaign','field':'criteria'}))
+           self.fields['citations_json'] = forms.fields.CharField(widget=forms.widgets.HiddenInput()) #holds all the citations as json
+           
     class Meta(TrackedObjectForm.Meta):
         exclude = TrackedObjectForm.Meta.exclude + ('highlight','companies','products')
         #highlight isn't user editable

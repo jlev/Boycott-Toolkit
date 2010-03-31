@@ -5,6 +5,7 @@
 {% block title %}Companies{% endblock %}
 
 {%block content%}
+Add a <a href="/target/company/new">new company</a>.
 {% for company in companies %}
 <div class="block" style="width:400px;">
   <em><a href="{{company.get_absolute_url}}">{{company.name}}</a></em><br>

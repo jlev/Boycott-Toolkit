@@ -54,7 +54,7 @@ def list_objects(request,model):
     objects = model_class.objects.filter(name__istartswith=query).values_list('name', flat=True)
     return HttpResponse('\n'.join(objects), mimetype='text/plain')
     
-def list_fields(request,model_name):
+def list_fields(request,model):
     '''List the fields available for a particular model'''
     try:
         (app_label,model_name) = model.split(".")
@@ -66,6 +66,28 @@ def list_fields(request,model_name):
     response = []
     for f in model_fields:
         response.append(f.name)
+    return HttpResponse('\n'.join(response))
+    
+def list_entries(request,model,field):
+    '''List the entries already saved for a field'''
+    try:
+        (app_label,model_name) = model.split(".")
+    except ValueError:
+        return HttpResponse('Need full model name with app prefix')
+    model_class = get_model(app_label,model_name)
+    
+    try:
+        query = request.GET['q']
+    except KeyError:
+        return HttpResponse("No query string", mimetype='text/plain')
+    
+    filter_arg = '%s__istartswith' % (field)
+    kwargs = {str(filter_arg):str(query)}
+    print kwargs
+    entries = model_class.objects.values_list(field).filter(**kwargs)
+    response = []
+    for e in entries:
+        response.append(e[0])
     return HttpResponse('\n'.join(response))
     
 def geocode(request):

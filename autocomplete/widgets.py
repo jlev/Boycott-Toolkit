@@ -45,6 +45,23 @@ class Autocomplete(Input):
         css = media_css
         js = media_js
 
+class EntryAutocomplete(Input):
+    '''Autocompletes the entries for a field in a model passed in attrs'''
+    input_type = 'text'
+
+    def render(self, name, value, attrs=None):
+        #retrieve the model name from attrs, popping so isn't passed to super
+        ajax_url = reverse('autocomplete-entries',kwargs={'model':self.attrs.pop('model'),'field':self.attrs.pop('field')})
+        html = super(EntryAutocomplete, self).render(name, value, attrs)
+        js = u'''<script type="text/javascript">
+            $().ready(function() { $("#%s").autocomplete("%s", { multiple: false }); });
+            </script>''' % (attrs['id'],ajax_url)
+        return mark_safe("\n".join([html, js]))
+
+    class Media:
+        css = media_css
+        js = media_js
+
 class DynamicAutocomplete(Input):
     '''Autocompletes based on the value of another field'''
     input_type = 'text'

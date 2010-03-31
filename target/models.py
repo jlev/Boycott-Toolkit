@@ -11,6 +11,8 @@ class TargetBase(models.Model):
     slug = models.SlugField('Slug',max_length=200,null=True)
     description = models.TextField(help_text='''URLs and linebreaks will be converted to HTML.''',blank=True,null=True)
     tags = tagging.fields.TagField()
+    #public = models.BooleanField(help_text="Should this be viewable to all users?",default=False)
+    #defaults to false, but reset to True after form validation
     
     #these are required, but need to be null=true so that they can pass validation
     #filled in TrackedAdmin.save_model and the related edit views
@@ -24,11 +26,10 @@ class TargetBase(models.Model):
     class Meta:
         abstract=True
         ordering = ('name',)
-    #TODO: connect post_save signal here to user log
 
 
 class Company(TargetBase):
-    logo = StdImageField(upload_to="uploads/logos",blank=True,size=(250,250),thumbnail_size=(150,75))
+    logo = StdImageField("Company Logo",upload_to="uploads/logos",blank=True,size=(250,250),thumbnail_size=(150,75))
     address = models.TextField(max_length=100,null=True,blank=True)
     map = models.ForeignKey(Map,blank=True,null=True)
     website = models.URLField(blank=True,null=True)
@@ -42,7 +43,8 @@ class Company(TargetBase):
 class Product(TargetBase):
     company = models.ForeignKey('Company',help_text="Who makes this product?")
     upc = models.CharField('UPC',max_length=13,blank=True,null=True)
-    image = StdImageField(upload_to="uploads/products",blank=True,size=(250,250),thumbnail_size=(150,75))
+    image = StdImageField("Product Image",upload_to="uploads/products",blank=True,size=(250,250),thumbnail_size=(150,75))
+    alternative = models.ForeignKey('Product',help_text="What products make a good alternative?",blank=True,null=True)
     @models.permalink
     def get_absolute_url(self):
         return ('target.views.product_view', [self.slug])
@@ -105,7 +107,7 @@ CAMPAIGN_VERB_CHOICES = (
 class Campaign(TargetBase):
     verb = models.CharField(choices=CAMPAIGN_VERB_CHOICES,default="BOYCOTT",max_length=10,
                             help_text="Is this a support or boycott campaign?")
-    criteria = models.TextField(blank=True,null=True,help_text="When will this campaign be complete?")
+    criteria = models.TextField("Goal",blank=True,null=True,help_text="When will this campaign be complete?")
     complete = models.BooleanField(default=False)
     companies = models.ManyToManyField('Company',through='CompanyAction')
     products =  models.ManyToManyField('Product',through='ProductAction')

@@ -28,3 +28,7 @@
     list-style-type:disc;
     margin-left:25px;
 }
+
+.citation_list li {
+    font-size:12px;
+}
