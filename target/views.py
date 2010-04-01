@@ -5,7 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.template.defaultfilters import slugify
 
 from target.models import Company,Product,Campaign,ProductAction,CompanyAction
-from info.models import Citation,citation_from_json,citations_for_object
+from info.models import Citation,citation_from_json
+from info.views import citations_for_object
 from target.forms import CampaignForm,CompanyForm,ProductForm
 from target.forms import CompanyActionForm,ProductActionForm
 from target.forms import CompanyActionInlineForm,ProductActionInlineForm

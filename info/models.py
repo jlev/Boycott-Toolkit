@@ -4,7 +4,7 @@ from django.contrib.contenttypes.generic import GenericForeignKey
 from django.utils import simplejson as json
 from django.forms import ValidationError
 
-CITABLE_MODELS = {"model__in": ("Company","Product","Campaign")}
+CITABLE_MODELS = {"model__in": ("company","product","campaign")}
 
 class Source(models.Model):
     '''Where information comes from'''
@@ -13,7 +13,20 @@ class Source(models.Model):
     url = models.URLField(null=True,blank=True)
     date = models.DateField(auto_now=False,null=True,blank=True)
     def __unicode__(self):
-        return self.name
+        return "%s, %s, %s" % (self.author,self.name,self.date)
+    def html(self):
+        string = ""
+        if self.author: string += (self.author + ", ")
+        if (self.name and self.url):
+            string += "<i><a href=%s target='_blank'>%s</a></i>" % (self.url,self.name)
+        else:
+            if self.name:
+                string += "<i>%s</i>" % self.name
+            if self.url:
+                string += "<a href=%s target='_blank'>%s</a>" % (self.url,self.url)
+        if self.date:
+            string += (", " + str(self.date))
+        return string
 
 class Citation(models.Model):
     '''Link a specific field in a particular model to a source'''
@@ -28,7 +41,7 @@ class Citation(models.Model):
             object_name = self.cited_type
         else:
             object_name = self.cited_type.get_object_for_this_type(id=self.cited_id)
-        return '%s: %s %s' % (self.source.name,object_name,self.cited_field)
+        return '%s %s: %s' % (object_name,self.cited_field, self.source.name)
         
 def citation_from_json(json_string,obj):
     '''Create and save citation objects from a json string, with the object to link it to'''
@@ -44,13 +57,3 @@ def citation_from_json(json_string,obj):
                 print "could not validate",c['date']
         cite = Citation(source=source,cited_type=cited_type,cited_field=c['field'],cited_id=obj.id)
         cite.save()
-        
-def citations_for_object(obj):
-    '''Get all the citations for a citable object'''
-    obj_type = ContentType.objects.get_for_model(obj)
-    return Citation.objects.filter(cited_type=obj_type,cited_id=obj.id)
-    
-def citations_for_object_field(obj,field):
-    '''Get all the citations for a field in a citable object'''
-    obj_type = ContentType.objects.get_for_model(obj)
-    return Citation.objects.filter(cited_type=obj_type,cited_id=obj.id,cited_field=field)
