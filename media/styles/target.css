@@ -30,10 +30,11 @@
 }
 
 .citations {
+    font-size:15px;
     float:left;
     margin-top:5px;
 }
 
-.citation_list li {
+.citations li {
     font-size:12px;
 }
