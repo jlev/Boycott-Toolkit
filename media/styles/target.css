@@ -29,6 +29,11 @@
     margin-left:25px;
 }
 
+.citations {
+    float:left;
+    margin-top:5px;
+}
+
 .citation_list li {
     font-size:12px;
 }
