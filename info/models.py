@@ -8,8 +8,8 @@ CITABLE_MODELS = {"model__in": ("Company","Product","Campaign")}
 
 class Source(models.Model):
     '''Where information comes from'''
-    name = models.CharField('Name',max_length=50)
-    author = models.CharField('Author',max_length=50,null=True,blank=True)
+    name = models.CharField('Name',max_length=100)
+    author = models.CharField('Author',max_length=100,null=True,blank=True)
     url = models.URLField(null=True,blank=True)
     date = models.DateField(auto_now=False,null=True,blank=True)
     def __unicode__(self):
