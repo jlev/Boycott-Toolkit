@@ -10,12 +10,7 @@
 <h1>{{campaign.get_verb_display}} {{campaign.name}}</h1>
 <p><b>Why?</b> {{campaign.description|urlize|linebreaksbr}}</p>
 {% if campaign.criteria %}<p><b>Goal:</b> {{campaign.criteria|urlize|linebreaksbr}}</p>{%endif%}
-{% if citations %}<p><b>Citations:</b><ul style="float:left; list-style-type:circle;">{% for cite in citations %}{% with cite.source as source %}
-  <li>{{source.author}}, {% if source.url %}<a href="{{source.url}}">{{source.name}}</a>{%else%}<i>{{source.name}}</i>{%endif%}
-  {%if source.date %}, {{source.date}}{%endif%}
-  </li>{%endwith%}
-  {%endfor%}</ul></p>
-{%endif%}
+{% if citations %}<div class="citations"><b>Citations:</b>{% include "info/citation_snippet.html" %}</div>{%endif%}
 {% if campaign.complete %}<p><img src="{{MEDIA_URL}}icons/green-check.png">This campaign is complete!</p>{%endif%}
 <p><b>Tags:</b> {% for tag in campaign.get_tag_list %}<a href="/target/tag/{{tag}}">{{tag}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}</p>
 <p>

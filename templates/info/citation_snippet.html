@@ -1,0 +1,5 @@
+<ul style="list-style-type:circle;">{% for cite in citations %}{% with cite.source as source %}
+  <li>{{source.author}}, {% if source.url %}<a href="{{source.url}}">{{source.name}}</a>{%else%}<i>{{source.name}}</i>{%endif%}
+  {%if source.date %}, {{source.date}}{%endif%}
+  </li>{%endwith%}
+  {%endfor%}</ul>
