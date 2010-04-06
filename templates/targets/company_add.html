@@ -10,12 +10,10 @@
 <form enctype="multipart/form-data" action="." method="POST">
   {% for field in company_form %}
   <div class="fieldWrapper">
-  	<div class="fieldError">{{ field.errors }}</div>
-  	{%if field.is_required %}<b>{%endif%}
-  	<div class="fieldLabel">{{ field.label_tag }}:</div>
-  	{%if field.is_required %}</b>{%endif%}
+  	{%if not field.is_hidden%}<div class="fieldLabel{%if field.is_required %} required{%endif%}">{{ field.label_tag }}:</div>{%endif%}
   	<div class="field">{{ field }}</div>
   	<div class="fieldHelpText">{{ field.help_text|safe }}</div>
+  	<div class="fieldError">{{ field.errors }}</div>
   </div>
   
   {% ifequal field.name "address" %}
