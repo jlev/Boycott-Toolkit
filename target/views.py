@@ -89,7 +89,7 @@ def company_add(request,message=None):
             #resave the company to finish up
             company.save()
             #save the citations
-            citation_from_json(request.POST['citations_json'],company)
+            citation_from_json(request.POST['company-citations_json'],company)
             return HttpResponseRedirect(company.get_absolute_url())
         else:
             message = "Please correct the errors below"
@@ -182,7 +182,7 @@ def product_add(request,message=None):
             #resave the product to finish up
             product.save()
             #save the citations
-            citation_from_json(request.POST['citations_json'],product)
+            citation_from_json(request.POST['product-citations_json'],product)
             return HttpResponseRedirect(product.get_absolute_url())
         else:
            message = "Please correct the errors below"
