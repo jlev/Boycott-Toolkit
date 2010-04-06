@@ -47,7 +47,10 @@ def citation_from_json(json_string,obj):
     '''Create and save citation objects from a json string, with the object to link it to'''
     cited_type = ContentType.objects.get_for_model(obj)
     
-    citations = json.loads(json_string)
+    try:
+        citations = json.loads(json_string)
+    except ValueError:
+        return False
     for c in citations:
         (source,created) = Source.objects.get_or_create(name=c['title'],author=c['author'],url=c['url'])
         if(c['date'] != ""):
@@ -57,3 +60,4 @@ def citation_from_json(json_string,obj):
                 print "could not validate",c['date']
         cite = Citation(source=source,cited_type=cited_type,cited_field=c['field'],cited_id=obj.id)
         cite.save()
+        return True
