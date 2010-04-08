@@ -34,6 +34,7 @@
 <ul class="action_list">
   <li>Contact <a href="/target/store/">stores near you</a> that sell this product.
   <li>Contact <a href="{{product.company.get_absolute_url}}">{{product.company}}</a> and tell them what you think of this product.
+  {% if product.alternative %}<li>Consider buying <a href="{{product.alternative.get_absoute_url}}">{{product.alternative.name}}</a> instead.{%endif%}
   <li>
   <!-- AddThis Button BEGIN -->
 <div class="addthis_toolbox addthis_default_style">
