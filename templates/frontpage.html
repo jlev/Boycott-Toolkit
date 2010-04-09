@@ -43,7 +43,7 @@
   <table>
     <tr>
     {%for a in product_actions %}
-    <td><a class="product_link" href="{{a.product.get_absolute_url}}">{% if a.product.image %}<img src="{{a.product.image.thumbnail.url}}" alt="{{a.product.name}}" title="{{a.reason}}">{%else%}{{a.product.name}}</a>{%endif%}<br>{{a.get_verb_display}} {{a.product.name}}</td>
+    <td><a class="product_link" href="{{a.product.get_absolute_url}}">{% if a.product.image %}<img src="{{a.product.image.thumbnail.url}}" alt="{{a.product.name}}" title="{{a.reason}}">{%else%}{{a.product.name}}{%endif%}</a><br>{{a.get_verb_display}} {{a.product.name}}</td>
     {% if forloop.counter|divisibleby:"3" %}
     </tr>
     <tr>
