@@ -9,8 +9,8 @@ from target.models import Campaign,Product,Company,CompanyAction,ProductAction
 
 def frontpage_view(request,message=None):
     campaigns = Campaign.objects.select_related('user_joined_campaign').filter(highlight=True)
-    product_actions = ProductAction.objects.select_related('product').filter(campaign__in=campaigns).order_by('-product__added_date')[:12]
-    company_actions = CompanyAction.objects.select_related('company').filter(campaign__in=campaigns).order_by('-company__added_date')[:12]
+    product_actions = ProductAction.objects.select_related('product').filter(campaign__in=campaigns).order_by('?')[:12]
+    company_actions = CompanyAction.objects.select_related('company').filter(campaign__in=campaigns).order_by('?')[:12]
     
     return render_to_response('frontpage.html',
         {'message':message,
