@@ -27,7 +27,8 @@ body {
 /* HEADER */
 #top {
     text-align:right;
-    width:800px;
+    width:500px;
+    float:right;
     font-size:12px;
 }
 
@@ -82,8 +83,9 @@ body {
 /* CONTENT */
 #content {
     float:right;
-    width:575px;
+    width:550px;
     margin-left:25px;
+    margin-right:15px;
     z-index:0;
 }
 
@@ -152,12 +154,7 @@ hr.heavy {
 
 #main_block {
     width:450px;
-<<<<<<< HEAD:media/styles/base.css
-    font-size:14pt;
-    clear:left;
-=======
     font-size:15px;
->>>>>>> 4cf68f150cc2a87caf7efa373e11d133cbcb9806:media/styles/base.css
 }
 
 #highlight_block {
@@ -192,8 +189,11 @@ td {
 
 #copyleft {
     font-size:12px;
-    float:right;
-    clear:left;
+    width:500px; 
+    clear:both;
+    float:left;
+    text-align:right;
+    margin:10px 0;
 }
 
 
