@@ -11,9 +11,9 @@
   {% for user in users %}
     <li>
     <div class="profile_text">
+       {% if user.facebook_profile %}<img src="{{user.facebook_profile.picture_url}}">{%endif%}
       <a href="{{user.profile.get_absolute_url}}">{% if user.get_full_name%}{{user.get_full_name}}{%else%}{{user.username}}{%endif%}</a>:
       {{user.profile.campaigns.count}} campaigns
-      {% if user.facebook_profile %}<img src="{{user.facebook_profile.picture_url}}">{%endif%}
     </div>
   {% endfor %}
 </ul>
