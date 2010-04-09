@@ -14,7 +14,7 @@ DATABASE_NAME = 'boycott'
 DATABASE_USER = 'jlev'
 DATABASE_PASSWORD = ''
 DATABASE_HOST = 'localhost'
-DATABASE_PORT = '5432'
+DATABASE_PORT = '5433'
 
 #EMAIL SETTINGS
 EMAIL_USE_TLS = True
@@ -30,10 +30,10 @@ SITE_ID = 1
 USE_I18N = True
 
 #MEDIA SETTINGS
-SITE_ROOT = '/Users/jlev/Code/boycott/'
+SITE_ROOT = '/home/jlev/django_apps/boycott/'
 MEDIA_ROOT = SITE_ROOT + 'media/'
-MEDIA_URL = 'http://localhost:8000/media/'
-ADMIN_MEDIA_PREFIX = '/media-admin/'
+MEDIA_URL = 'http://boy.co.tt/media/'
+ADMIN_MEDIA_PREFIX = '/media/admin/'
 AUTOCOMPLETE_JS_BASE_URL = MEDIA_URL + "jquery/autocomplete/"
 
 #API KEYS
@@ -81,10 +81,11 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware'
 )
 
-INTERNAL_IPS = ('127.0.0.1',)
+INTERNAL_IPS = ('127.0.0.1','18.85.45.142')
 
-CACHE_BACKEND = 'dummy://'
 CACHE_MIDDLEWARE_SETTINGS = {'must-revalidate':True}
+CACHE_BACKEND = 'memcached://127.0.0.1:11211'
+CACHE_MIDDLEWARE_KEY_PREFIX = 'boycott'
 
 AUTHENTICATION_BACKENDS = (
     'facebookconnect.models.FacebookBackend',
