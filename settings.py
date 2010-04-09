@@ -41,12 +41,27 @@ SECRET_KEY = 'nvnzj@@@(rfp7r!0@-8(#*c_1wmpa7^&bxnfot_dicrg8*m4x2'
 
 #REGISTRATION SETTINGS
 ACCOUNT_ACTIVATION_DAYS = 7
+
 #FACEBOOK CONNECT
 FACEBOOK_API_KEY='ab57b2ea3e3c59f35ce7cd3905142528'
 FACEBOOK_SECRET_KEY='4bdfe258832b73b2344d80ba04e7dad7'
 FACEBOOK_CACHE_TIMEOUT = 1800
 FACEBOOK_INTERNAL = True
 NUM_FRIEND_RETRIEVE_LIMIT = 50
+DUMMY_FACEBOOK_INFO = {
+    'uid':0,
+    'pic':'http://static.ak.fbcdn.net/pics/t_silhouette.jpg',
+    'pic_square':'http://static.ak.fbcdn.net/pics/t_silhouette.jpg',
+    'profile_url': None,
+    'name':'(Private)',
+    'first_name':'(Private)',
+    'last_name':'(Private)',
+    'pic_square_with_logo':'http://static.ak.fbcdn.net/pics/t_silhouette.jpg',
+    'pic_big': 'http://static.ak.fbcdn.net/pics/t_silhouette.jpg',
+    'affiliations':None,
+    'status':None,
+    'proxied_email':None,
+}
 
 LOGIN_URL = '/community/login/'
 LOGIN_REDIRECT_URL = '/'
