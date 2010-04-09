@@ -141,6 +141,19 @@ def product_view(request,slug):
         context_instance = RequestContext(request))
         
 
+def product_upc(request,upc):
+    p = get_object_or_404(Product,upc=upc)
+    cites = citations_for_object(p)
+    try:
+        logo_img = p.image.thumbnail
+    except AttributeError:
+        logo_img = None
+
+    return render_to_response('targets/product_single.html',
+        {'product':p,
+        'citations':cites,
+        'logo_img':logo_img},
+        context_instance = RequestContext(request))
 @login_required
 def product_edit(request,slug):
     product = Product.objects.get(slug=slug)
