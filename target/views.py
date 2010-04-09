@@ -113,7 +113,7 @@ def product_view_all(request):
         context_instance = RequestContext(request))
         
 def product_view(request,slug):
-    p = Product.objects.get(slug=slug)
+    p = get_object_or_404(Product,slug=slug)
     cites = citations_for_object(p)
     try:
         logo_img = p.image.thumbnail
@@ -156,7 +156,7 @@ def product_upc(request,upc):
         context_instance = RequestContext(request))
 @login_required
 def product_edit(request,slug):
-    product = Product.objects.get(slug=slug)
+    product = get_object_or_404(Product,slug=slug)
     if request.POST:
         product_form = ProductForm(request.POST,request.FILES,instance=product)
         if product_form.is_valid():
