@@ -1,6 +1,9 @@
-.profile_text {
-    display:inline;
-	vertical-align:middle;
+p.profile_text {
+    clear:left;
+}
+
+.profile_pic {
+    float:left;
 }
 
 .edit_list {
