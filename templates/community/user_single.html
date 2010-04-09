@@ -9,9 +9,9 @@
 <div class="block" id="main_block">
 <em>{{the_user.get_full_name}}</em>
 {% if the_user.facebook_profile %}
-<div id="profile_pic"><img src="{{the_user.facebook_profile.picture_url}}"></div>
+<div class="profile_pic"><img src="{{the_user.facebook_profile.picture_url}}"></div>
 {%endif%}
-{% if the_user.profile.description %}<p>{{the_user.profile.description}}</p>{%else%}{{the_user.username}} has not written anything about themselves yet.{%endif%}
+{% if the_user.profile.description %}<p>{{the_user.profile.description}}</p>{%else%}{{the_user.username}} has not written anything yet.{%endif%}
 
   <div style="clear:left;">
   {% ifequal the_user.id user.id %}
@@ -48,7 +48,7 @@
   <table>
     <tr>
     {%for a in product_actions %}
-    <td><a class="product_link" href="{{a.product.get_absolute_url}}"><img src="{{a.product.image.thumbnail.url}}" alt="{{a.product.name}}" title="{{a.reason}}"></a><br>{{a.get_verb_display}} {{a.product.name}}</td>
+    <td><a class="product_link" href="{{a.product.get_absolute_url}}">{% if a.product.image%}<img src="{{a.product.image.thumbnail.url}}" alt="{{a.product.name}}" title="{{a.reason}}">{%else%}{{a.product.name}}{%endif%}</a><br>{{a.get_verb_display}} {{a.product.name}}</td>
     {% if forloop.counter|divisibleby:"3" %}
     </tr>
     <tr>
@@ -65,7 +65,7 @@
   <table>
     <tr>
     {%for a in company_actions %}
-    <td><a class="product_link" href="{{a.company.get_absolute_url}}"><img src="{{a.company.logo.thumbnail.url}}" alt="{{a.company.name}}" title="{{a.reason}}"></a><br>{{a.get_verb_display}} {{a.company.name}}</td>
+    <td><a class="product_link" href="{{a.company.get_absolute_url}}">{% if a.company.logo %}<img src="{{a.company.logo.thumbnail.url}}" alt="{{a.company.name}}" title="{{a.reason}}">{%else%}{{a.company.name}}{%endif%}</a><br>{{a.get_verb_display}} {{a.company.name}}</td>
     {% if forloop.counter|divisibleby:"3" %}
     </tr>
     <tr>
