@@ -16,30 +16,35 @@
 {% include "search_autocomplete.html" %}
 </div>
 
-{%for campaign in campaigns %}
-<div class="block" style="width:200px;">
-  <h2>{{campaign.get_verb_display}}</h2>
-  <h3><a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a></h3>
-  <h4>
-    {% with campaign.users_joined_campaign.count as num_users %}
-    {{num_users}} {{num_users|pluralize:"person,people"}},
-    {%endwith%}
+<div class="shelf" style="width:475px">
+  <h2>Highlighted Campaigns</h2>
+  {%for campaign in campaigns %}
+  <div class="block" style="width:200px;">
+    <h2>{{campaign.get_verb_display}}</h2>
+    <h3><a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a></h3>
+    <h4>
+      {% with campaign.users_joined_campaign.count as num_users %}
+      {{num_users}} {{num_users|pluralize:"person,people"}},
+      {%endwith%}
   
-    {% with campaign.products.count as num_products %}
-    {{num_products}} product{{num_products|pluralize}},
-    {%endwith%}
+      {% with campaign.products.count as num_products %}
+      {{num_products}} product{{num_products|pluralize}},
+      {%endwith%}
     
-    {% with campaign.companies.count as num_companies %}
-    {{num_companies}} compan{{num_companies|pluralize:"y,ies"}}
-    {%endwith%}
-  </h4>
+      {% with campaign.companies.count as num_companies %}
+      {{num_companies}} compan{{num_companies|pluralize:"y,ies"}}
+      {%endwith%}
+    </h4>
+  </div>
+  {%endfor%}
 </div>
-{%endfor%}
+<div class="shelf">
+  <a class="all_link" href="/target/campaign/">All Campaigns</a>
+</div>
 
-<div style="float:left">
-  <h2>Tracked Products</h2>
   <div class="shelf">
-  <hr>
+    <hr>
+    <h2>Targeted Products</h2>
   <table>
     <tr>
     {%for a in product_actions %}
@@ -51,11 +56,12 @@
     {%endfor%}
     </tr>
   </table>
+  <a class="all_link" href="/target/product/">All Products</a>
   </div>
 
-  <h2>Tracked Companies</h2>
   <div class="shelf">
   <hr>
+  <h2>Targeted Companies</h2>
   <table>
     <tr>
     {%for a in company_actions %}
@@ -67,7 +73,7 @@
     {%endfor%}
     </tr>
   </table>
+  <a class="all_link" href="/target/company/">All Companies</a>
+  <hr style="clear:both;">
   </div>
-</div>
-  
 {%endblock%}

@@ -11,3 +11,13 @@
     border:none;
 }
 
+.all_link {
+    float:right;
+    clear:both;
+    font-style:italic;
+    font-size:15px;
+}
+
+h2 {
+    margin-top:10px;
+}
