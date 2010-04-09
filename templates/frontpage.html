@@ -9,7 +9,7 @@
 {%block content%}
 <div class="block" id="main_block">
 <p><em>Boy.co.tt</em> provides tools for consumers to organize collective economic action. You can learn about the politics behind everyday companies and products, pledge to join a campaign, and share information with your friends.</p>
-<p>Join the community to <a href="/target/campaign/new">start a new campaign</a>, <a href="/target/company/new">add a company</a>, or <a href="/target/product/new">product</a>.</p>
+<p style="width:450px">Join the community to <a href="/target/campaign/new">start a new campaign</a>, <a href="/target/company/new">add a company</a>, or <a href="/target/product/new">product</a>.</p>
 </div>
 
 <div class="block" id="highlight_block">
@@ -43,7 +43,7 @@
   <table>
     <tr>
     {%for a in product_actions %}
-    <td><a class="product_link" href="{{a.product.get_absolute_url}}">{% if a.product.image %}<img src="{{a.product.image.thumbnail.url}}" alt="{{a.product.name}}" title="{{a.reason}}">{%else%}{{a.product.name}}</a>{%endif%}<br>{{a.get_verb_display}} {{a.product.name}}</td>
+    <td><a class="product_link" href="{{a.product.get_absolute_url}}">{% if a.product.image %}<img src="{{a.product.image.thumbnail.url}}" alt="{{a.product.name}}" title="{{a.reason}}">{%else%}{{a.product.name}}{%endif%}</a><br>{{a.get_verb_display}} {{a.product.name}}</td>
     {% if forloop.counter|divisibleby:"3" %}
     </tr>
     <tr>
