@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{%block css%}
+ <link rel="stylesheet" href="{{MEDIA_URL}}styles/target.css" type="text/css"/>
+{%endblock%}
+{% block title %}{{store.name}}{% endblock %}
+
+{%block content%}
+
+<div class="block" id="main_block">
+  <em>{{store.name}}</em><br>
+  <h3>Tags: {% for tag in store.get_tag_list %}<a href="/target/tag/{{tag}}">{{tag}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}</h3>
+  {{store.description|urlize|linebreaksbr}}
+    <ul>
+    <li><b>Phone:</b> {%if store.phone%}{{store.phone}}
+      {%else%}<a href='{{store.get_absolute_url}}edit'>add</a>{%endif%}
+      <li><div style="clear:left;"><b>Address:</b></div>
+          {% if store.address %}
+            <div class="address">
+            {{store.address|linebreaksbr}}
+            </div>
+          {%else%}
+            <a href='{{store.get_absolute_url}}edit'>add</a><br>
+          {%endif%}
+    </ul>
+</div>
+
+
+<div class="shelf">
+  <hr>
+  <h2>Products this store sells</h2>
+<table>
+  <tr>
+  {%for product in store.products.all %}
+  <td><a class="product_link" href="{{product.get_absolute_url}}">{% if product.image %}<img src="{{product.image.thumbnail.url}}" alt="{{product.name}}"><br>{%endif%}{{product.name}}</a></td>
+  {% if forloop.counter|divisibleby:"3" %}
+  </tr>
+  <tr>
+  {%endif%}
+  {%endfor%}
+  </tr>
+</table>
+</div>
+
+<div class="block" id="highlight_block">
+<h2>Take action!</h2>
+<ul class="action_list">
+  <li>
+  <!-- AddThis Button BEGIN -->
+<div class="addthis_toolbox addthis_default_style">
+<a href="http://www.addthis.com/bookmark.php?v=250&amp;username=jlev" class="addthis_button_compact">Share with your friends</a>
+</div>
+<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=jlev"></script>
+<!-- AddThis Button END -->
+</div>
+
+
+<div class="block">
+Added by: <a href="{{store.added_by.profile.get_absolute_url}}">{{store.added_by}}</a><br>
+Edited by: {% for user in store.edited_by.all %} <a href="{{user.profile.get_absolute_url}}">{{user}}</a>{%endfor%}<br>
+
+<i><a href="{{store.get_absolute_url}}edit">Edit this store</a></i>
+{% if user.is_staff %}| <i><a href="/admin/target/store/{{store.id}}">Edit in admin</a></i>{%endif%}
+</div>
+
+<div style="float:left; clear:left;">
+{% with store as discussion %}
+{% include "comments/snippet.html" %}
+{% endwith %}
+</div>
+
+{%endblock%}
+
