@@ -4,15 +4,21 @@ from django.shortcuts import render_to_response,get_object_or_404,get_list_or_40
 from django.contrib.auth.decorators import login_required
 from django.template.defaultfilters import slugify
 
-from target.models import Company,Product,Campaign,ProductAction,CompanyAction
+from django.contrib.gis.geos import Point
+from django.contrib.gis.gdal import SpatialReference
+from django.utils import simplejson as json
+from tagging.models import Tag,TaggedItem
+
+from target.models import Company,Product,Campaign,Store
+from target.models import ProductAction,CompanyAction
 from info.models import Citation,citation_from_json
 from info.views import citations_for_object
-from target.forms import CampaignForm,CompanyForm,ProductForm
+from target.forms import CampaignForm,CompanyForm,ProductForm,StoreForm
 from target.forms import CompanyActionForm,ProductActionForm
 from target.forms import CompanyActionInlineForm,ProductActionInlineForm
+from geography.models import Map
 from geography.forms import MapInlineForm
-from django.contrib.gis.geos import Point
-from tagging.models import Tag,TaggedItem
+from geography.views import geojson_base
 
 def company_view_all(request):
     #TODO paginate
@@ -337,9 +343,93 @@ def user_leave_campaign(request,slug):
     
 
 def store_view_all(request):
-    #TODO: implement location view
-    return render_to_response("base.html",{'message':"The store view is coming soon."},
+    all_stores = Store.objects.all()
+    #hardcode to continental US
+    usa = Map.objects.get(name="United States")
+    return render_to_response("targets/store_map.html",{
+        'stores':all_stores,
+        'map':usa,},
         context_instance = RequestContext(request))
+
+def store_view(request,slug):
+    s = Store.objects.get(slug=slug)
+    p = s.products
+
+    try:
+        logo_img = s.logo.thumbnail
+    except AttributeError:
+        logo_img = None
+    return render_to_response('targets/store_single.html',
+        {'store':s,
+        'logo_img':logo_img,
+        'products':p},
+        context_instance = RequestContext(request))
+     
+def store_all_json(request):
+    obj = {}
+    obj['type']='FeatureCollection'
+    obj['features'] = []
+    
+    stores = Store.objects.all()
+    for store in stores:
+        properties = {}
+        properties['name'] = store.name
+        properties['address'] = store.address
+        properties['id'] = store.id
+        geojson = geojson_base(SpatialReference('EPSG:900913'),store.location,properties)
+        obj['features'].append(geojson)
+    return HttpResponse(json.dumps(obj))
+     
+@login_required
+def store_add(request,message=None):
+    if request.POST:
+        store_form = StoreForm(request.POST,prefix="store")
+        map_form = MapInlineForm(request.POST,prefix="map")
+        if store_form.is_valid() and map_form.is_valid():
+            store = store_form.save()
+            
+            #coords are like "lat,lon", need to be converted to real Point object
+            coords = map_form.cleaned_data['center'].split(',')
+            map_form.cleaned_data['center'] = Point(float(coords[0]),float(coords[1]),srid=4326)
+            map = map_form.save()
+            store.location = map.center
+            
+            #set the user who added it
+            store.added_by = request.user
+            #set the slug
+            store.slug = slugify(store.name+"-"+map.name)
+            store.save()
+            #save the citations
+            #citation_from_json(request.POST['citations_json'],store)
+            return HttpResponseRedirect(store.get_absolute_url())
+        else:
+            message = "Please correct the errors below"
+    else:
+        store_form = StoreForm(prefix="store")
+        map_form = MapInlineForm(prefix="map")
+        message = "Add the store details below"
+    return render_to_response("targets/store_add.html",
+                    {"message":message,"store_form": store_form,"map_form":map_form},
+                    context_instance = RequestContext(request))
+
+@login_required
+def store_edit(request,slug):
+    store = Store.objects.get(slug=slug)
+    if request.POST:
+        form = StoreForm(request.POST,instance=store)
+        if form.is_valid():
+            store = form.save()
+            store.edited_by.add(request.user)
+            store.save()
+            return HttpResponseRedirect(store.get_absolute_url())
+        else:
+            message = "Please correct the errors below"
+    else:
+        form = StoreForm(instance=store)
+        message = "Edit the campaign details below"
+    return render_to_response("targets/store_edit.html",
+                    {"message":message,"form": form},
+                    context_instance = RequestContext(request))
 
 def tag_view(request,tag):
     tag = get_object_or_404(Tag,name__iexact=tag)

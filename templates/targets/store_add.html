@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{%block css%}
+ <link rel="stylesheet" href="{{MEDIA_URL}}styles/form.css" type="text/css"/>
+ <link rel="stylesheet" href="{{MEDIA_URL}}styles/target.css" type="text/css"/>
+ {{form.media}}
+{%endblock%}
+{% block title %}Add a new Store{% endblock %}
+
+{%block content%}
+<form enctype="multipart/form-data" action="." method="POST">
+    {% for field in store_form %}
+    <div class="fieldWrapper">
+    	{%if not field.is_hidden%}<div class="fieldLabel{%if field.is_required %} required{%endif%}">{{ field.label_tag }}:</div>{%endif%}
+    	<div class="field">{{ field }}</div>
+    	<div class="fieldHelpText">{{ field.help_text|safe }}</div>
+    	<div class="fieldError">{{ field.errors }}</div>
+    </div>
+
+    {% ifequal field.name "address" %}
+    <div id="mapWrapper">
+      {% with map_form as form %}
+      {% include "geography/edit_map_snippet.html" %}
+    {%endwith%}
+    </div>
+    {%endifequal%}
+
+    {% endfor %}
+<input type="submit" value="Add" />
+</form>
+{%endblock%}

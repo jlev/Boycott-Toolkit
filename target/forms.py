@@ -2,7 +2,7 @@ from django import forms
 from tagging.forms import TagField
 from autocomplete.widgets import TagAutocomplete,Autocomplete
 from info.widgets import CitationWidget
-from target.models import Product,Company,Campaign,ProductAction,CompanyAction
+from target.models import Product,Company,Store,Campaign,ProductAction,CompanyAction
 
 #MAIN FORMS FOR USER DISPLAY
 class TrackedObjectForm(forms.ModelForm):
@@ -30,7 +30,13 @@ class ProductForm(TrackedObjectForm):
         self.fields['citations_json'] = forms.fields.CharField(widget=forms.widgets.HiddenInput(),required=False) #holds all the citations as json 
     class Meta(TrackedObjectForm.Meta):
         model = Product
-       
+
+class StoreForm(TrackedObjectForm):
+    tags = TagField(widget=TagAutocomplete(), required=False)
+    class Meta(TrackedObjectForm.Meta):
+        exclude = TrackedObjectForm.Meta.exclude + ('location',)
+        model = Store
+   
 class CampaignForm(TrackedObjectForm):
     tags = TagField(widget=TagAutocomplete(), required=False)
     

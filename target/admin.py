@@ -3,7 +3,7 @@ from tagging.forms import TagField
 from autocomplete.widgets import TagAutocomplete
 
 from django.contrib import admin
-from target.models import Product,Company,Campaign,ProductAction,CompanyAction
+from target.models import Product,Company,Store,Campaign,ProductAction,CompanyAction
 from reversion.admin import VersionAdmin
 
 #ADMIN FORMS
@@ -20,6 +20,11 @@ class ProductAdminForm(TrackedObjectAdminForm):
     tags = TagField(widget=TagAutocomplete(), required=False)
     class Meta(TrackedObjectAdminForm.Meta):
         model = Product
+
+class StoreAdminForm(TrackedObjectAdminForm):
+    tags = TagField(widget=TagAutocomplete(), required=False)
+    class Meta(TrackedObjectAdminForm.Meta):
+        model = Store
 
 class CampaignAdminForm(TrackedObjectAdminForm):
     tags = TagField(widget=TagAutocomplete(), required=False)
@@ -43,11 +48,15 @@ class ProductAdmin(TrackedAdmin):
 class CompanyAdmin(TrackedAdmin):
     form = CompanyAdminForm
     
+class StoreAdmin(TrackedAdmin):
+    form = StoreAdminForm
+    
 class CampaignAdmin(TrackedAdmin):
     form = CampaignAdminForm
 
 admin.site.register(Product,ProductAdmin)
 admin.site.register(Company,CompanyAdmin)
 admin.site.register(Campaign,CampaignAdmin)
+admin.site.register(Store,StoreAdmin)
 admin.site.register(ProductAction)
 admin.site.register(CompanyAction)

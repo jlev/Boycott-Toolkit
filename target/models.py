@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.gis.db import models as gis_models
 from django.contrib.auth.models import User
 from django_stdimage import StdImageField
 import tagging.fields
@@ -27,7 +28,6 @@ class TargetBase(models.Model):
         abstract=True
         ordering = ('name',)
 
-
 class Company(TargetBase):
     logo = StdImageField("Company Logo",upload_to="uploads/logos",blank=True,size=(250,250),thumbnail_size=(150,75))
     address = models.TextField(max_length=100,null=True,blank=True)
@@ -48,6 +48,16 @@ class Product(TargetBase):
     @models.permalink
     def get_absolute_url(self):
         return ('target.views.product_view', [self.slug])
+
+class Store(TargetBase):
+    logo = StdImageField("Store Logo",upload_to="uploads/store",blank=True,null=True,size=(250,250),thumbnail_size=(150,75))
+    address = models.TextField(max_length=100,null=True,blank=True)
+    location = gis_models.PointField(srid=4326,blank=True,null=True)
+    phone = models.CharField(max_length=15,blank=True,null=True)
+    products = models.ManyToManyField('Product',help_text="Products that this store sells")
+    @models.permalink
+    def get_absolute_url(self):
+        return ('target.views.store_view', [self.slug])
 
 COMPANY_VERB_CHOICES = (
     ('OPPOSE','Oppose'),
