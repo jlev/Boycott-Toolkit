@@ -12,6 +12,7 @@
 $ = jQuery.noConflict();
 
 $(document).ready(function() {
+  
   var storeStyles = new OpenLayers.StyleMap(
     {pointRadius: 10,
     fillOpacity:1,
@@ -26,6 +27,42 @@ $(document).ready(function() {
                                    styleMap:storeStyles,
                                    visibility:true});
     map.addLayer(stores);
+    
+    
+    function onFeatureSelect(feature) {
+        console.log(feature);
+        popup = new OpenLayers.Popup("popup", 
+                    feature.geometry.getBounds().getCenterLonLat(),
+                    new OpenLayers.Size(125,175),
+                    "loading...", true);
+        //create the popup now with blank text
+        popup.panMapIfOutOfView = true;
+        popup.keepInMap = true;
+        popup.setBorder('1px solid black');
+        html = "<div class='popup'>"
+        if (feature.attributes.img_url) {
+          html += "<img width=100 src="+feature.attributes.img_url+">";
+        }
+        html += "<p><a href="+feature.attributes.url+">" +
+                feature.attributes.name+"</a>" + 
+                "<p>" + feature.attributes.address; 
+        popup.setContentHTML(html);
+        feature.popup = popup;
+        map.addPopup(popup);
+        //and show it only when complete
+    }
+    function onFeatureUnselect(feature) {
+        map.removePopup(feature.popup);
+        feature.popup.destroy();
+        feature.popup = null;
+    }
+    
+     var popupSelectControl = new OpenLayers.Control.SelectFeature(stores,
+          {onSelect: onFeatureSelect,
+          onUnselect: onFeatureUnselect,
+          hover:false});
+  	map.addControl(popupSelectControl);
+  	popupSelectControl.activate();
 });
 </script>
 <br>
