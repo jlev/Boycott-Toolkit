@@ -69,7 +69,7 @@ $(document).ready(function() {
 <ul style="font-size:12px; float:left;">
  <b>Stores:</b>
 {% for store in stores %}
-<li>{{store.name}}, {{store.address}}
+<li><a href="{{store.get_absolute_url}}">{{store.name}}</a>, {{store.address}}
   <ul>
     {% for product in store.products.all %}
     <li><a href="{{product.get_absolute_url}}">{{product.name}}</a>
