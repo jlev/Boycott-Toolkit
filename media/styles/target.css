@@ -38,3 +38,14 @@
 .citations li {
     font-size:12px;
 }
+
+.popup {
+    font-size:14px;
+}
+.popup img {
+    float:left;
+}
+.popup p {
+    font-size:12px;
+    float:right;
+}

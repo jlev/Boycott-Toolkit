@@ -376,6 +376,11 @@ def store_all_json(request):
         properties['name'] = store.name
         properties['address'] = store.address
         properties['id'] = store.id
+        properties['url'] = store.get_absolute_url()
+        if store.logo:
+            properties['img_url'] = store.logo.url
+        else:
+            properties['img_url'] = ""
         geojson = geojson_base(SpatialReference('EPSG:900913'),store.location,properties)
         obj['features'].append(geojson)
     return HttpResponse(json.dumps(obj))
