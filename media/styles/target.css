@@ -20,6 +20,7 @@
 .description {
     font-size:12px;
     margin-top:6px;
+    clear:left;
 }
 
 .action_list {
@@ -33,6 +34,7 @@
 .citations {
     font-size:15px;
     float:left;
+    clear:both;
     margin-top:5px;
 }
 
