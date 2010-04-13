@@ -14,15 +14,21 @@
     	<div class="field">{{ field }}</div>
     	<div class="fieldHelpText">{{ field.help_text|safe }}</div>
     	<div class="fieldError">{{ field.errors }}</div>
+    	
+      {% ifequal field.name "address" %}
+    	<a id="geocode">Lookup address &crarr;</a>
+    	<div id="geocode_error" class="fieldError" style="display:none;">Could not locate that address.</div>
+    	{% endifequal %}
+    
+      {% ifequal field.name "address" %}
+      <div id="mapWrapper">
+        {% with map_form as form %}
+        {% include "geography/geocode.html" %}
+      {%endwith%}
+      </div>
+      {%endifequal%}
+    
     </div>
-
-    {% ifequal field.name "address" %}
-    <div id="mapWrapper">
-      {% with map_form as form %}
-      {% include "geography/edit_map_snippet.html" %}
-    {%endwith%}
-    </div>
-    {%endifequal%}
 
     {% endfor %}
 <input type="submit" value="Add" />
