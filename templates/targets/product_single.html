@@ -15,7 +15,7 @@
   <a href="{{product.company.get_absolute_url}}">{{product.company}}</a><br>
   <h3>Tags: {% for tag in product.get_tag_list %}<a href="/target/tag/{{tag}}">{{tag}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}</h3>
   {{product.description|urlize|linebreaksbr}}
-  {% if citations %}<ul class="citations"><b>Citations:</b>{% include "info/citation_snippet.html" %}</ul>{%endif%}
+  {% if citations %}{% include "info/citation_snippet.html" %}{%endif%}
 </div>
 
 <div style="float:left;"><h2>Campaigns about this product:</h2>
