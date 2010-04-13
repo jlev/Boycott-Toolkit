@@ -57,7 +57,7 @@
   </tr>
 </table>
 
-<div class="block">
+<div class="block description">
 Added by: <a href="{{campaign.added_by.profile.get_absolute_url}}">{{campaign.added_by}}</a><br>
 Edited by: {% for user in campaign.edited_by.all %} <a href="{{user.profile.get_absolute_url}}">{{user}}</a> {%endfor%}<br>
 Supported by: {% for user in campaign_users %}  <a href="{{user.get_absolute_url}}">{{user}}</a>{%empty%}No one yet{% if not forloop.last%}, {%endif%}{%endfor%}<br>
