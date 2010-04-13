@@ -30,7 +30,7 @@
   </table>
   
   {% ifnotequal company.companyaction_set.count 0 %}
-  <div style="float:left;">
+  <div style="float:left; clear:left;">
   <h2>Campaigns about this company:</h2>
   {% for action in company.companyaction_set.all %}
   <div class="block" style="width:200px;"><h2>{{action.get_verb_display}}</h2>
