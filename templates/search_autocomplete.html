@@ -10,7 +10,7 @@ Search for <b>products</b>, <b>companies</b> or <b>locations</b>
     */
       $().ready(function() {
         $("#entry").autocomplete("/autocomplete/search/",
-          { cacheLength:1, multiple:false, minchars:1, mustMatch:false,
+          { cacheLength:10, multiple:false, minchars:3, mustMatch:false,
             highlight:false,
             formatItem: function(x) {
               return x[0];

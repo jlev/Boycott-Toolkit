@@ -1,12 +1,14 @@
 from django.http import HttpResponse
 from django.utils import simplejson as json
 from tagging.models import Tag
-from django.db.models import get_model
+from django.db.models import get_model,Q
 
 from urllib2 import urlopen
 from geopy import geocoders
 
-from target.models import Product,Company
+from target.models import Product,Company,Store
+from geography.models import Map
+from tagging.models import Tag,TaggedItem
 
 def main_search_ajax(request):
     '''The AJAX search view'''
@@ -14,18 +16,39 @@ def main_search_ajax(request):
         query = request.GET['q']
     except KeyError:
         return HttpResponse("No query string", mimetype='text/plain')
-    products = Product.objects.filter(name__istartswith=query)
-    companies = Company.objects.filter(name__istartswith=query)
+    products = Product.objects.filter(Q(name__icontains=query))
+    tag = Tag.objects.filter(name__icontains=query)
+    products_by_tag = TaggedItem.objects.get_by_model(Product,tag)
+    products_by_company = Product.objects.filter(company__name__icontains=query)
+    
+    companies = Company.objects.filter( Q(name__icontains=query) |
+                                        Q(product=products) |
+                                        Q(map__name__icontains=query)
+                                      ).distinct()
     locations = Company.objects.filter(address__icontains=query)
-    #TODO add stores
+    stores = Store.objects.filter(Q(address__icontains=query)|Q(name__icontains=query))
     
     r = []
     r.append("<div class='ac_header'>Companies</div>")
     for c in companies:
         r.append("%s|%s" % (c.name,c.get_absolute_url()))
+        
     r.append("<div class='ac_header'>Products</div>")
     for p in products:
         r.append("%s|%s" % (p.name,p.get_absolute_url()))
+    for p in products_by_tag:
+        r.append("%s tagged '%s'|%s" % (p.name,tag[0].name,p.get_absolute_url()))
+    for p in products_by_company:
+        r.append("%s sold by %s|%s" % (p.name,p.company.name,p.get_absolute_url()))
+    
+    r.append("<div class='ac_header'>Stores</div>")
+    for s in stores:
+        address = s.address.replace('\n',',')
+        #convert linebreaks to commas
+        address = address.replace('\r','')
+        #remove feed returns 
+        r.append("%s:%s|%s" % (s.name,address,s.get_absolute_url()))
+        
     r.append("<div class='ac_header'>Locations</div>")
     for l in locations:
         address = l.address.replace('\n',',')
@@ -33,6 +56,7 @@ def main_search_ajax(request):
         address = address.replace('\r','')
         #remove feed returns 
         r.append("%s|%s" % (address,l.get_absolute_url()))
+
     return HttpResponse('\n'.join(r), mimetype='text/plain')
     
 def list_objects(request,model):
