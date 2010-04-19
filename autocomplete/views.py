@@ -17,7 +17,7 @@ def main_search_ajax(request):
     except KeyError:
         return HttpResponse("No query string", mimetype='text/plain')
     products = Product.objects.filter(Q(name__icontains=query))
-    tag = Tag.objects.filter(name__icontains=query)
+    tag = Tag.objects.filter(name__istartswith=query)
     products_by_tag = TaggedItem.objects.get_by_model(Product,tag)
     products_by_company = Product.objects.filter(company__name__icontains=query)
     
