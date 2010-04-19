@@ -52,10 +52,11 @@
         initMap();
         
         function geocode_address() {
-          var address = $('#id_store-address').val();
+          address = $('#id_store-address').val();
+          address_nobr = address.replace(/\n/g,' ');
           var geocoder = new google.maps.Geocoder();
           if (geocoder) {
-            geocoder.geocode({'address': address}, function(results, status) {
+            geocoder.geocode({'address': address_nobr}, function(results, status) {
               if (status == google.maps.GeocoderStatus.OK) {
                 $('#geocode_error').hide();
                 var result = results[0].geometry.location;
