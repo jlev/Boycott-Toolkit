@@ -291,7 +291,6 @@ def campaign_add_product(request,slug):
         form = ProductActionForm(request.POST)
         if form.is_valid():
             product_action = form.save()
-            print "saved",product_action
             return HttpResponseRedirect(campaign.get_absolute_url())
         else:
             message = "Please correct the errors below"
