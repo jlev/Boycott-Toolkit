@@ -21,6 +21,27 @@
   left:0px;
   font-size:10pt;
 }
+
+#legend {
+  float:left;
+  clear:both;
+  width:250px;
+  background-color:white;
+}
+
+#legend h3 {
+  float:left;
+  clear:left;
+  font-weight:bold;
+}
+
+#legend table{
+  float:left;
+}
+
+#legend table td {
+  padding:5px;
+}
 </style>
 
 <div class="block">
@@ -28,6 +49,25 @@
   <div id="map"></div>
   <a id="layerswitcher_toggle">Layers</a>
   <div id="layerswitcher"></div>
+  
+  {% ifequal map.area_info.name "West Bank" %}
+  <br>
+  <a id="legend_toggle">Legend</a>
+  <div id="legend">
+   <h3>Borders and Barriers</h3>
+   <table cellspacing="0">
+     <tr><td align="center"><img src='http://groundtruth.media.mit.edu/media/map/icons/green-line-solid.png'></td><td>Green Line</td></tr>
+     <tr><td align="center"><img src='http://groundtruth.media.mit.edu/media/map/icons/red-line-solid.png'></td><td>Separation Barrier (complete)</td></tr>
+     <tr><td align="center"><img src='http://groundtruth.media.mit.edu/media/map/icons/purple-line-solid.png'></td><td>Separation Barrier (planned)</td></tr>
+     <tr><td align="center"><img src='http://groundtruth.media.mit.edu/media/map/icons/black-line-dashed.png'></td><td>Separation Barrier (removed)</td></tr>
+  </table>
+  <h3>Localities</h3>
+  <table cellspacing="0">
+    <tr><td align="center"><img src='http://groundtruth.media.mit.edu/media/map/icons/settlement.png'></td><td>Settlement</td></tr>
+    <tr><td align="center"><img src='http://groundtruth.media.mit.edu/media/map/icons/palestinian.png'></td><td>Palestinian Towns</td></tr>
+  </table>
+  </div>
+  {%endifequal%}
 </div>
 
 <script type="text/javascript">
@@ -50,5 +90,11 @@
             return false;
           });
         $('#layerswitcher').hide();
+        
+        $('a#legend_toggle').click(function() {
+            $('#legend').toggle('fast');
+            return false;
+          });
+        $('#legend').hide();
       });
 </script>
