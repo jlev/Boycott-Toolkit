@@ -71,8 +71,8 @@
 
 
 <div style="float:left">
-<li>Added by: <a href="{{company.added_by.get_absolute_url}}">{{company.added_by}}</a>
-<li>Edited by: {% for user in company.edited_by.all %} <a href="{{user.get_absolute_url}}">{{user}}</a> {%empty%}No one yet{%endfor%}<br>
+<li>Added by: <a href="{{company.added_by.profile.get_absolute_url}}">{{company.added_by}}</a>
+<li>Edited by: {% for user in company.edited_by.all %} <a href="{{user.profile.get_absolute_url}}">{{user}}</a> {%empty%}No one yet{%endfor%}<br>
 
 <i><a href="{{company.get_absolute_url}}edit">Edit this company</a></i>
 {% if user.is_staff %}| <i><a href="/admin/target/company/{{company.id}}">Edit in admin</a></i>{%endif%}
