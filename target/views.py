@@ -376,6 +376,13 @@ def store_all_json(request):
         properties['address'] = store.address
         properties['id'] = store.id
         properties['url'] = store.get_absolute_url()
+        properties['products'] = []
+        for product in store.products.all():
+            p = {}
+            p['name'] = product.name
+            p['url'] = product.get_absolute_url()
+            p['image_url'] = product.image.url
+            properties['products'].append(p)
         if store.logo:
             properties['img_url'] = store.logo.url
         else:
@@ -397,6 +404,7 @@ def store_add(request,message=None):
             map_form.cleaned_data['center'] = Point(float(coords[0]),float(coords[1]),srid=4326)
             map = map_form.save()
             store.location = map.center
+            #don't actually save map
             
             #set the user who added it
             store.added_by = request.user
