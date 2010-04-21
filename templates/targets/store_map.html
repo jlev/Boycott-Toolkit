@@ -30,7 +30,7 @@ $(document).ready(function() {
     
     
     function onFeatureSelect(feature) {
-        console.log(feature);
+        //console.log(feature);
         popup = new OpenLayers.Popup("popup", 
                     feature.geometry.getBounds().getCenterLonLat(),
                     new OpenLayers.Size(125,175),
@@ -45,7 +45,12 @@ $(document).ready(function() {
         }
         html += "<p><a href="+feature.attributes.url+">" +
                 feature.attributes.name+"</a>" + 
-                "<p>" + feature.attributes.address; 
+                "<p>" + feature.attributes.address;
+        products = feature.attributes.products;
+        html += "<p>Sells:<br>"
+        for(var i=0; i<products.length; i++) {
+          html += "<a href="+products[i].url+">"+products[i].name+"</a><br>";
+        }
         popup.setContentHTML(html);
         feature.popup = popup;
         map.addPopup(popup);
