@@ -258,7 +258,7 @@ def campaign_edit(request,slug):
         form = CampaignForm(instance=campaign)
         message = "Edit the campaign details below"
     return render_to_response("targets/campaign_edit.html",
-                    {"message":message,"form": form},
+                    {"campaign":campaign,"message":message,"form": form},
                     context_instance = RequestContext(request))
 
 @login_required

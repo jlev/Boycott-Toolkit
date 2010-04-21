@@ -43,7 +43,7 @@ class CampaignForm(TrackedObjectForm):
     def __init__(self, *args, **kwargs):
            super(CampaignForm, self).__init__(*args, **kwargs)
            self.fields['description'] = forms.fields.CharField(widget=CitationWidget(attrs={'model':'target.campaign','field':'description'}))
-           self.fields['criteria'] = forms.fields.CharField(widget=CitationWidget(attrs={'model':'target.campaign','field':'criteria'}))
+           self.fields['criteria'] = forms.fields.CharField(label="Goal",help_text="When will this campaign be complete?",widget=CitationWidget(attrs={'model':'target.campaign','field':'criteria'}))
            self.fields['citations_json'] = forms.fields.CharField(widget=forms.widgets.HiddenInput(),required=False) #holds all the citations as json
            
     class Meta(TrackedObjectForm.Meta):
