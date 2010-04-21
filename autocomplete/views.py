@@ -47,7 +47,7 @@ def main_search_ajax(request):
         #convert linebreaks to commas
         address = address.replace('\r','')
         #remove feed returns 
-        r.append("%s:%s|%s" % (s.name,address,s.get_absolute_url()))
+        r.append("%s: %s|%s" % (s.name,address,s.get_absolute_url()))
         
     r.append("<div class='ac_header'>Locations</div>")
     for l in locations:
@@ -114,21 +114,22 @@ def list_entries(request,model,field):
         response.append(e[0])
     return HttpResponse('\n'.join(response))
     
-def geocode(request):
+def geocode(request,use_groundtruth=False):
     try:
         query = request.GET['q']
     except KeyError:
         return HttpResponse("No query string", mimetype='text/plain')
         
     r = []
-    #first check groundtruth
-    gt = urlopen('http://groundtruth.media.mit.edu/search/?q=%s' % query)
-    r.append(gt.read())
+    if use_groundtruth:
+        #first check groundtruth
+        gt = urlopen('http://groundtruth.media.mit.edu/search/?q=%s' % query)
+        r.append(gt.read())
+        r.append("<div class='ac_header'>Google Results</div>")
     
     #check google
     GMAPS_API_KEY = "ABQIAAAAT9uyY_WHXEyDYZHQMelCKhRlte5-xCx01c0gtBmqgDnMLJYMmRS1vGz6k_iWjoIXmQBGNhXYV2UXBQ"
     try:
-        r.append("<div class='ac_header'>Google Results</div>")
         g = geocoders.Google(GMAPS_API_KEY)
         place, (lat, lng) = g.geocode(query)
         #transform the response into geojson, just like groundtruth
