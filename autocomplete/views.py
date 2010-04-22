@@ -119,7 +119,10 @@ def geocode(request,use_groundtruth=False):
         query = request.GET['q']
     except KeyError:
         return HttpResponse("No query string", mimetype='text/plain')
-        
+    if query == "":
+        #no text
+        return HttpResponse('', mimetype='text/plain') 
+    
     r = []
     if use_groundtruth:
         #first check groundtruth
