@@ -68,6 +68,20 @@
   <div style="float:left; clear:left;">
       {% with company.map as map %}
       {% include "geography/map_snippet.html" %}
+      <script type="text/javascript">
+           $ = jQuery.noConflict();
+
+           $(document).ready(function() {
+             var marker_loc = map.center.clone();
+             var markers = new OpenLayers.Layer.Markers( "Markers" );
+             map.addLayer(markers);
+
+             var size = new OpenLayers.Size(21,25);
+             var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+             var icon = new OpenLayers.Icon('/media/openlayers/img/marker-red.png',size,offset);
+             markers.addMarker(new OpenLayers.Marker(marker_loc,icon));
+           });
+     </script>
       {% endwith %}
   </div>
   {%endif%}
