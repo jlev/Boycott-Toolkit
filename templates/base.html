@@ -50,14 +50,12 @@
         </div>
         <a href="/"><img id="logo-boy" src="{{MEDIA_URL}}logo/boycott-alpha.png"></a>
 
-      {% cache 500 sidebar user.is_authenticated %}
-      {% if user.is_authenticated %}
       <ul class="sidebar">
         <li><a href="/target/campaign/new">Start a Campaign</a>
         <li><a href="/target/company/new">Add a Company</a>
         <li><a href="/target/product/new">Add a Product</a>
+        <li><a href="/target/store/new">Add a Store</a>
       </ul>
-      {% endif %}
       <ul class="sidebar">
         <hr>
         <li><a href="/target/campaign">Campaigns</a>
@@ -70,7 +68,6 @@
         <li><a href="/about/contact">Contact</a>
       </ul>
     </div>
-    {% endcache %}
 
     {% cache 500 topnav user.id %}
     <div id="top">
