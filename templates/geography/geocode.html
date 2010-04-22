@@ -1,10 +1,4 @@
-<!-- pull all the map stuff from groundtruth -->
-<script type="text/javascript" src="http://groundtruth.media.mit.edu/media/openlayers/OpenLayers.js"></script>
-<script type="text/javascript" src="http://groundtruth.media.mit.edu/media/openlayers/customLayerSwitcher.js"></script>
-<script type="text/javascript" src="http://groundtruth.media.mit.edu/media/openlayers/cloudmade.js"></script>
-<script type="text/javascript" src="http://groundtruth.media.mit.edu/media/map/styles.js"></script>
-<script type="text/javascript" src="{{MEDIA_URL}}map/map.js"></script>
-
+{% include "geography/map_js_header.html" %}
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 
 <style>
@@ -67,6 +61,7 @@
                 
                 //save the location name to the map-name field
                 $('#id_map-name').val(results[0].formatted_address);
+                //wanted to use city name here, but no clear way to get it from google object
               } else {
                 $('#geocode_error').show();
               }
