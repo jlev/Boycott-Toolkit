@@ -12,12 +12,12 @@
     <img src="{{MEDIA_URL}}{{company.logo}}" class="product_image">
     {% endif %}
     
-    <h3>Tags: {% for tag in company.get_tag_list %}<a href="/target/tag/{{tag}}">{{tag}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}</h3>
-    {{company.description|urlize|linebreaksbr}}
+    <h3><b>Tags:</b> {% for tag in company.get_tag_list %}<a href="/target/tag/{{tag}}">{{tag}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}</h3>
+    <div>{{company.description|urlize|linebreaksbr}}</div>
     {% if citations %}{% include "info/citation_snippet.html" %}{%endif%}
     
     <br>
-    {% include "community/add_this.html" %}
+    <div style="float:left; clear:left;">{% include "community/add_this.html" %}</div>
   </div>
   
   <table class="product_shelf">
