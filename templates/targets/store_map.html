@@ -40,9 +40,14 @@ $(document).ready(function() {
     
     function onFeatureSelect(feature) {
         //console.log(feature);
+        if (feature.attributes.img_url) {
+          var size = new OpenLayers.Size(200,150);
+        } else {
+          var size = new OpenLayers.Size(150,150);
+        }
         popup = new OpenLayers.Popup("popup", 
                     feature.geometry.getBounds().getCenterLonLat(),
-                    new OpenLayers.Size(200,150),
+                    size,
                     "loading...", true);
         //create the popup now with blank text
         popup.panMapIfOutOfView = true;
@@ -52,11 +57,11 @@ $(document).ready(function() {
         if (feature.attributes.img_url) {
           html += "<img style='width:75px;float:left;' src="+feature.attributes.img_url+">";
         }
-        html += "<div style='width:110px; float:left; padding-left:5px;'><a href="+feature.attributes.url+">" +
+        html += "<div style='width:100px; float:left; padding-left:5px;'><a href="+feature.attributes.url+">" +
                 feature.attributes.name+"</a>" + 
                 "<br>" + feature.attributes.address + "</div>";
         products = feature.attributes.products;
-        html += "<div style='width:150px; float:left; clear:left;'>Sells:<br>"
+        html += "<div style='float:left; clear:left; margin-top:5px;'>Sells:<br>"
         for(var i=0; i<products.length; i++) {
           html += "<a href="+products[i].url+">"+products[i].name+"</a><br>";
         }
