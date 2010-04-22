@@ -116,38 +116,21 @@ $(document).ready(function() {
         highlight:false
       });
     $("#entry").result(function(event, data, formatted) {
-        if (data[1]) { //we have a real response
-          var searchResult = eval('('+data[2]+')'); //third field has the geojson, turn it into an object
-          var coords = searchResult.geometry.coordinates;
-          //get the projection from the geojson
-          var theProj = new OpenLayers.Projection(searchResult.crs.properties.name);
-          var lonlat = new OpenLayers.LonLat(coords[0], coords[1]);
-          var result = lonlat.transform(theProj,sphericalMercator);
-          //TODO: determine zoom dynamically
-          map.setCenter(result,12);
-        } else { //it's a header
-          return "\0"; //null character
+        if (data) { //there is a response
+           if (data[1]) { //it has a geometry
+              var searchResult = eval('('+data[2]+')'); //third field has the geojson, turn it into an object
+              var coords = searchResult.geometry.coordinates;
+              //get the projection from the geojson
+              var theProj = new OpenLayers.Projection(searchResult.crs.properties.name);
+              var lonlat = new OpenLayers.LonLat(coords[0], coords[1]);
+              var result = lonlat.transform(theProj,sphericalMercator);
+              //TODO: determine zoom dynamically
+              map.setCenter(result,12);
+            } else { //it's a header
+              return "\0"; //null character
+            } 
         }
     });     
-    
-    //search input box focus handler
-    $(".defaultText").focus(function()
-    {
-        if ($(this).val() == $(this)[0].title)
-        {
-            $(this).removeClass("defaultTextActive");
-            $(this).val("");
-        }
-    });
-    $(".defaultText").blur(function()
-    {
-        if ($(this).val() == "")
-        {
-            $(this).addClass("defaultTextActive");
-            $(this).val($(this)[0].title);
-        }
-    });
-    $(".defaultText").blur();
 });
 </script>
 
