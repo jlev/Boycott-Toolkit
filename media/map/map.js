@@ -21,7 +21,8 @@ function initMap(){
     var cloudmade = new OpenLayers.Layer.CloudMade("OpenStreetMap", {
             projection:sphericalMercator,
             key: '37409ea4915a5145b85ba77588e4cea0',
-            styleId: 1551, //farn 1 style, very clean
+            //styleId: 1551, //farn 1 style, very clean
+            styleId:2, //FineLine, faster updates
             isBaseLayer:true});
     map.addLayer(cloudmade);
 
