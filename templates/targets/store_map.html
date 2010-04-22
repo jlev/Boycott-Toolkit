@@ -111,7 +111,7 @@ $(document).ready(function() {
     }
     
     $("#entry").autocomplete("/autocomplete/geocode",
-      { cacheLength:10, multiple:false, minchars:3, mustMatch:true,
+      { cacheLength:10, multiple:false, minchars:3, mustMatch:false,
         highlight:false
       });
     $("#entry").result(function(event, data, formatted) {
