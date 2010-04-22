@@ -8,14 +8,6 @@
 
 {% include "geography/map_snippet.html" %}
 <style>
-.defaultText {
-    width: 150px;
-}
-.defaultTextActive {
-    color: #a1a1a1;
-    font-style: italic;
-    font-size:9pt;
-}
 #map {
   border:1px solid #C2C2C2;
 }
@@ -50,7 +42,7 @@ $(document).ready(function() {
         //console.log(feature);
         popup = new OpenLayers.Popup("popup", 
                     feature.geometry.getBounds().getCenterLonLat(),
-                    new OpenLayers.Size(125,175),
+                    new OpenLayers.Size(200,150),
                     "loading...", true);
         //create the popup now with blank text
         popup.panMapIfOutOfView = true;
@@ -58,16 +50,17 @@ $(document).ready(function() {
         popup.setBorder('1px solid black');
         html = "<div class='popup'>"
         if (feature.attributes.img_url) {
-          html += "<img width=100 src="+feature.attributes.img_url+">";
+          html += "<img style='width:75px;float:left;' src="+feature.attributes.img_url+">";
         }
-        html += "<p><a href="+feature.attributes.url+">" +
+        html += "<div style='width:110px; float:left; padding-left:5px;'><a href="+feature.attributes.url+">" +
                 feature.attributes.name+"</a>" + 
-                "<p>" + feature.attributes.address;
+                "<br>" + feature.attributes.address + "</div>";
         products = feature.attributes.products;
-        html += "<p>Sells:<br>"
+        html += "<div style='width:150px; float:left; clear:left;'>Sells:<br>"
         for(var i=0; i<products.length; i++) {
           html += "<a href="+products[i].url+">"+products[i].name+"</a><br>";
         }
+        html += "</div>"
         popup.setContentHTML(html);
         feature.popup = popup;
         map.addPopup(popup);
@@ -115,38 +108,21 @@ $(document).ready(function() {
         highlight:false
       });
     $("#entry").result(function(event, data, formatted) {
-        if (data[1]) { //we have a real response
-          var searchResult = eval('('+data[2]+')'); //third field has the geojson, turn it into an object
-          var coords = searchResult.geometry.coordinates;
-          //get the projection from the geojson
-          var theProj = new OpenLayers.Projection(searchResult.crs.properties.name);
-          var lonlat = new OpenLayers.LonLat(coords[0], coords[1]);
-          var result = lonlat.transform(theProj,sphericalMercator);
-          //TODO: determine zoom dynamically
-          map.setCenter(result,12);
-        } else { //it's a header
-          return "\0"; //null character
+        if (data) { //there is a response
+           if (data[1]) { //it has a geometry
+              var searchResult = eval('('+data[2]+')'); //third field has the geojson, turn it into an object
+              var coords = searchResult.geometry.coordinates;
+              //get the projection from the geojson
+              var theProj = new OpenLayers.Projection(searchResult.crs.properties.name);
+              var lonlat = new OpenLayers.LonLat(coords[0], coords[1]);
+              var result = lonlat.transform(theProj,sphericalMercator);
+              //TODO: determine zoom dynamically
+              map.setCenter(result,12);
+            } else { //it's a header
+              return "\0"; //null character
+            } 
         }
     });     
-    
-    //search input box focus handler
-    $(".defaultText").focus(function()
-    {
-        if ($(this).val() == $(this)[0].title)
-        {
-            $(this).removeClass("defaultTextActive");
-            $(this).val("");
-        }
-    });
-    $(".defaultText").blur(function()
-    {
-        if ($(this).val() == "")
-        {
-            $(this).addClass("defaultTextActive");
-            $(this).val($(this)[0].title);
-        }
-    });
-    $(".defaultText").blur();
 });
 </script>
 
