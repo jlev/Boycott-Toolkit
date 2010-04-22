@@ -8,9 +8,14 @@ function initMap(){
     map = new OpenLayers.Map({'div':'map',
                   projection: sphericalMercator,
                   units: 'm',
+                  controls: [],
                   numZoomLevels: 18,
                   maxResolution: 156543.0339,
                   maxExtent: worldBounds});
+    map.addControl(new OpenLayers.Control.ZoomBar());
+    map.addControl(new OpenLayers.Control.KeyboardDefaults());
+    map.addControl(new OpenLayers.Control.Navigation());
+    map.addControl(new OpenLayers.Control.SelectFeature());
     var layer_switcher = new OpenLayers.Control.customLayerSwitcher({div:OpenLayers.Util.getElement('layerswitcher'),
                              minimizeDiv:OpenLayers.Util.getElement('layerswitcher'),
                              maximizeDiv:OpenLayers.Util.getElement('layerswitcher'),
