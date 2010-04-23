@@ -448,3 +448,10 @@ def tag_view(request,tag):
     return render_to_response("targets/tags_list.html",{'tag':tag,
         'message':"We track the following items tagged " + tag.name},
     context_instance = RequestContext(request))
+    
+def tag_multiple_view(request,tags_flat):
+    tags_list = tags_flat.split("+")
+    tags = Tag.objects.filter(name__in=tags_list)
+    return render_to_response("targets/tags_list.html",{'tag':tags,
+        'message':"We track the following items tagged " + ", ".join(tags_list)},
+    context_instance = RequestContext(request))
