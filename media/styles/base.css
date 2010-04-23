@@ -189,12 +189,12 @@ td {
     width:475px;
 }
 
-#copyleft {
+#legal {
     font-size:12px;
     width:500px; 
     clear:both;
     float:left;
-    text-align:right;
+    text-align:center;
     margin:10px 0;
 }
 
