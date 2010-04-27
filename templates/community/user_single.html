@@ -10,9 +10,9 @@
 <div class="block" id="main_block">
 <em>{{the_user.get_full_name}}</em>
 {% if the_user.facebook_profile %}
-{% show_facebook_photo the_user %}
+<div class="profile_pic">{% show_facebook_photo the_user %}</div>
 {%endif%}
-{% if the_user.profile.description %}<p>{{the_user.profile.description}}</p>{%else%}{{the_user.username}} has not written anything yet.{%endif%}
+{% if the_user.profile.description %}<p class="profile_text">{{the_user.profile.description}}</p>{%else%}{{the_user.username}} has not written anything about themselves yet.{%endif%}
 
   <div style="clear:left;">
   {% ifequal the_user.id user.id %}
