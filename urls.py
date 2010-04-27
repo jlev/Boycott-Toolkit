@@ -10,6 +10,8 @@ admin.autodiscover()
 urlpatterns = patterns('',
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin/', include(admin.site.urls)),
+    (r'^favicon\.ico$', 'django.views.generic.simple.redirect_to', {'url': settings.MEDIA_URL + '/logo/favicon.ico'}),
+	(r'^robots\.txt$','django.views.generic.simple.redirect_to', {'url': settings.MEDIA_URL + 'robots.txt'}),
 )
 
 #module urls
@@ -31,8 +33,6 @@ urlpatterns += patterns('boycott.views',
     (r'^$','frontpage_view'),
     (r'^search/$','search_view'), #query sent in request
     #put this last so it can't override urls that already exist
-    (r'^favicon\.ico$', 'django.views.generic.simple.redirect_to', {'url': settings.MEDIA_URL + '/logo/favicon.ico'}),
-	(r'^robots\.txt$','django.views.generic.simple.redirect_to', {'url': settings.MEDIA_URL + 'robots.txt'}),
     (r'^(?P<slug>[\w-]+)/$','highlight_campaign_view'),
 )
 
