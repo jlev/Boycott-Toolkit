@@ -13,7 +13,7 @@ class RegistrationForm(forms.ModelForm):
     email = forms.EmailField(label=_("E-mail"),help_text="We hate spam as much as you do.", max_length=75)
     password = forms.CharField(label=_("Password"), max_length=50, widget=forms.PasswordInput(render_value=False),
                     help_text = _("Don't use a sensitive password, as it will be mailed back to you in cleartext."))
-    accept_terms = forms.BooleanField(label="Terms",help_text = "I have read and agree to the <a href=/about/terms>Terms of User</a>")
+    accept_terms = forms.BooleanField(label="Terms",help_text = "I have read and agree to the <a href=/about/terms>Terms of Use</a>")
     class Meta:
         model = User
         fields = ("username","email","password")
