@@ -1,0 +1,35 @@
+{% extends "base/base.html" %}
+{% block title %}Error{% endblock %}
+
+{% block content %}
+	Whoops, that's not a valid URL. Forwarding to the main site in
+	
+	<form name="redirect">
+  <form>
+  <input type="text" size="3" name="redirect2">
+  </form>
+  seconds
+
+  <script>
+  <!--
+  var targetURL="http://boy.co.tt/"
+  var countdownfrom=5
+
+
+  var currentsecond=document.redirect.redirect2.value=countdownfrom+1
+  function countredirect(){
+  if (currentsecond!=1){
+  currentsecond-=1
+  document.redirect.redirect2.value=currentsecond
+  }
+  else{
+  window.location=targetURL
+  return
+  }
+  setTimeout("countredirect()",1000)
+  }
+
+  countredirect()
+  //-->
+  </script>
+{% endblock %}
