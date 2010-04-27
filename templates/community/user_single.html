@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load facebook_tags %}
 {%block css%}
  <link rel="stylesheet" href="{{MEDIA_URL}}styles/community.css" type="text/css"/>
 {%endblock%}
@@ -9,7 +10,7 @@
 <div class="block" id="main_block">
 <em>{{the_user.get_full_name}}</em>
 {% if the_user.facebook_profile %}
-<div class="profile_pic"><img src="{{the_user.facebook_profile.picture_url}}"></div>
+{% show_facebook_photo the_user %}
 {%endif%}
 {% if the_user.profile.description %}<p>{{the_user.profile.description}}</p>{%else%}{{the_user.username}} has not written anything yet.{%endif%}
 
