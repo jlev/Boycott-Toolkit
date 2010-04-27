@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load facebook_tags %}
 {%block css%}
  <link rel="stylesheet" href="{{MEDIA_URL}}styles/community.css" type="text/css"/>
 {%endblock%}
@@ -11,7 +12,7 @@
   {% for user in users %}
     <li>
     <div class="profile_text">
-       {% if user.facebook_profile %}<img src="{{user.facebook_profile.picture_url}}">{%endif%}
+       {% if user.facebook_profile %}{% show_facebook_photo user %}{%endif%}
       <a href="{{user.profile.get_absolute_url}}">{% if user.get_full_name%}{{user.get_full_name}}{%else%}{{user.username}}{%endif%}</a>:
       {{user.profile.campaigns.count}} campaigns
     </div>
