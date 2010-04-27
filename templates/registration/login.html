@@ -9,12 +9,12 @@
 
 {% block content %}
 <div class="block" id="highlight_block">
-<em>Log in with an existing account:</em>
+<em>Connect with an external account:</em>
 {% show_connect_button %}
 </div>
 
 <div class="block">
-<em>Or for accounts registered with us directly:</em>
+<em>Log in with us directly:</em>
 <form method="post" action="" class="wide">
   {% include "form_snippet.html" %}
   {% if form.errors %}
@@ -23,5 +23,12 @@
   <p class="submit"><input type="submit" value="Login"></p>
 </form>
 </div>
+
+<div class="block">
+<em>Don't have an account yet?</em><br>
+<a href="/community/register/">Sign up</a>
+</div>
+
+<p style="font-size:small;">By logging in to this site you agree to be bound by the <a href="http://boy.co.tt/about/terms/">Terms of Use</a>
 
 {% endblock %}
