@@ -1,6 +1,6 @@
 # Django settings for boycott project.
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -93,7 +93,7 @@ DEBUG_TOOLBAR_CONFIG = {
 }
 
 MIDDLEWARE_CLASSES = (
-    'debug_toolbar.middleware.DebugToolbarMiddleware', #DEBUG ONLY    
+#    'debug_toolbar.middleware.DebugToolbarMiddleware', #DEBUG ONLY    
     'django.middleware.cache.UpdateCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'facebook.djangofb.FacebookMiddleware',
@@ -140,5 +140,5 @@ INSTALLED_APPS = (
     'boycott.community',
     'boycott.geography',
     'boycott.info',
-    'debug_toolbar'
+#    'debug_toolbar'
 )
