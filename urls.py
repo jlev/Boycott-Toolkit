@@ -11,7 +11,7 @@ urlpatterns = patterns('',
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin/', include(admin.site.urls)),
     (r'^favicon\.ico$', 'django.views.generic.simple.redirect_to', {'url': settings.MEDIA_URL + '/logo/favicon.ico'}),
-	(r'^robots\.txt$','django.views.generic.simple.redirect_to', {'url': settings.MEDIA_URL + 'robots.txt'}),
+    (r'^robots\.txt$','django.views.generic.simple.redirect_to', {'url': settings.MEDIA_URL + 'robots.txt'}),
 )
 
 #module urls
