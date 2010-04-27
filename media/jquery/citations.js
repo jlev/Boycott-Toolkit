@@ -34,11 +34,11 @@ $().ready(function() {
         };
         
         //save it to the hidden field
-        citations_json = $("#id_citations_json").val();
-        if(citations_json) citations = $.evalJSON(citations_json);
-        else citations = new Array();
+        citations_json = $("hidden_citations_json").val();
+        if(citations_json) { citations = $.evalJSON(citations_json); }
+        else { citations = new Array(); }
         citations.push(cite);
-        $("#id_citations_json").val($.toJSON(citations));
+        $("#hidden_citations_json").val($.toJSON(citations));
         
         //save a textual representation to the visible div
         var citeVisible = "<li>" + cite.author + " <i>" + cite.title + "</i> " + cite.date
@@ -53,11 +53,5 @@ $().ready(function() {
         
         //hide the div
         $(this).parent().hide();
-      });
-      
-      //on form submission, serialize global array to hidden input field
-      $(":submit").click(function() {
-        $("#id_citations_json").val();
-        return true; //let django do the rest
       });
  });

@@ -16,7 +16,7 @@ class CompanyForm(TrackedObjectForm):
     def __init__(self, *args, **kwargs):
         super(CompanyForm, self).__init__(*args, **kwargs)
         self.fields['description'] = forms.fields.CharField(widget=CitationWidget(attrs={'model':'target.company','field':'description'}))
-        self.fields['citations_json'] = forms.fields.CharField(widget=forms.widgets.HiddenInput(),required=False) #holds all the citations as json
+        self.fields['citations_json'] = forms.fields.CharField(widget=forms.widgets.HiddenInput(attrs={'id':'hidden_citations_json'}),required=False) #holds all the citations as json
     class Meta(TrackedObjectForm.Meta):
         exclude = TrackedObjectForm.Meta.exclude + ('map',)
         model = Company
@@ -27,7 +27,7 @@ class ProductForm(TrackedObjectForm):
     def __init__(self, *args, **kwargs):
         super(ProductForm, self).__init__(*args, **kwargs)
         self.fields['description'] = forms.fields.CharField(widget=CitationWidget(attrs={'model':'target.product','field':'description'}))
-        self.fields['citations_json'] = forms.fields.CharField(widget=forms.widgets.HiddenInput(),required=False) #holds all the citations as json 
+        self.fields['citations_json'] = forms.fields.CharField(widget=forms.widgets.HiddenInput(attrs={'id':'hidden_citations_json'}),required=False) #holds all the citations as json 
     class Meta(TrackedObjectForm.Meta):
         model = Product
 
@@ -44,7 +44,7 @@ class CampaignForm(TrackedObjectForm):
            super(CampaignForm, self).__init__(*args, **kwargs)
            self.fields['description'] = forms.fields.CharField(widget=CitationWidget(attrs={'model':'target.campaign','field':'description'}))
            self.fields['criteria'] = forms.fields.CharField(label="Goal",help_text="When will this campaign be complete?",widget=CitationWidget(attrs={'model':'target.campaign','field':'criteria'}))
-           self.fields['citations_json'] = forms.fields.CharField(widget=forms.widgets.HiddenInput(),required=False) #holds all the citations as json
+           self.fields['citations_json'] = forms.fields.CharField(widget=forms.widgets.HiddenInput(attrs={'id':'hidden_citations_json'}),required=False) #holds all the citations as json
            
     class Meta(TrackedObjectForm.Meta):
         exclude = TrackedObjectForm.Meta.exclude + ('highlight','companies','products')
