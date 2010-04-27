@@ -5,7 +5,6 @@ from django.conf import settings
 
 media_css = { }
 media_js = (
-    'http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js',
     '%sjquery/jquery.json-2.2.min.js' % settings.MEDIA_URL,
     '%sjquery/citations.js' % settings.MEDIA_URL
     )
