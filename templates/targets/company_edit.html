@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {%block css%}
  <link rel="stylesheet" href="{{MEDIA_URL}}styles/form.css" type="text/css"/>
+{%endblock%}
+{%block scripts %}
  {{company_form.media}}
 {%endblock%}
 {% block title %}{{company.name}} | Edit{% endblock %}
