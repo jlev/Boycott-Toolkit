@@ -6,9 +6,9 @@
 <table>
   <tr>
     {%for campaign in campaigns %}
-    <td class="block" style="width:200px; text-align:left;">
+    <td>
       <h2>{{campaign.get_verb_display}}</h2>
-      <h3><a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a></h3>
+      <h3><a href="{{campaign.get_absolute_url}}" target="_blank">{{campaign.name}}</a></h3>
       <h4>
         {% with campaign.users_joined_campaign.count as num_users %}
         {{num_users}} {{num_users|pluralize:"person,people"}},
@@ -23,7 +23,7 @@
         {%endwith%}
       </h4>
     </td>
-  {% if forloop.counter|divisibleby:"2" %}
+  {% if forloop.counter|divisibleby:"3" %}
   </tr>
   <tr>
   {%endif%}
@@ -37,7 +37,7 @@
 <table>
   <tr>
   {%for a in product_actions %}
-  <td><a class="product_link" href="{{a.product.get_absolute_url}}">{% if a.product.image%}<img src="{{a.product.image.thumbnail.url}}" alt="{{a.product.name}}" title="{{a.reason}}">{%else%}{{a.product.name}}{%endif%}</a><br>{{a.get_verb_display}} {{a.product.name}}</td>
+  <td><a class="product_link" href="{{a.product.get_absolute_url}}" target="_blank">{% if a.product.image%}<img src="{{a.product.image.thumbnail.url}}" alt="{{a.product.name}}" title="{{a.reason}}" target="_blank">{%else%}{{a.product.name}}{%endif%}</a><br>{{a.get_verb_display}} {{a.product.name}}</td>
   {% if forloop.counter|divisibleby:"3" %}
   </tr>
   <tr>
@@ -52,7 +52,7 @@
 <table>
   <tr>
   {%for a in company_actions %}
-  <td><a class="product_link" href="{{a.company.get_absolute_url}}">{% if a.company.logo %}<img src="{{a.company.logo.thumbnail.url}}" alt="{{a.company.name}}" title="{{a.reason}}">{%else%}{{a.company.name}}{%endif%}</a><br>{{a.get_verb_display}} {{a.company.name}}</td>
+  <td><a class="product_link" href="{{a.company.get_absolute_url}}" target="_blank">{% if a.company.logo %}<img src="{{a.company.logo.thumbnail.url}}" alt="{{a.company.name}}" title="{{a.reason}}" target="_blank">{%else%}{{a.company.name}}{%endif%}</a><br>{{a.get_verb_display}} {{a.company.name}}</td>
   {% if forloop.counter|divisibleby:"3" %}
   </tr>
   <tr>
