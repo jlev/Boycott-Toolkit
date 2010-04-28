@@ -112,6 +112,12 @@ body {
     font-weight:bold;
 }
 
+#content h3 {
+    margin-top:5px;
+    color:#1F1F1F;
+    font-weight:bold;
+}
+
 #content hr {
     color:#C2C2C2;
 }
