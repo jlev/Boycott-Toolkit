@@ -6,6 +6,11 @@
 {% block title %}{{ flatpage.title }}{% endblock %}
 
 {%block content%}
+<style>
+li {
+  list-style: circle;
+}
+</style>
 <div style="float:left; width:400px;">
 {{ flatpage.content|markdown }}
 </div>
