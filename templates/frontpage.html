@@ -21,7 +21,7 @@
   <table>
     <tr>
       {%for campaign in campaigns %}
-      <td class="block" style="width:200px;">
+      <td class="block" style="width:200px; text-align:left;">
         <h2>{{campaign.get_verb_display}}</h2>
         <h3><a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a></h3>
         <h4>
