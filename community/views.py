@@ -5,6 +5,8 @@ from django.core.urlresolvers import reverse
 
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
+import facebook.djangofb as facebook
+from facebookconnect.models import FacebookProfile
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.models import Site
 
@@ -138,3 +140,23 @@ def user_edit(request,username):
     return render_to_response("community/user_profile_edit.html",
                     {"message":message,"form": form},
                     context_instance = RequestContext(request))
+                    
+@facebook.require_login()
+def facebook_canvas(request):
+    #get name
+    #name = request.facebook.users.getInfo([request.facebook.uid], ['first_name'])[0]['first_name']
+    
+    #get real user from fb
+    fb_profile = FacebookProfile.objects.get(facebook_id=request.facebook.uid)
+    my_profile = fb.user.profile
+    my_campaigns = my_profile.campaigns.all()
+    my_product_actions = ProductAction.objects.select_related('product').filter(campaign__in=my_campaigns)
+    my_company_actions = CompanyAction.objects.select_related('company').filter(campaign__in=my_campaigns)
+    my_revisions = Revision.objects.select_related('version').filter(user=u).order_by("-date_created")[:10]
+    
+    return render_to_response('community/canvas.fbml', {'name': name,
+        'campaigns':my_campaigns,
+        'company_actions':my_company_actions,
+        'product_actions':my_product_actions,
+        'revisions':my_revisions}
+    )
