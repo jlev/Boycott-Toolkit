@@ -143,20 +143,15 @@ def user_edit(request,username):
                     
 @facebook.require_login()
 def facebook_canvas(request):
-    #get name
-    #name = request.facebook.users.getInfo([request.facebook.uid], ['first_name'])[0]['first_name']
-    
-    #get real user from fb
-    fb_profile = FacebookProfile.objects.get(facebook_id=request.facebook.uid)
-    my_profile = fb.user.profile
+    if request.user.is_anonymous():
+        return HttpResponse("You must log in to use this application")
+    my_profile = request.user.profile
     my_campaigns = my_profile.campaigns.all()
     my_product_actions = ProductAction.objects.select_related('product').filter(campaign__in=my_campaigns)
     my_company_actions = CompanyAction.objects.select_related('company').filter(campaign__in=my_campaigns)
-    my_revisions = Revision.objects.select_related('version').filter(user=u).order_by("-date_created")[:10]
+    my_revisions = Revision.objects.select_related('version').filter(user=request.user).order_by("-date_created")[:10]
     
-    return render_to_response('community/canvas.fbml', {'name': name,
-        'campaigns':my_campaigns,
-        'company_actions':my_company_actions,
-        'product_actions':my_product_actions,
-        'revisions':my_revisions}
-    )
+    return render_to_response('community/canvas.fbml',{'campaigns':my_campaigns,
+                                                       'company_actions':my_company_actions,
+                                                       'product_actions':my_product_actions,
+                                                       'revisions':my_revisions})
