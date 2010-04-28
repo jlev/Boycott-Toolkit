@@ -6,10 +6,18 @@
 
 {%block content%}
 {% load tagging_tags %}
+{% tagged_objects tag in target.Campaign as campaigns %}
 {% tagged_objects tag in target.Company as companies %}
 {% tagged_objects tag in target.Product as products %}
 
 <ul>
+  <li><b>Campaigns:</b>
+    <ul>
+    {%for campaign in campaigns %}
+    <li><a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a>
+    {%endfor%}
+    </ul>
+  <br>
 <li><b>Companies:</b>
   <ul>
   {%for company in companies %}
