@@ -21,7 +21,7 @@
   <table>
     <tr>
       {%for campaign in campaigns %}
-      <div class="block" style="width:200px;">
+      <td class="block" style="width:200px;">
         <h2>{{campaign.get_verb_display}}</h2>
         <h3><a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a></h3>
         <h4>
@@ -37,7 +37,7 @@
           {{num_companies}} compan{{num_companies|pluralize:"y,ies"}}
           {%endwith%}
         </h4>
-      </div>
+      </td>
     {% if forloop.counter|divisibleby:"2" %}
     </tr>
     <tr>
