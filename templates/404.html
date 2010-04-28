@@ -2,34 +2,8 @@
 {% block title %}Error{% endblock %}
 
 {% block content %}
-
-	Whoops, that's not a valid URL.<br>
-	Forwarding to the frontpage in
-	
-	<form name="redirect">
-  <form>
-  <input type="text" size="3" name="seconds" readonly>
-  </form>
-
-  <script>
-  <!--
-  var targetURL="http://boy.co.tt/"
-  var countdownfrom=5
-
-  var currentsecond=document.redirect.seconds.value=countdownfrom+1
-  function countredirect(){
-  if (currentsecond!=1){
-  currentsecond-=1
-  document.redirect.seconds.value=currentsecond
-  }
-  else{
-  window.location=targetURL
-  return
-  }
-  setTimeout("countredirect()",1000)
-  }
-
-  countredirect()
-  //-->
-  </script>
+<div id="message">
+Sorry, that page doesn't exist.
+</div>
+If you followed a link on our site, our webmaster will be dispatched to fix it soon.
 {% endblock %}
