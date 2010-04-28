@@ -11,20 +11,25 @@
 {% tagged_objects tag in target.Product as products %}
 
 <ul>
-  <li><b>Campaigns:</b>
+{% if campaigns %}
+<li><b>Campaigns:</b>
     <ul>
     {%for campaign in campaigns %}
     <li><a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a>
     {%endfor%}
     </ul>
+{%endif%}
   <br>
+{% if companies %}
 <li><b>Companies:</b>
   <ul>
   {%for company in companies %}
   <li><a href="{{company.get_absolute_url}}">{{company.name}}</a>
   {%endfor%}
   </ul>
+{%endif%}
 <br>
+{% if products %}
 <li><b>Products:</b>
   <ul>
     {%for product in products %}
@@ -32,4 +37,5 @@
     {%endfor%}
     </ul>
 </ul>
+{%endif%}
 {%endblock%}
