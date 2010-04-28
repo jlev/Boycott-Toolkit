@@ -5,6 +5,7 @@ from django.db.models import get_model,Q
 
 from urllib2 import urlopen
 from geopy import geocoders
+from geopy.geocoders.google import GQueryError
 
 from target.models import Product,Company,Store
 from geography.models import Map
@@ -146,5 +147,7 @@ def geocode(request,use_groundtruth=False):
         geo['geometry']=the_geom
         r.append("%s|x|%s" % (place,json.dumps(geo)))
     except ValueError:
+        pass
+    except GQueryError:
         pass
     return HttpResponse('\n'.join(r), mimetype='text/plain') 
