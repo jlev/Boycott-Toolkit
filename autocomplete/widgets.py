@@ -4,11 +4,13 @@ from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 
 js_base_url = getattr(settings, 'AUTOCOMPLETE_JS_BASE_URL','%sautocomplete/' % settings.MEDIA_URL)
+
 media_css = {
     'all': ('%sjquery.autocomplete.css' % js_base_url,)
 }
 media_js = (
-    'http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js',
+#    'http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js',
+# already included on every page, don't double
     '%sjquery.autocomplete.js' % js_base_url,
     )
 
