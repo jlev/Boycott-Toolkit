@@ -1,74 +1,15 @@
-{%load comments humanize%}
-
-<link rel="stylesheet" href="{{MEDIA_URL}}styles/comments.css" type="text/css"/>
-
-<div id="comments">
-  {% get_comment_count for discussion as comment_count %}
-  <a id="toggle-comments">{{comment_count|apnumber|capfirst}} comment{{ comment_count|pluralize}} so far >></a><br>
-  <hr>
-  {% get_comment_list for discussion as comment_list %}
-  <div id="comments-list">
-    {% for comment in comment_list %}
-        {% if not forloop.first %}<hr>{%endif%}
-        <div class="comment-left">{{comment.comment|escape}}<br>{{comment.name}}</div>
-        <div class="comment-right">{{comment.submit_date|date:"D d M Y" }} @ {{comment.submit_date|date:"P" }}</div>
-    {% endfor %}
-  </div>
-  <hr>
-  <a id="add-comment">Add your own comment >></a><br>
-  {% get_comment_form for discussion as comment_form %}
-  <div id="comment-form">
-  {% render_comment_form for discussion %}
-  </div>
+<hr>
+<div id="disqus_thread">
+  <script type="text/javascript">
+    /**
+      * var disqus_identifier; [Optional but recommended: Define a unique identifier (e.g. post id or slug) for this thread] 
+      */
+    (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = 'http://boycott.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=boycott">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">Comments powered by <span class="logo-disqus">Disqus</span></a>
 </div>
-{%block scripts %}
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-<script type="text/javascript" charset="utf-8">  
-/* from http://ca.rroll.net/2009/05/10/improving-django-comments-user-experience-with-ajax/ */
-function bindPostCommentHandler() {
-    $('#comment_form, form').submit(function() {
-        $.ajax({
-            type: "POST",  
-            data: $('#comment_form, form').serialize(),  
-            url: "{% comment_form_target %}",  
-            cache: false,  
-            dataType: "html",  
-            success: function(html, textStatus) {  
-                $('#comment_form, form').replaceWith(html);  
-                bindPostCommentHandler();
-                location.reload();
-            },  
-            error: function (XMLHttpRequest, textStatus, errorThrown) {  
-                $('#comment_form, form').replaceWith('Whoops, we had an error posting your comment.' + errorThrown);  
-            }  
-        });  
-        return false;
-        //returning false should override the default action
-    });  
-}  
-
-$(document).ready(function() {  
-    bindPostCommentHandler();
-    {% if user.is_authenticated %}
-    /*prefill comment fields*/
-    $('#id_name')[0].value = "{{user.get_full_name}}";
-    $('#id_email')[0].value = "{{user.email}}";
-    {%endif%}
-     
-     $('a#toggle-comments').click(function() {
-         $('#comments-list').toggle(400);
-         return false;
-       });
-    $('#comments-list').show();
-    //comment list default visible
-    
-    $('a#add-comment').click(function() {
-         $('#comment-form').toggle(400);
-         return false;
-       });
-    $('#comment-form').hide();
-    //comment form default hidden
-});  
-
-</script>
-{%endblock%}
