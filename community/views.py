@@ -97,7 +97,7 @@ def xd_receiver(request):
     return render_to_response('facebook/xd_receiver.html')
 
 def user_view_all(request):
-    u = User.objects.all()
+    u = User.objects.all().order_by("-date_joined")
     #TODO paginate
     return render_to_response('community/user_list.html',
         {'users':u},
