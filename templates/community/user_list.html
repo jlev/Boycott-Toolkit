@@ -13,7 +13,7 @@
     <li>
     <div class="profile_text">
        {% if user.facebook_profile %}{% show_facebook_photo user %}
-      <a href="{{user.profile.get_absolute_url}}">{% show_facebook_name user}</a>:
+      <a href="{{user.profile.get_absolute_url}}">{% show_facebook_name user %}</a>:
       {%else%}
       <a href="{{user.profile.get_absolute_url}}">{% if user.get_full_name%}{{user.get_full_name}}{%else%}{{user.username}}{%endif%}</a>:
       {%endif%}
