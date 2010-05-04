@@ -144,7 +144,19 @@ def user_edit(request,username):
 @facebook.require_login()
 def facebook_canvas(request):
     if request.user.is_anonymous():
-        return HttpResponse("You must log in to use this application")
+        #we need to make fb/django connection
+        if request.method == "POST":
+            form = AuthenticationForm(data=request.POST)
+            if form.is_valid():
+                from django.contrib.auth import login
+                login(request, form.get_user())
+                if request.session.test_cookie_worked():
+                    request.session.delete_test_cookie()
+                #we're logged in, go ahead with rest of render
+        else:
+            form = AuthenticationForm(request)
+        request.session.set_test_cookie()
+        return render_to_response('facebook/please_login.html',{'form': form}, context_instance=RequestContext(request))
     my_profile = request.user.profile
     my_campaigns = my_profile.campaigns.all()
     my_product_actions = ProductAction.objects.select_related('product').filter(campaign__in=my_campaigns)
