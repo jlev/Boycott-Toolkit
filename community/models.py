@@ -6,7 +6,7 @@ from facebookconnect.models import FacebookProfile
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, unique=True)
-    image = StdImageField(upload_to="uploads/users",blank=True,null=True,size=(400,400),thumbnail_size=(100,100))
+    image = StdImageField(upload_to="uploads/users",blank=True,null=True,size=(400,400),thumbnail_size=(50,50))
     #TODO: connect FacebookProfile post_save signal to cache avatar image
     description = models.TextField(help_text="Tell us about yourself.",blank=True,null=True)
     campaigns = models.ManyToManyField(Campaign,related_name="users_joined_campaign",help_text="Campaigns I have joined",blank=True,null=True)

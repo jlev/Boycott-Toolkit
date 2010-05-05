@@ -12,10 +12,18 @@
   {% for user in users %}
     <li>
     <div class="profile_text">
-       {% if user.facebook_profile %}{% show_facebook_photo user %}<a href="{{user.profile.get_absolute_url}}">{{user.facebook_profile.full_name}}</a>:
+      {% if user.facebook_profile %}
+        {% show_facebook_photo user %}<a href="{{user.profile.get_absolute_url}}">{{user.facebook_profile.full_name}}</a>:
       {%else%}
-      <img src="{{MEDIA_URL}}icons/no-photo.png" alt="No Photo"/><a href="{{user.profile.get_absolute_url}}">{% if user.get_full_name%}{{user.get_full_name}}{%else%}{{user.username}}{%endif%}</a>:
+        {% if user.profile.image %}
+        <img src="{{user.profile.image.thumbnail.url}}">
+        {%else%}
+        <img src="{{MEDIA_URL}}icons/no-photo.png" alt="No Photo"/>
+        {%endif%}
+        <a href="{{user.profile.get_absolute_url}}">
+        {% if user.get_full_name%}{{user.get_full_name}}{%else%}{{user.username}}{%endif%}</a>:
       {%endif%}
+        
       {{user.profile.campaigns.count}} campaigns
     </div>
   {% endfor %}
