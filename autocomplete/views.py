@@ -22,10 +22,7 @@ def main_search_ajax(request):
     products_by_tag = TaggedItem.objects.get_by_model(Product,tag)
     products_by_company = Product.objects.filter(company__name__icontains=query)
     
-    companies = Company.objects.filter( Q(name__icontains=query) |
-                                        #Q(product=products) |
-                                        #Q(map__name__icontains=query)
-                                      ).distinct()
+    companies = Company.objects.filter(name__icontains=query).distinct()
     locations = Company.objects.filter(address__icontains=query)
     stores = Store.objects.filter(Q(address__icontains=query)|Q(name__icontains=query))
     
