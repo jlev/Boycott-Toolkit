@@ -2,6 +2,7 @@
 Hacks for IE < 8
 */
 
+/*BASE*/
 #logo {
     position:absolute;
     top:35px;
@@ -15,22 +16,23 @@ Hacks for IE < 8
     font-weight:bold;
 }
 
+p {
+    width:100%;
+}
+
+/*FRONTPAGE*/
 .all_link {
     float:right; /* fail */
     clear:both; /* fail, set width to force*/
     width:500px;
 }
 
-
-p {
-    width:100%;
-}
-
 .campaigns {
     border:5px solid white;
 }
 
-.description {
+/* SINGLE PAGES */
+.meta {
     width:200px;
 }
 
@@ -38,6 +40,22 @@ p {
     width:100%;
 }
 
+/* COMMENTS */
 #comments {
     width:400px;
+}
+
+#disquis_thread {
+    width:400px;
+    float:left;
+    clear:both;
+}
+
+/*LIST PAGES*/
+.product_image {
+    float:none;
+}
+
+.product_description {
+    width:100%;
 }

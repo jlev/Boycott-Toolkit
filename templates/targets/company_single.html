@@ -33,7 +33,7 @@
   </table>
   
   {% ifnotequal company.companyaction_set.count 0 %}
-  <div style="float:left; clear:left;">
+  <div style="float:left; clear:left; width:100%">
   <h2>Campaigns about this company:</h2>
   {% for action in company.companyaction_set.all %}
   <div class="block" style="width:200px;"><h2>{{action.get_verb_display}}</h2>
@@ -87,12 +87,15 @@
   {%endif%}
 
 
-<div style="float:left">
+<div class="block meta">
 <li>Added by: <a href="{{company.added_by.profile.get_absolute_url}}">{{company.added_by}}</a>
 <li>Edited by: {% for user in company.edited_by.all %} <a href="{{user.profile.get_absolute_url}}">{{user}}</a> {%empty%}No one yet{%endfor%}<br>
 
 <i><a href="{{company.get_absolute_url}}edit">Edit this company</a></i>
 {% if user.is_staff %}| <i><a href="/admin/target/company/{{company.id}}">Edit in admin</a></i>{%endif%}
+</div>
+
+<div id="comments" style="float:left; clear:left;">
 {% with company as discussion %}
 {% include "comments/snippet.html" %}
 {% endwith %}

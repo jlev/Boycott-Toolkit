@@ -51,7 +51,7 @@
 </div>
 
 
-<div class="block">
+<div class="block meta">
 Added by: <a href="{{product.added_by.profile.get_absolute_url}}">{{product.added_by}}</a><br>
 Edited by: {% for user in product.edited_by.all %} <a href="{{user.profile.get_absolute_url}}">{{user}}</a>{%endfor%}<br>
 
@@ -59,7 +59,7 @@ Edited by: {% for user in product.edited_by.all %} <a href="{{user.profile.get_a
 {% if user.is_staff %}| <i><a href="/admin/target/product/{{product.id}}">Edit in admin</a></i>{%endif%}
 </div>
 
-<div style="float:left; clear:left;">
+<div id="comments" style="float:left; clear:left;">
 {% with product as discussion %}
 {% include "comments/snippet.html" %}
 {% endwith %}

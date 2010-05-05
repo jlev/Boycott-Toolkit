@@ -63,7 +63,7 @@ $(document).ready(function() {
                 feature.attributes.name+"</a>" + 
                 "<br>" + feature.attributes.address + "</div>";
         products = feature.attributes.products;
-        html += "<div style='float:left; clear:left; margin-top:5px;'>Sells:<br>"
+        html += "<div style='float:left; clear:left; margin-top:5px; width:200px'>Sells:<br>"
         for(var i=0; i<products.length; i++) {
           html += "<a href="+products[i].url+">"+products[i].name+"</a><br>";
         }
