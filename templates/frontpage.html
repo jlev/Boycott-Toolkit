@@ -21,7 +21,7 @@
   <table>
     <tr>
       {%for campaign in campaigns %}
-      <td class="block" style="width:200px; text-align:left;">
+      <td class="block campaigns" style="width:200px; text-align:left;">
         <h2>{{campaign.get_verb_display}}</h2>
         <h3><a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a></h3>
         <h4>
@@ -45,9 +45,7 @@
     {%endfor%}
     </tr>
   </table>
-</div>
-<div class="shelf">
-  <a class="all_link" href="/target/campaign/">All Campaigns</a>
+<br><a class="all_link" href="/target/campaign/">All Campaigns</a>
 </div>
 
   <div class="shelf">
@@ -64,7 +62,7 @@
     {%endfor%}
     </tr>
   </table>
-  <a class="all_link" href="/target/product/">All Products</a>
+  <br><a class="all_link" href="/target/product/">All Products</a>
   </div>
 
   <div class="shelf">
@@ -81,7 +79,7 @@
     {%endfor%}
     </tr>
   </table>
-  <a class="all_link" href="/target/company/">All Companies</a>
+  <br><a class="all_link" href="/target/company/">All Companies</a>
   <hr style="clear:both;">
   </div>
 {%endblock%}

@@ -1,0 +1,13 @@
+#logo {
+    position:absolute;
+    height:0px;
+    text-align:center;
+    font-size:22px;
+}
+
+#logo-text {
+    position:absolute;
+    left:0px; /* fixes the horiz  */
+    margin-top:-35px; /* fixes the vertical */
+    font-weight:bold;
+}
