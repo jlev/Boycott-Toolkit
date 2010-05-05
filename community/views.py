@@ -39,7 +39,8 @@ def login_view(request):
                 request.session.delete_test_cookie()
             return HttpResponseRedirect(redirect_to)
         else:
-            print "Invalid Login"
+            #print "Invalid Login"
+            pass
     else:
         form = AuthenticationForm(request)
     request.session.set_test_cookie()

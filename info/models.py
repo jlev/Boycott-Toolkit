@@ -57,7 +57,8 @@ def citation_from_json(json_string,obj):
             try:
                 source.date = c['date']
             except ValidationError:
-                print "could not validate",c['date']
+                #print "could not validate",c['date']
+                pass
         cite = Citation(source=source,cited_type=cited_type,cited_field=c['field'],cited_id=obj.id)
         cite.save()
         return True

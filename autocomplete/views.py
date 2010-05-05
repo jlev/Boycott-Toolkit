@@ -108,7 +108,6 @@ def list_entries(request,model,field):
     
     filter_arg = '%s__istartswith' % (field)
     kwargs = {str(filter_arg):str(query)}
-    print kwargs
     entries = model_class.objects.values_list(field).filter(**kwargs)
     response = []
     for e in entries:
