@@ -29,6 +29,14 @@
 {%endfor%}
 </div>
 
+<div style="float:left;"><h2>Stores that sell this product:</h2>
+  <ul>
+    {% for s in stores %}
+    <li><a href={{s.get_absolute_url}}>{{s.name}}</a>, {{s.address}}
+      {%endfor%}
+  </ul>
+</div>
+  
 <div class="block" id="highlight_block">
 <h2>Take action!</h2>
 <ul class="action_list">

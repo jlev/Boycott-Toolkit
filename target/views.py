@@ -125,10 +125,13 @@ def product_view(request,slug):
         logo_img = p.image.thumbnail
     except AttributeError:
         logo_img = None
+   stores = p.store_set.all()
     
     return render_to_response('targets/product_single.html',
         {'product':p,
         'citations':cites,
+        'logo_img':logo_img,
+        'stores':stores},
         context_instance = RequestContext(request))
         
 
