@@ -11,3 +11,9 @@
     margin-top:-35px; /* fixes the vertical */
     font-weight:bold;
 }
+
+.logo-img {
+    position:absolute;
+    left:0px; /* fixes the horiz  */
+    margin-top:-35px; /* fixes the vertical */
+}

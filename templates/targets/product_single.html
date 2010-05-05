@@ -29,11 +29,13 @@
 {%endfor%}
 </div>
 
-<div style="float:left;"><h2>Stores that sell this product:</h2>
+<div style="float:left; clear:left"><h2>Stores that sell this product:</h2>
   <ul>
     {% for s in stores %}
     <li><a href={{s.get_absolute_url}}>{{s.name}}</a>, {{s.address}}
-      {%endfor%}
+    {%empty%}
+    <li>None yet. Why don't you <a href="/target/store/new">add one</a>?</li>
+    {%endfor%}
   </ul>
 </div>
   
@@ -49,7 +51,7 @@
 </div>
 
 
-<div class="block">
+<div class="block meta">
 Added by: <a href="{{product.added_by.profile.get_absolute_url}}">{{product.added_by}}</a><br>
 Edited by: {% for user in product.edited_by.all %} <a href="{{user.profile.get_absolute_url}}">{{user}}</a>{%endfor%}<br>
 
@@ -57,7 +59,7 @@ Edited by: {% for user in product.edited_by.all %} <a href="{{user.profile.get_a
 {% if user.is_staff %}| <i><a href="/admin/target/product/{{product.id}}">Edit in admin</a></i>{%endif%}
 </div>
 
-<div style="float:left; clear:left;">
+<div id="comments" style="float:left; clear:left;">
 {% with product as discussion %}
 {% include "comments/snippet.html" %}
 {% endwith %}
