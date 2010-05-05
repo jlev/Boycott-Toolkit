@@ -125,25 +125,10 @@ def product_view(request,slug):
         logo_img = p.image.thumbnail
     except AttributeError:
         logo_img = None
-   
-#    #Determine whether the product is "good" or "bad"
-#    actions = ProductAction.objects.filter(product=p)
-#    i = 0
-#    for a in actions:
-#        if a.positive(): i += 1
-#        else: i -= 1
-#    if (i > 0): 
-#        logo_overlay = "green" #it's positive, display green circle
-#    else:
-#        if i < 0:
-#            logo_overlay = "slash" #it's not, display red slash
-#        else: 
-#            logo_overlay = None #it's neither, or there are no actions, just display the logo
     
     return render_to_response('targets/product_single.html',
         {'product':p,
         'citations':cites,
-        'logo_img':logo_img}, #'logo_overlay':logo_overlay},
         context_instance = RequestContext(request))
         
 
