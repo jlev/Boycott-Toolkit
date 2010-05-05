@@ -1,0 +1,43 @@
+/*
+Hacks for IE < 8
+*/
+
+#logo {
+    position:absolute;
+    top:35px;
+    width:150px;
+    text-align:center;
+    font-size:22px;
+    font-family:monospace;
+}
+
+#logo-text {
+    font-weight:bold;
+}
+
+.all_link {
+    float:right; /* fail */
+    clear:both; /* fail, set width to force*/
+    width:500px;
+}
+
+
+p {
+    width:100%;
+}
+
+.campaigns {
+    border:5px solid white;
+}
+
+.description {
+    width:200px;
+}
+
+.citations {
+    width:100%;
+}
+
+#comments {
+    width:400px;
+}
