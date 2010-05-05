@@ -12,6 +12,12 @@ Hacks for IE < 8
     font-family:monospace;
 }
 
+.logo-img {
+    position:absolute;
+    left:0px; /* fixes the horiz  */
+    margin-top:-35px; /* fixes the vertical */
+}
+
 #logo-text {
     font-weight:bold;
 }
