@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{%block css%}
+ <link rel="stylesheet" href="{{MEDIA_URL}}styles/community.css" type="text/css"/>
+{%endblock%}
+
+{% block title %} Recent Edits{% endblock %}
+
+{%block content%}
+
+<div class="edit_list">
+  <h2>Recent Edits</h2>
+  <hr>
+  <ul>
+    {% for r in edits %}
+    <li>{{r.user}} {{r.comment|slice:":-1"}} on {{r.version_set.all.0.object_repr}} at {{r.date_created|date:"D d M Y" }}</li>
+    {%endfor%}
+  </ul>
+</div>
+
+{%endblock%}

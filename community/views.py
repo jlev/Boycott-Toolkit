@@ -167,4 +167,10 @@ def facebook_canvas(request):
     return render_to_response('community/canvas.fbml',{'campaigns':my_campaigns,
                                                        'company_actions':my_company_actions,
                                                        'product_actions':my_product_actions,
-                                                       'revisions':my_revisions})
+                                                       'revisions':my_revisions},
+                                                       context_instance = RequestContext(request))
+                                                       
+def recent_edits(request):
+    edits = Revision.objects.select_related('version').all().order_by("-date_created")[:25]
+    return render_to_response('community/recent_edits.html',{'edits':edits},
+                                context_instance = RequestContext(request))
