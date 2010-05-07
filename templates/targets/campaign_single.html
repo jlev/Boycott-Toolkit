@@ -43,7 +43,9 @@
 {%for a in company_actions %}
 <div class="block" style="width:200px;"><h2>{{a.get_verb_display}}</h2>
   <h3><a href="{{a.company.get_absolute_url}}">{{a.company.name}}</a></h3>
+  {% with a.company.product_set.count as num_products %}{% ifnotequal num_products 0 %}
   <h4><a href="">{{a.company.product_set.count}} Product{{a.company.product_set.count|pluralize}}</a></h4>
+  {%endifnotequal%}{%endwith%}
   {% if a.reason %}<b>Why?</b> {{a.reason}} {%endif%}
 </div>
 {%endfor%}
