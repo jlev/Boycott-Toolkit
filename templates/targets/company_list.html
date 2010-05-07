@@ -20,7 +20,7 @@ Add a <a href="/target/company/new">new company</a>.
   <ul>
   {%for a in company.companyaction_set.all %}
   <li><b><a href="a.campaign.get_absolute_url">{{a.campaign.get_verb_display}} {{a.campaign.name}}</a></b>
-    {% if a.reason %}<b>Why?</b> {{a.reason}} {%endif%}
+    {% if a.reason %}: {{a.reason}}{%endif%}
   {%endfor%}
   </div>
 </div>
