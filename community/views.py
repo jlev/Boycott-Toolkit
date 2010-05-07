@@ -19,7 +19,7 @@ from django.views.decorators.cache import never_cache
 from reversion.models import Revision
 
 from boycott import settings
-from target.models import ProductAction,CompanyAction
+from target.models import Campaign,Company,Product,Store,ProductAction,CompanyAction
 from community.models import UserProfile
 from community.forms import UserProfileForm
 
@@ -107,15 +107,23 @@ def user_view_all(request):
 def user_view(request,username):
     u = get_object_or_404(User,username=username)
     my_profile = u.profile
-    my_campaigns = my_profile.campaigns.all()
-    my_product_actions = ProductAction.objects.select_related('product').filter(campaign__in=my_campaigns)
-    my_company_actions = CompanyAction.objects.select_related('company').filter(campaign__in=my_campaigns)
+    my_campaigns_started = Campaign.objects.filter(added_by=u)
+    my_companies_added = Company.objects.filter(added_by=u)
+    my_products_added = Product.objects.filter(added_by=u)
+    my_stores_added = Store.objects.filter(added_by=u)
+    my_campaigns_joined = my_profile.campaigns.all()
+    my_product_actions = ProductAction.objects.select_related('product').filter(campaign__in=my_campaigns_joined)
+    my_company_actions = CompanyAction.objects.select_related('company').filter(campaign__in=my_campaigns_joined)
     my_revisions = Revision.objects.select_related('version').filter(user=u).order_by("-date_created")[:10]
     
     #clean up list
     return render_to_response('community/user_single.html',
-        {'the_user':u, #don't use "user", because that will overwrite the request context user
-        'campaigns':my_campaigns,
+        {'the_user':u, #don't use "user", because that will overwrite the request context user,
+        'my_campaigns':my_campaigns_started,
+        'my_companies':my_companies_added,
+        'my_products':my_products_added,
+        'my_stores':my_stores_added,
+        'campaigns_joined':my_campaigns_joined,
         'company_actions':my_company_actions,
         'product_actions':my_product_actions,
         'revisions':my_revisions},

@@ -22,15 +22,41 @@
   <br><i><a href="/admin/community/userprofile/{{user.profile.id}}">edit in admin</a></i>
   {%endif%}
   </div>
-
 </div>
 
-<div style="float:left;">
+<div id="my_additions" style="float:left;">
+  <h2>My Contributions</h2>
+  <ul>
+    {%if my_campaigns%}<ul><h3>Campaigns</h3>
+    {% for c in my_campaigns %}<li><a href="{{c.get_absolute_url}}">{{c.name}}</a></li>{%endfor%}
+    </ul>{%endif%}
+    {%if my_companies%}<ul><h3>Companies</h3>
+    {% for c in my_companies %}<li><a href="{{c.get_absolute_url}}">{{c.name}}</a></li>{%endfor%}
+    </ul>{%endif%}
+    {%if my_products%}<ul><h3>Products</h3>
+    {% for c in my_products %}<li><a href="{{c.get_absolute_url}}">{{c.name}}</a></li>{%endfor%}
+    </ul>{%endif%}
+    {%if my_stores%}<ul><h3>Stores</h3>
+    {% for c in my_stores %}<li><a href="{{c.get_absolute_url}}">{{c.name}}</a></li>{%endfor%}
+    </ul>{%endif%}
+</div>
+
+<div class="edit_list">
+  <h2>My Recent Edits</h2>
+  <hr>
+  <ul>
+    {% for r in revisions %}
+    <li>{{r.comment|slice:":-1"}} on {{r.version_set.all.0.object_repr}} at {{r.date_created|date:"D d M Y" }}</li>
+    {%endfor%}
+  </ul>
+</div>
+
+<div id="campaigns_joined" style="float:left;">
   <br>
-<h2>My Campaigns</h2>
+<h2>Campaigns I Joined</h2>
 </div>
 <div style="clear:left;">
-{%for campaign in campaigns %}
+{%for campaign in campaigns_joined %}
 <div class="block" style="width:200px;"><h2>{{campaign.get_verb_display}}</h2>
   <h3><a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a></h3>
   {% with campaign.users_joined_campaign.count as num_users %}
@@ -74,17 +100,7 @@
     {%endfor%}
     </tr>
   </table>
-  </div>
-  
-  <div class="edit_list">
-    <h2>My Recent Edits</h2>
-    <hr>
-    <ul>
-      {% for r in revisions %}
-      <li>{{r.comment|slice:":-1"}} on {{r.version_set.all.0.object_repr}} at {{r.date_created|date:"D d M Y" }}</li>
-      {%endfor%}
-    </ul>
-  </div>
+</div>
 
 </div>
 {%endblock%}
