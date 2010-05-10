@@ -63,7 +63,9 @@ def proxy(request,theURL):
         if allowedHosts and not host in allowedHosts:
             response.write("Status: 502 Bad Gateway\n")
             response.write("Content-Type: text/plain\n")
-            response.write("This proxy does not allow you to access the location (%s).\n" % (host,))
+            response.write("This proxy does not allow you to access that resource.\n")
+            response.write("URL: %s, host: %s.\n" % (url,host))
+            response.write("allowed hosts: %s.\n" % (allowedHosts)
 
         elif url.startswith("http://") or url.startswith("https://"):
 #           if request.method == "POST":
