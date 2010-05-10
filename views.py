@@ -64,8 +64,8 @@ def proxy(request,theURL):
             response.write("Status: 502 Bad Gateway\n")
             response.write("Content-Type: text/plain\n")
             response.write("This proxy does not allow you to access that resource.\n")
-            response.write("URL: %s, host: %s.\n" % (url,host))
-            response.write("allowed hosts: %s.\n" % (allowedHosts)
+            response.write("URL: %s, host: %s.<br>" % (theURL,host))
+            response.write("Allowed hosts: %s.<br>" % (allowedHosts))
 
             y = urllib2.urlopen(url)
             response.write(y.read())
