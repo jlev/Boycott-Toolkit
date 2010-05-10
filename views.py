@@ -56,23 +56,20 @@ def proxy(request,theURL):
     url.replace('%3A',':')
 
     if url == "":
-        url = "http://www.example.com"
+        url = "www.example.com"
 
     try:        
-        host = url.split("/")[2]
+        host = url.split("/")[0]
         if allowedHosts and not host in allowedHosts:
             response.write("Status: 502 Bad Gateway\n")
             response.write("Content-Type: text/plain\n")
             response.write("This proxy does not allow you to access that resource.\n")
-            response.write("URL: %s, host: %s.<br>" % (theURL,host))
-            response.write("Allowed hosts: %s.<br>" % (allowedHosts))
-
-            y = urllib2.urlopen(url)
+            response.write("URL: %s, host: %s.\n" % (url,host))
+            response.write("allowed hosts: %s.\n" % (allowedHosts))
+        else:
+            y = urllib2.urlopen('http://'+url)
             response.write(y.read())
             y.close()
-        else:
-            response.write("Content-Type: text/plain\n")
-            response.write("Illegal request.\n")
 
     except Exception, E:
         response.write("Status: 500 Unexpected Error\n")
