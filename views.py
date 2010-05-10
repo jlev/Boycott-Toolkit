@@ -67,23 +67,7 @@ def proxy(request,theURL):
             response.write("URL: %s, host: %s.\n" % (url,host))
             response.write("allowed hosts: %s.\n" % (allowedHosts)
 
-        elif url.startswith("http://") or url.startswith("https://"):
-#           if request.method == "POST":
-#               length = int(request.META["CONTENT_LENGTH"])
-#               headers = {"Content-Type": request.META["CONTENT_TYPE"]}
-#               body = sys.stdin.read(length)
-#               ##fix
-#               r = urllib2.Request(url, body, headers)
-#               y = urllib2.urlopen(r)
-#           else:
             y = urllib2.urlopen(url)
-
-            i = y.info()
-            #Content Type headers seem to mess up OL ajax requests, so forget it
-            #if i.has_key("Content-Type"):
-            #    response.write("Content-Type: %s" % (i["Content-Type"]))
-            #else:
-            #    response.write("Content-Type: text/plain\n")
             response.write(y.read())
             y.close()
         else:
