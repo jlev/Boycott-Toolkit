@@ -20,6 +20,8 @@ from geography.models import Map
 from geography.forms import MapInlineForm
 from geography.views import geojson_base
 
+from reversion import revision
+
 def company_view_all(request):
     #TODO paginate
     c = Company.objects.all()
@@ -46,6 +48,7 @@ def company_view(request,slug,message=None):
         context_instance = RequestContext(request))
 
 @login_required
+@revision.create_on_success
 def company_edit(request,slug):
     company = Company.objects.get(slug=slug)
     if request.POST:
@@ -68,6 +71,7 @@ def company_edit(request,slug):
     context_instance = RequestContext(request))
         
 @login_required
+@revision.create_on_success
 def company_add(request,message=None):
     if request.POST:
         company_form = CompanyForm(request.POST,request.FILES,prefix="company")
@@ -148,7 +152,9 @@ def product_upc(request,upc):
         'citations':cites,
         'logo_img':logo_img},
         context_instance = RequestContext(request))
+        
 @login_required
+@revision.create_on_success
 def product_edit(request,slug):
     product = get_object_or_404(Product,slug=slug)
     if request.POST:
@@ -170,6 +176,7 @@ def product_edit(request,slug):
     context_instance = RequestContext(request))
 
 @login_required
+@revision.create_on_success
 def product_add(request,message=None):
     if request.POST:
         product_form = ProductForm(request.POST,request.FILES,prefix='product')
@@ -229,6 +236,7 @@ def campaign_view(request,slug):
 
 
 @login_required
+@revision.create_on_success
 def campaign_edit(request,slug):
     campaign = Campaign.objects.get(slug=slug)
     if request.POST:
@@ -250,6 +258,7 @@ def campaign_edit(request,slug):
                     context_instance = RequestContext(request))
 
 @login_required
+@revision.create_on_success
 def campaign_add(request,message=None):
     if request.POST:
         form = CampaignForm(request.POST)
@@ -273,6 +282,7 @@ def campaign_add(request,message=None):
                     context_instance = RequestContext(request))
 
 @login_required
+@revision.create_on_success
 def campaign_add_product(request,slug):
     campaign = Campaign.objects.get(slug=slug)
     if request.POST:
@@ -292,6 +302,7 @@ def campaign_add_product(request,slug):
                     context_instance = RequestContext(request))
                     
 @login_required
+@revision.create_on_success
 def campaign_add_company(request,slug):
     campaign = Campaign.objects.get(slug=slug)
     if request.method == 'POST':
@@ -380,6 +391,7 @@ def store_all_json(request):
     return HttpResponse(json.dumps(obj))
      
 @login_required
+@revision.create_on_success
 def store_add(request,message=None):
     if request.POST:
         store_form = StoreForm(request.POST,prefix="store")
@@ -413,6 +425,7 @@ def store_add(request,message=None):
                     context_instance = RequestContext(request))
 
 @login_required
+@revision.create_on_success
 def store_edit(request,slug):
     store = Store.objects.get(slug=slug)
     if request.POST:
