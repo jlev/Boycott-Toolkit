@@ -57,6 +57,8 @@ def company_edit(request,slug):
             company = company_form.save()
             company.edited_by.add(request.user)
             company.save()
+            revision.user = request.user
+            revision.comment = "Changed %s" % ", ".join(company_form.changed_data)
             #save the citations
             citation_from_json(request.POST['citations_json'],company)
             return HttpResponseRedirect(company.get_absolute_url())
@@ -98,6 +100,9 @@ def company_add(request,message=None):
 
             #resave the company to finish up
             company.save()
+            #create the reversion
+            revision.user = request.user
+            revision.comment = "created"
             #save the citations
             citation_from_json(request.POST['company-citations_json'],company)
             return HttpResponseRedirect(company.get_absolute_url())
@@ -163,6 +168,9 @@ def product_edit(request,slug):
             product = product_form.save()
             product.edited_by.add(request.user)
             product.save()
+            #create the revision
+            revision.user = request.user
+            revision.comment = "Changed %s" % ", ".join(product_form.changed_data)
             #save the citations
             citation_from_json(request.POST['citations_json'],product)
             return HttpResponseRedirect(product.get_absolute_url())
@@ -195,6 +203,9 @@ def product_add(request,message=None):
                 action.save()
             #resave the product to finish up
             product.save()
+            #create the revision
+            revision.user = request.user
+            revision.comment = "created"
             #save the citations
             citation_from_json(request.POST['product-citations_json'],product)
             return HttpResponseRedirect(product.get_absolute_url())
@@ -245,6 +256,9 @@ def campaign_edit(request,slug):
             campaign = form.save()
             campaign.edited_by.add(request.user)
             campaign.save()
+            #create the revision
+            revision.user = request.user
+            revision.comment = "Changed %s" % ", ".join(form.changed_data)
             #save the citations
             citation_from_json(request.POST['citations_json'],campaign)
             return HttpResponseRedirect(campaign.get_absolute_url())
@@ -269,6 +283,9 @@ def campaign_add(request,message=None):
             #set the slug
             campaign.slug = slugify(campaign.name)
             campaign.save()
+            #create the revision
+            revision.user = request.user
+            revision.comment = "created"
             #save the citations
             citation_from_json(request.POST['citations_json'],campaign)
             return HttpResponseRedirect(campaign.get_absolute_url())
@@ -289,6 +306,9 @@ def campaign_add_product(request,slug):
         form = ProductActionForm(request.POST)
         if form.is_valid():
             product_action = form.save()
+            #create the revision
+            revision.user = request.user
+            revision.comment = "Changed %s" % ", ".join(form.changed_data)
             return HttpResponseRedirect(campaign.get_absolute_url())
         else:
             message = "Please correct the errors below"
@@ -309,6 +329,9 @@ def campaign_add_company(request,slug):
         form = CompanyActionForm(request.POST)
         if form.is_valid():
             company_action = form.save()
+            #create the revision
+            revision.user = request.user
+            revision.comment = "Changed %s" % ", ".join(form.changed_data)
             return HttpResponseRedirect(campaign.get_absolute_url())
         else:
             message = "Please correct the errors below"
@@ -411,6 +434,9 @@ def store_add(request,message=None):
             #set the slug
             store.slug = slugify(store.name+"-"+map.name)
             store.save()
+            #create the revision
+            revision.user = request.user
+            revision.comment = "created"
             #save the citations
             #citation_from_json(request.POST['citations_json'],store)
             return HttpResponseRedirect(store.get_absolute_url())
@@ -433,6 +459,9 @@ def store_edit(request,slug):
         if form.is_valid():
             store = form.save()
             store.edited_by.add(request.user)
+            #create the revision
+            revision.user = request.user
+            revision.comment = "Changed %s" % ", ".join(form.changed_data)
             store.save()
             return HttpResponseRedirect(store.get_absolute_url())
         else:
