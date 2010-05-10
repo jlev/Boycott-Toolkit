@@ -26,7 +26,7 @@ urlpatterns += patterns('',
     (r'^target/', include('target.urls')),
     (r'^community/', include('community.urls')),
     (r'^location/', include('geography.urls')),
-    (r'proxy/(?P<theURL>.*)$','boycott.views.proxy'),
+    (r'^proxy/(?P<theURL>.*)$','boycott.views.proxy'),
     (r'^source/', include('info.urls')),
 )
 urlpatterns += patterns('boycott.views',
