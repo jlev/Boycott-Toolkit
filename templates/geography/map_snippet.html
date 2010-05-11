@@ -42,26 +42,15 @@ text-align:left;
   <a id="layerswitcher_toggle">Layers</a>
   <div id="layerswitcher"></div>
   
-  {% ifequal map.area_info.name "West Bank" %}
   <br>
   <a id="legend_toggle">Legend</a>
   <div id="legend">
-   <h3>Borders and Barriers</h3>
-   <table cellspacing="0">
-     <tr><td align="center"><img src='http://groundtruth.media.mit.edu/media/map/icons/green-line-solid.png'></td><td>Green Line</td></tr>
-     <tr><td align="center"><img src='http://groundtruth.media.mit.edu/media/map/icons/red-line-solid.png'></td><td>Separation Barrier (complete)</td></tr>
-     <tr><td align="center"><img src='http://groundtruth.media.mit.edu/media/map/icons/purple-line-solid.png'></td><td>Separation Barrier (planned)</td></tr>
-     <tr><td align="center"><img src='http://groundtruth.media.mit.edu/media/map/icons/black-line-dashed.png'></td><td>Separation Barrier (removed)</td></tr>
-  </table>
-  <h3>Localities</h3>
-  <table cellspacing="0">
-    <tr><td align="center"><img src='http://groundtruth.media.mit.edu/media/map/icons/settlement.png'></td><td>Settlement</td></tr>
-    <tr><td align="center"><img src='http://groundtruth.media.mit.edu/media/map/icons/palestinian.png'></td><td>Palestinian Towns</td></tr>
-  </table>
+  {{map.area_info.legend}}
   </div>
   <br clear=both>
-  <a href="http://groundtruth.media.mit.edu" target="_blank">Larger Map</a>
-  {%endifequal%}
+  <div id="links">
+  {{map.area_info.links|safe}}
+  </div>
 </div>
 
 <script type="text/javascript">

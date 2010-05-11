@@ -16,6 +16,8 @@ class Map(models.Model):
 
 class AreaInfo(models.Model):
     name = models.CharField(max_length=50)
-    script = models.TextField("OpenLayers javascript")
+    script = models.TextField("OpenLayers javascript",blank=True)
+    legend = models.TextField("HTML Legend",blank=True)
+    links = models.TextField("Links",blank=True)
     def __unicode__(self):
         return self.name
