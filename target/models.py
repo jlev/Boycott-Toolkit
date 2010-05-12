@@ -118,10 +118,11 @@ class Campaign(TargetBase):
     verb = models.CharField(choices=CAMPAIGN_VERB_CHOICES,default="BOYCOTT",max_length=10,
                             help_text="Is this a support or boycott campaign?")
     criteria = models.TextField("Goal",blank=True,null=True,help_text="When will this campaign be complete?")
-    complete = models.BooleanField(default=False)
+    complete = models.BooleanField(default=False,help_text="Have the goals been satisfied?")
     companies = models.ManyToManyField('Company',through='CompanyAction')
     products =  models.ManyToManyField('Product',through='ProductAction')
     highlight = models.BooleanField(default=False, help_text="Highlight on the frontpage, and lets the top-level url resolve")
+    extra = models.TextField("Extra HTML Field",blank=True,null=True)
     @models.permalink
     def get_absolute_url(self):
         return ('target.views.campaign_view', [self.slug])

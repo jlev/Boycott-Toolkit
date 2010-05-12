@@ -62,6 +62,12 @@
   </tr>
 </table>
 
+{% if campaign.extra %}
+<div class="block" id="extra">
+{{campaign.extra|safe}}
+</div>
+{% endif %}
+
 <div class="block meta">
 Added by: <a href="{{campaign.added_by.profile.get_absolute_url}}">{{campaign.added_by}}</a><br>
 Edited by: {% for user in campaign.edited_by.all %} <a href="{{user.profile.get_absolute_url}}">{{user}}</a> {%endfor%}<br>
