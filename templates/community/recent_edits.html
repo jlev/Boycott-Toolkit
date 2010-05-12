@@ -12,7 +12,7 @@
   <hr>
   <ul>
     {% for r in edits %}
-    <li>{{r.user}} {{r.comment}} on {{r.version_set.all.0.object_repr}} at {{r.date_created|date:"D d M Y" }}</li>
+    <li>{{r.user}} {{r.version_set.all.0.object_repr}} {{r.comment}} at {{r.date_created|date:"D d M Y" }}</li>
     {%endfor%}
   </ul>
 </div>

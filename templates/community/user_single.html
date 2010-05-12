@@ -46,7 +46,7 @@
   <hr>
   <ul>
     {% for r in revisions %}
-    <li>{{r.comment|slice:":-1"}} on {{r.version_set.all.0.object_repr}} at {{r.date_created|date:"D d M Y" }}</li>
+    <li>{{r.version_set.all.0.object_repr}} {{r.comment}} at {{r.date_created|date:"D d M Y" }}</li>
     {%endfor%}
   </ul>
 </div>
