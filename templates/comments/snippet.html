@@ -7,6 +7,10 @@
     (function() {
      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
      dsq.src = 'http://boycott.disqus.com/embed.js';
+     {% if debug %}
+     var disqus_developer = true;
+     {%endif%}
+     var 
      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
   </script>
