@@ -25,13 +25,18 @@
     <script type="text/javascript">
     $().ready(function() {
       $('#join_link').bind('click', function() {
-        $.post("{{campaign.get_absolute_url}}join/");
-        location.reload(); 
+        $.post("{{campaign.get_absolute_url}}join/",
+          function(data){
+            location.reload();
+          }
+        );
       });
 
       $('#leave_link').bind('click', function() {
-        $.post("{{campaign.get_absolute_url}}leave/");
-        location.reload();
+        $.post("{{campaign.get_absolute_url}}leave/",
+          function(data){
+            location.reload();
+          });
       });
     });
     </script>
