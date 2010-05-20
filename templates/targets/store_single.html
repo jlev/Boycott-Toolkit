@@ -14,14 +14,16 @@
     <ul>
     <li><b>Phone:</b> {%if store.phone%}{{store.phone}}
       {%else%}<a href='{{store.get_absolute_url}}edit'>add</a>{%endif%}
-      <li><div style="clear:left;"><b>Address:</b></div>
-          {% if store.address %}
-            <div class="address">
-            {{store.address|linebreaksbr}}
-            </div>
-          {%else%}
-            <a href='{{store.get_absolute_url}}edit'>add</a><br>
-          {%endif%}
+    <li><b>Website:</b> {% if store.website %}{{store.website|urlize}}
+        {%else%}<a href='{{company.get_absolute_url}}edit'>add</a>{%endif%}
+    <li><div style="clear:left;"><b>Address:</b></div>
+        {% if store.address %}
+          <div class="address">
+          {{store.address|linebreaksbr}}
+          </div>
+        {%else%}
+          <a href='{{store.get_absolute_url}}edit'>add</a><br>
+        {%endif%}
     </ul>
 </div>
 
