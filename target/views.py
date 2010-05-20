@@ -397,6 +397,7 @@ def store_all_json(request):
         properties['name'] = store.name
         properties['address'] = store.address
         properties['id'] = store.id
+        properties['website'] = store.website
         properties['url'] = store.get_absolute_url()
         properties['products'] = []
         for product in store.products.all():

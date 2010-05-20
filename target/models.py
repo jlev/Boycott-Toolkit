@@ -54,6 +54,7 @@ class Store(TargetBase):
     address = models.TextField(max_length=100,null=True,blank=True)
     location = gis_models.PointField(srid=4326,blank=True,null=True)
     phone = models.CharField(max_length=15,blank=True,null=True)
+    website = models.URLField(blank=True,null=True)
     products = models.ManyToManyField('Product',help_text="Products that this store sells")
     @models.permalink
     def get_absolute_url(self):
