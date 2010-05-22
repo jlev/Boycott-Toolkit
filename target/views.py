@@ -475,10 +475,15 @@ def store_edit(request,slug):
                     context_instance = RequestContext(request))
 
 def tag_view(request,tag):
-    tag = get_object_or_404(Tag,name__iexact=tag)
-    return render_to_response("targets/tags_list.html",{'tag':tag,
-        'message':"We track the following items tagged " + tag.name},
-    context_instance = RequestContext(request))
+    try:
+        tag = Tag.objects.get(name__exact=tag)
+        return render_to_response("targets/tags_list.html",{'tag':tag,
+            'message':"We track the following items tagged " + tag.name},
+        context_instance = RequestContext(request))
+    except Tag.DoesNotExist:
+        return render_to_response("base.html",{
+            'message':"We have no items tagged " + tag},
+        context_instance = RequestContext(request))
     
 def tag_multiple_view(request,tags_flat):
     tags_list = tags_flat.split("+")

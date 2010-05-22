@@ -18,8 +18,8 @@
     <li><a href="{{campaign.get_absolute_url}}">{{campaign.name}}</a>
     {%endfor%}
     </ul>
+<br>
 {%endif%}
-  <br>
 {% if companies %}
 <li><b>Companies:</b>
   <ul>
@@ -27,8 +27,8 @@
   <li><a href="{{company.get_absolute_url}}">{{company.name}}</a>
   {%endfor%}
   </ul>
-{%endif%}
 <br>
+{%endif%}
 {% if products %}
 <li><b>Products:</b>
   <ul>
