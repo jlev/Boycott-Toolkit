@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from target.models import Campaign,Product,Company,CompanyAction,ProductAction
 
 def frontpage_view(request,message=None):
-    campaigns = Campaign.objects.select_related('user_joined_campaign').filter(highlight=True)
+    campaigns = Campaign.objects.select_related('user_joined_campaign').filter(highlight=True,graveyard=False)
     product_actions = ProductAction.objects.select_related('product').filter(campaign__in=campaigns).order_by('?')[:12]
     company_actions = CompanyAction.objects.select_related('company').filter(campaign__in=campaigns).order_by('?')[:12]
     

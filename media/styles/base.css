@@ -190,9 +190,12 @@ td {
 }
 
 #message {
+    float:left;
     background:#FFFF99;
     margin-bottom:10px;
-    width:475px;
+    margin-right:100px;
+    width:450px;
+    /* sums to content width of 550 */
 }
 
 #legal {

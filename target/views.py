@@ -222,7 +222,7 @@ def product_add(request,message=None):
     context_instance = RequestContext(request))
             
 def campaign_view_all(request):
-    c = Campaign.objects.all()
+    c = Campaign.objects.filter(graveyard=False)
     return render_to_response('targets/campaign_list.html',
         {'message':"All the campaigns which are currently running:",
         'campaigns':c},
@@ -230,6 +230,20 @@ def campaign_view_all(request):
 
 def campaign_view(request,slug):
     campaign = get_object_or_404(Campaign,slug=slug)
+    if (campaign.graveyard):
+        message = '''This campaign has been reported for violating our <a href=/about/terms>Terms of Service</a><br>
+        Click <a id=view_graveyard href=#>here</a> to see it anyways.
+        <script type="text/javascript">
+           $().ready(function() {
+             $('#view_graveyard').click(function() {
+                $('#page_content').show();
+             });
+             $('#page_content').hide();
+           });
+           </script>
+        '''
+    else:
+        message = None
     campaign_users = campaign.users_joined_campaign.get_query_set()
     cites = citations_for_object(campaign)
     if not request.user.is_anonymous():
@@ -240,7 +254,8 @@ def campaign_view(request,slug):
     company_actions = campaign.companyaction_set.get_query_set()
     
     return render_to_response("targets/campaign_single.html",
-        {'campaign':campaign,'citations':cites,
+        {'message':message,
+        'campaign':campaign,'citations':cites,
         'campaign_users':campaign_users,'user_joined_campaign':user_joined_campaign,
         'product_actions':product_actions,'company_actions':company_actions},
         context_instance = RequestContext(request))
