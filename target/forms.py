@@ -47,8 +47,8 @@ class CampaignForm(TrackedObjectForm):
            self.fields['citations_json'] = forms.fields.CharField(widget=forms.widgets.HiddenInput(attrs={'id':'hidden_citations_json'}),required=False) #holds all the citations as json
            
     class Meta(TrackedObjectForm.Meta):
-        exclude = TrackedObjectForm.Meta.exclude + ('highlight','companies','products','extra')
-        #highlight isn't user editable
+        exclude = TrackedObjectForm.Meta.exclude + ('highlight','graveyard','companies','products','extra')
+        #highlight/graveyard aren't user editable
         #extra is only visible in admin
         #companies and products are added after by the ProductAction and CompanyAction intermediates
         model = Campaign

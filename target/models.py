@@ -123,6 +123,7 @@ class Campaign(TargetBase):
     companies = models.ManyToManyField('Company',through='CompanyAction')
     products =  models.ManyToManyField('Product',through='ProductAction')
     highlight = models.BooleanField(default=False, help_text="Highlight on the frontpage, and lets the top-level url resolve")
+    graveyard = models.BooleanField(default=False, help_text="Remove for TOS violation")
     extra = models.TextField("Extra HTML Field",blank=True,null=True)
     @models.permalink
     def get_absolute_url(self):
