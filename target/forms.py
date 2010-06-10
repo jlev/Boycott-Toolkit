@@ -27,7 +27,9 @@ class ProductForm(TrackedObjectForm):
     def __init__(self, *args, **kwargs):
         super(ProductForm, self).__init__(*args, **kwargs)
         self.fields['description'] = forms.fields.CharField(widget=CitationWidget(attrs={'model':'target.product','field':'description'}))
-        self.fields['citations_json'] = forms.fields.CharField(widget=forms.widgets.HiddenInput(attrs={'id':'hidden_citations_json'}),required=False) #holds all the citations as json 
+        self.fields['citations_json'] = forms.fields.CharField(widget=forms.widgets.HiddenInput(attrs={'id':'hidden_citations_json'}),required=False) #holds all the citations as json
+        self.fields['company'].help_text += '<br><a href=/target/company/new>Add a new company</a>'
+        self.fields['alternative'].help_text += '(Optional)'
     class Meta(TrackedObjectForm.Meta):
         model = Product
 
