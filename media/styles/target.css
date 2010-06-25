@@ -1,3 +1,25 @@
+/*provides the alternating colors */
+.Oppose_block {
+    background-color:#EDAAA7 !important;
+    color:#731403 !important;
+}
+.Oppose_block > h2 {
+    color:#731403 !important;
+}
+.Oppose_block a {
+    color:#8F3B3B !important;
+}
+.Support_block {
+    background-color:#D5EDCE !important;
+    color:#3D4151 !important;
+}
+.Support_block > a {
+    color:#3D4151 !important;
+}
+.Support_block > h2 {
+    color:#1A340D !important;
+}
+
 #contact-box {
     float:left;
     padding:5px;
