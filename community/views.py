@@ -197,3 +197,14 @@ def recent_edits(request):
     edits = Revision.objects.select_related('version').all().order_by("-date_created")[:25]
     return render_to_response('community/recent_edits.html',{'edits':edits},
                                 context_instance = RequestContext(request))
+                                
+def stats(request):
+    revisions = Revision.objects.select_related('version').all().order_by("user")
+    edits_by_user = {}
+    for r in revisions:
+        if edits_by_user.has_key(r.user):
+            edits_by_user[r.user] += 1
+        else:
+            edits_by_user[r.user] = 0
+    return render_to_response('community/stats.html',{'edits_by_user':edits_by_user},
+                                context_instance = RequestContext(request))
