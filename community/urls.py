@@ -10,4 +10,5 @@ urlpatterns = patterns('community.views',
     url(r'^user/(?P<username>[\w-]+)/edit/$','user_edit'),
     url(r'^facebook/$','facebook_canvas'),
     url(r'^recent_edits/$','recent_edits'),
+    url(r'^stats/$','stats'),
 )

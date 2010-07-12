@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{%block css%}
+ <link rel="stylesheet" href="{{MEDIA_URL}}styles/community.css" type="text/css"/>
+{%endblock%}
+
+{% block title %} Stats{% endblock %}
+
+{%block content%}
+
+<div class="edit_list">
+  <h2>Edits by User</h2>
+  <ul>
+    {% for name,edits in edits_by_user.items %}
+    <li><b>{{name}}</b>: {{edits}}
+    {%endfor%}
+  </ul>
+</div>
+
+{%endblock%}
