@@ -99,24 +99,20 @@ def xd_receiver(request):
 
 def user_view_all(request):
     users = User.objects.all().order_by("-date_joined")
-    request_fb_profile = FacebookProfile.objects.get(user=request.user)
-    if (request_fb_profile):
-        fb = "You are logged in to Facebook as %s" % request_fb_profile.full_clean() 
-        #a facebook user is logged in,
-        #use their credentials to pull info from fb users into django users
-        for p in FacebookProfile.objects.all():
-            u = p.user
-            if u.first_name is not None:
-                u.first_name = p.first_name
-            if u.last_name is not None:
-                u.last_name = p.last_name
-            if u.email is not None:
-                u.email = p.email
-            u.save()
+#    request_fb_profile = FacebookProfile.objects.get(user=request.user)
+#    if (request_fb_profile):
+#        fb = "You are logged in to Facebook as %s" % #request_fb_profile 
+#        #a facebook user is logged in,
+#        #use their credentials to pull info from fb users into django users
+#        for p in FacebookProfile.objects.all():
+#            u = p.user
+#            u.first_name = p.first_name
+#            u.email = p.email
+#            u.save()
     
     #TODO paginate
     return render_to_response('community/user_list.html',
-        {'users':users,'fb_logged_in':fb},
+        {'users':users},
         context_instance = RequestContext(request))
 
 def user_view(request,username):
