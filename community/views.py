@@ -200,11 +200,11 @@ def recent_edits(request):
                                 
 def stats(request):
     revisions = Revision.objects.select_related('version').all().order_by("user")
-    edits_by_user = {}
+    users = {}
     for r in revisions:
-        if edits_by_user.has_key(r.user):
-            edits_by_user[r.user] += 1
+        if users.has_key(r.user):
+            users[r.user] += 1
         else:
-            edits_by_user[r.user] = 0
-    return render_to_response('community/stats.html',{'edits_by_user':edits_by_user},
+            users[r.user] = 1
+    return render_to_response('community/stats.html',{'users':users},
                                 context_instance = RequestContext(request))

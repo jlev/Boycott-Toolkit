@@ -8,10 +8,15 @@
 {%block content%}
 
 <div class="edit_list">
-  <h2>Edits by User</h2>
+  <h2>User Statistics</h2>
   <ul>
-    {% for name,edits in edits_by_user.items %}
-    <li><b>{{name}}</b>: {{edits}}
+    <li><i><b>Name</b>: Campaigns, Companies, Products, Stores, Revisions</i>
+    {% for user,revisions in users.items %}
+    <li><b>{{user.username}}</b>: {{user.campaign_add.all.count}},
+                              {{user.company_add.all.count}},
+                              {{user.product_add.all.count}},
+                              {{user.store_add.all.count}},
+                              {{revisions}}
     {%endfor%}
   </ul>
 </div>
