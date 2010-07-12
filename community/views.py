@@ -208,3 +208,4 @@ def stats(request):
             users[r.user] = 1
     return render_to_response('community/stats.html',{'users':users},
                                 context_instance = RequestContext(request))
+
