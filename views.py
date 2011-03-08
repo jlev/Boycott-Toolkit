@@ -36,6 +36,18 @@ def search_view(request):
         {'query':query,'results':results},
         context_instance = RequestContext(request))
 
+def upc_view(request):
+    query = request.GET.get('q', '')
+    results = {}
+    results['products'] = Product.objects.filter(upc__icontains=query)
+    #todo
+    # broaden search if no results (company code, country?)
+    # allow user add if no results
+    
+    return render_to_response('upc_search.html',
+        {'query':query,'results':results},
+        context_instance = RequestContext(request))
+
 
 def proxy(request,theURL):
     """This is a blind proxy that we use to get around browser

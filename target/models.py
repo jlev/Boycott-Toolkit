@@ -43,11 +43,31 @@ class Company(TargetBase):
 class Product(TargetBase):
     company = models.ForeignKey('Company',help_text="Who makes this product?")
     upc = models.CharField('UPC',max_length=13,blank=True,null=True)
+    upc_image = models.ImageField('UPC Image',upload_to='uploads/products/upc',blank=True,null=True)
     image = StdImageField("Product Image",upload_to="uploads/products",blank=True,size=(250,250),thumbnail_size=(150,75))
     alternative = models.ForeignKey('Product',help_text="What products make a good alternative?",blank=True,null=True)
     @models.permalink
     def get_absolute_url(self):
         return ('target.views.product_view', [self.slug])
+        
+    def generate_barcode(self):
+        "generates barcode png and returns filename"
+        try:
+            import barcode
+        except ImportError:
+            #not installed
+            return None
+        
+        if not self.upc:
+            return None
+        EAN = barcode.get_barcode_class('ean13')
+        upc_filename = EAN(self.upc, writer=barcode.writer.ImageWriter()).save('%s.png' % self.upc)
+        return upc_filename
+    
+    def save(self):
+        if upc and not upc_image:
+            self.upc_image = generate_barcode()
+        super(Product, self).save(*args, **kwargs)
 
 class Store(TargetBase):
     logo = StdImageField("Store Logo",upload_to="uploads/store",blank=True,null=True,size=(250,250),thumbnail_size=(150,75))
@@ -112,7 +132,7 @@ class ProductAction(models.Model):
 
 CAMPAIGN_VERB_CHOICES = (
     ('BOYCOTT','Boycott'),
-    ('SUPPORT','Support'),
+    ('SUPPORT','Support')
 )
 
 class Campaign(TargetBase):
