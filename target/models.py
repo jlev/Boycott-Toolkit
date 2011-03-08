@@ -64,9 +64,9 @@ class Product(TargetBase):
         upc_filename = EAN(self.upc, writer=barcode.writer.ImageWriter()).save('%s.png' % self.upc)
         return upc_filename
     
-    def save(self):
-        if upc and not upc_image:
-            self.upc_image = generate_barcode()
+    def save(self, *args, **kwargs):
+        if self.upc and not self.upc_image:
+            self.upc_image = self.generate_barcode()
         super(Product, self).save(*args, **kwargs)
 
 class Store(TargetBase):
