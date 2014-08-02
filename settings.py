@@ -1,27 +1,27 @@
 # Django settings for boycott project.
 
-DEBUG = False
+import os
+SITE_ROOT = os.path.abspath(os.path.split(__file__)[0])
+
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Josh Levinger', 'jlev@mit.edu'),
+    ('Josh Levinger', 'josh@levinger.net'),
 )
 MANAGERS = ADMINS
 
 #DATABASE SETTINGS
-DATABASE_ENGINE = 'postgresql_psycopg2'
-DATABASE_NAME = 'boycott'
-DATABASE_USER = 'jlev'
-DATABASE_PASSWORD = ''
-DATABASE_HOST = 'localhost'
-DATABASE_PORT = '5433'
-
-#EMAIL SETTINGS
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'register@boy.co.tt'
-EMAIL_HOST_PASSWORD = 'XXXXX'
-EMAIL_PORT = 587
+DATABASES = {
+    'default': {
+        "ENGINE": 'django.contrib.gis.db.backends.postgis',
+        "NAME": 'boycott',
+        "USER": 'josh',
+        "PASSWORD": '',
+        "HOST": 'localhost',
+        "PORT": 5432
+    }
+}
 
 #LOCALE SETTINGS
 TIME_ZONE = 'America/New_York'
@@ -29,21 +29,20 @@ LANGUAGE_CODE = 'en-us'
 SITE_ID = 1
 USE_I18N = True
 
-#MEDIA SETTINGS
-SITE_ROOT = '/home/jlev/django_apps/boycott/'
-MEDIA_ROOT = SITE_ROOT + 'media/'
-MEDIA_URL = 'http://boy.co.tt/media/'
-ADMIN_MEDIA_PREFIX = '/media/admin/'
-AUTOCOMPLETE_JS_BASE_URL = MEDIA_URL + "jquery/autocomplete/"
+#STATIC SETTINGS
+STATIC_ROOT = SITE_ROOT + '/static/'
+STATIC_URL = 'http://boy.co.tt/static/'
+ADMIN_STATIC_PREFIX = '/static/admin/'
+AUTOCOMPLETE_JS_BASE_URL = STATIC_URL + "jquery/autocomplete/"
 
 #API KEYS
-SECRET_KEY = ''
+SECRET_KEY=''
 
 #REGISTRATION SETTINGS
 ACCOUNT_ACTIVATION_DAYS = 7
 
 #FACEBOOK CONNECT
-FACEBOOK_API_KEY='ab57b2ea3e3c59f35ce7cd3905142528'
+FACEBOOK_API_KEY=''
 FACEBOOK_SECRET_KEY=''
 FACEBOOK_CACHE_TIMEOUT = 1800
 FACEBOOK_INTERNAL = True
@@ -70,22 +69,23 @@ LOGOUT_URL = '/community/logout/'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.load_template_source',
-    'django.template.loaders.app_directories.load_template_source',
-#     'django.template.loaders.eggs.load_template_source',
+    "django.template.loaders.filesystem.Loader",
+    "django.template.loaders.app_directories.Loader",
 )
 TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.core.context_processors.auth",
+    "django.contrib.auth.context_processors.auth",
+    "django.contrib.messages.context_processors.messages",
     "django.core.context_processors.debug",
     "django.core.context_processors.i18n",
+    "django.core.context_processors.static",
     "django.core.context_processors.media",
-    #1.1 default, plus request
-    'django.core.context_processors.request',
+    "django.core.context_processors.request",
+    "django.core.context_processors.tz",
 )
 
 TEMPLATE_DIRS = (
-    SITE_ROOT + 'templates',
-    SITE_ROOT + 'olwidget/templates',
+    SITE_ROOT + '/templates',
+    SITE_ROOT + '/olwidget/templates',
 )
 
 DEBUG_TOOLBAR_CONFIG = {
@@ -96,12 +96,12 @@ MIDDLEWARE_CLASSES = (
 #    'debug_toolbar.middleware.DebugToolbarMiddleware', #DEBUG ONLY    
     'django.middleware.cache.UpdateCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'facebook.djangofb.FacebookMiddleware',
+    #'facebook.djangofb.FacebookMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware', 
-    #'django.contrib.csrf.middleware.CsrfMiddleware', #doesn't play nice with facebook connect
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'facebookconnect.middleware.FacebookConnectMiddleware',
+    #'facebookconnect.middleware.FacebookConnectMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware'
 )
 
@@ -112,7 +112,7 @@ CACHE_BACKEND = 'memcached://127.0.0.1:11211'
 CACHE_MIDDLEWARE_KEY_PREFIX = 'boycott'
 
 AUTHENTICATION_BACKENDS = (
-    'facebookconnect.models.FacebookBackend',
+    #'facebookconnect.models.FacebookBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -130,9 +130,9 @@ INSTALLED_APPS = (
     'django.contrib.markup',
     'django.contrib.comments',
     'django.contrib.flatpages',
-    'django_evolution',
     'reversion',
-    'facebookconnect',
+    'south',
+    #'facebook_connect',
     'tagging',
     'autocomplete',
     'olwidget',
@@ -142,3 +142,8 @@ INSTALLED_APPS = (
     'boycott.info',
 #    'debug_toolbar'
 )
+
+try:
+    from settings_local import *
+except:
+    from settings_heroku import *
