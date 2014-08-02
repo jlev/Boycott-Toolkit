@@ -5,8 +5,8 @@ from django.core.urlresolvers import reverse
 
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
-import facebook.djangofb as facebook
-from facebookconnect.models import FacebookProfile
+#import facebook.djangofb as facebook
+#from facebookconnect.models import FacebookProfile
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.models import Site
 
@@ -99,20 +99,20 @@ def xd_receiver(request):
 
 def user_view_all(request):
     users = User.objects.all().order_by("-date_joined")
-    request_fb_profile = FacebookProfile.objects.get(user=request.user)
-    if (request_fb_profile):
-        fb = "You are logged in to Facebook as %s" % request_fb_profile.full_clean() 
-        #a facebook user is logged in,
-        #use their credentials to pull info from fb users into django users
-        for p in FacebookProfile.objects.all():
-            u = p.user
-            if u.first_name is not None:
-                u.first_name = p.first_name
-            if u.last_name is not None:
-                u.last_name = p.last_name
-            if u.email is not None:
-                u.email = p.email
-            u.save()
+    # request_fb_profile = FacebookProfile.objects.get(user=request.user)
+    # if (request_fb_profile):
+    #     fb = "You are logged in to Facebook as %s" % request_fb_profile.full_clean() 
+    #     #a facebook user is logged in,
+    #     #use their credentials to pull info from fb users into django users
+    #     for p in FacebookProfile.objects.all():
+    #         u = p.user
+    #         if u.first_name is not None:
+    #             u.first_name = p.first_name
+    #         if u.last_name is not None:
+    #             u.last_name = p.last_name
+    #         if u.email is not None:
+    #             u.email = p.email
+    #         u.save()
     
     #TODO paginate
     return render_to_response('community/user_list.html',
@@ -165,7 +165,7 @@ def user_edit(request,username):
                     {"message":message,"form": form},
                     context_instance = RequestContext(request))
                     
-@facebook.require_login()
+#@facebook.require_login()
 def facebook_canvas(request):
     if request.user.is_anonymous():
         #we need to make fb/django connection

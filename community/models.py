@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django_stdimage import StdImageField
+from stdimage import StdImageField
 from target.models import Product,Company,Campaign
-from facebookconnect.models import FacebookProfile
+from facebook_connect.models import FacebookUser
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, unique=True)
@@ -22,9 +22,10 @@ class UserProfile(models.Model):
     def get_num_fb_friends(self):
         '''Get the number of friends'''
         try:
-            my_profile = FacebookProfile.objects.get(user=self.user)
-            my_friends = my_profile._FacebookProfile__get_facebook_friends()
-            return len(my_friends)
+            my_profile = FacebookUser.objects.get(user=self.user)
+            #my_friends = my_profile._FacebookProfile__get_facebook_friends()
+            #return len(my_friends)
+            return "X"
         except FacebookProfile.DoesNotExist:
             return None
         
