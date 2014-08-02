@@ -5,7 +5,6 @@ from django.db.models import get_model,Q
 
 from urllib2 import urlopen
 from geopy import geocoders
-from geopy.geocoders.google import GQueryError
 
 from target.models import Product,Company,Store
 from geography.models import Map
@@ -130,7 +129,7 @@ def geocode(request,use_groundtruth=False):
     #check google
     GMAPS_API_KEY = "ABQIAAAAT9uyY_WHXEyDYZHQMelCKhRlte5-xCx01c0gtBmqgDnMLJYMmRS1vGz6k_iWjoIXmQBGNhXYV2UXBQ"
     try:
-        g = geocoders.Google(GMAPS_API_KEY)
+        g = geocoders.GoogleV3(api_key=GMAPS_API_KEY)
         place, (lat, lng) = g.geocode(query)
         #transform the response into geojson, just like groundtruth
         geo = {}
@@ -143,7 +142,5 @@ def geocode(request,use_groundtruth=False):
         geo['geometry']=the_geom
         r.append("%s|x|%s" % (place,json.dumps(geo)))
     except ValueError:
-        pass
-    except GQueryError:
         pass
     return HttpResponse('\n'.join(r), mimetype='text/plain') 
