@@ -1,3 +1,4 @@
+{% csrf_token %}
 {% for field in form %}
 <div class="fieldWrapper">
 	{%if not field.is_hidden%}<div class="fieldLabel{%if field.is_required %} required{%endif%}">{{ field.label_tag }}:</div>{%endif%}

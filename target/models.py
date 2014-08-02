@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.gis.db import models as gis_models
 from django.contrib.auth.models import User
-from django_stdimage import StdImageField
+from stdimage import StdImageField
 import tagging.fields
 from tagging.utils import parse_tag_input
 

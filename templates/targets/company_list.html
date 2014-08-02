@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {%block css%}
- <link rel="stylesheet" href="{{MEDIA_URL}}styles/target.css" type="text/css"/>
+ <link rel="stylesheet" href="{{STATIC_URL}}styles/target.css" type="text/css"/>
 {%endblock%}
 {% block title %}Companies{% endblock %}
 
@@ -12,7 +12,7 @@ Add a <a href="/target/company/new">new company</a>.
   <h3>Tags: {% for tag in company.get_tag_list %}<a href="/target/tag/{{tag}}">{{tag}}</a>{% if not forloop.last%}, {%endif%}{%endfor%}</h3>
   <div class="product_description">
   {% if company.logo %}
-    <img src="{{MEDIA_URL}}{{company.logo}}" class="product_image">
+    <img src="{{STATIC_URL}}{{company.logo}}" class="product_image">
   {% endif %}
   {{company.description|urlize|linebreaksbr}}
   <br>

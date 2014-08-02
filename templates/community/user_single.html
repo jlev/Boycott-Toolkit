@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load facebook_tags %}
 {%block css%}
- <link rel="stylesheet" href="{{MEDIA_URL}}styles/community.css" type="text/css"/>
+ <link rel="stylesheet" href="{{STATIC_URL}}styles/community.css" type="text/css"/>
 {%endblock%}
 
 {% block title %} {{the_user.get_full_name}}{% endblock %}

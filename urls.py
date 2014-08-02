@@ -10,14 +10,14 @@ admin.autodiscover()
 urlpatterns = patterns('',
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin/', include(admin.site.urls)),
-    (r'^favicon\.ico$', 'django.views.generic.simple.redirect_to', {'url': settings.MEDIA_URL + '/logo/favicon.ico'}),
-    (r'^robots\.txt$','django.views.generic.simple.redirect_to', {'url': settings.MEDIA_URL + 'robots.txt'}),
+    (r'^favicon\.ico$', 'django.views.generic.simple.redirect_to', {'url': settings.STATIC_URL + '/logo/favicon.ico'}),
+    (r'^robots\.txt$','django.views.generic.simple.redirect_to', {'url': settings.STATIC_URL + 'robots.txt'}),
 )
 
 #module urls
 urlpatterns += patterns('',
     (r'^autocomplete/', include('autocomplete.urls')),
-    (r'^facebook/',include('facebookconnect.urls')),    
+    #(r'^facebook/',include('facebookconnect.urls')),    
     (r'^comments/', include('django.contrib.comments.urls')), 
 )
 
@@ -40,5 +40,5 @@ urlpatterns += patterns('boycott.views',
 #let django serve the static media when in debug mode
 if settings.DEBUG:
     urlpatterns += patterns('',
-        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
+        (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
     )

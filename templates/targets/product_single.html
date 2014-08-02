@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {%block css%}
- <link rel="stylesheet" href="{{MEDIA_URL}}styles/target.css" type="text/css"/>
+ <link rel="stylesheet" href="{{STATIC_URL}}styles/target.css" type="text/css"/>
 {%endblock%}
 {% block title %}{{product.name}}{% endblock %}
 
@@ -9,7 +9,7 @@
 
 <div class="block" id="main_block">
   {% if product.image %}
-  <img src="{{MEDIA_URL}}{{product.image}}" class="product_image">
+  <img src="{{STATIC_URL}}{{product.image}}" class="product_image">
   {% endif %}
   <em>{{product.name}}</em><br>
   <a href="{{product.company.get_absolute_url}}">{{product.company}}</a><br>

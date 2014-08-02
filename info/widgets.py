@@ -5,8 +5,8 @@ from django.conf import settings
 
 media_css = { }
 media_js = (
-    '%sjquery/jquery.json-2.2.min.js' % settings.MEDIA_URL,
-    '%sjquery/citations.js' % settings.MEDIA_URL
+    '%sjquery/jquery.json-2.2.min.js' % settings.STATIC_URL,
+    '%sjquery/citations.js' % settings.STATIC_URL
     )
 
 class CitationWidget(Textarea):
@@ -16,7 +16,7 @@ class CitationWidget(Textarea):
         html = super(CitationWidget, self).render(name, value, attrs)
         html += '''Citations<div class="citation_list" id="%s"><ul></div>
         <a class="citation_link" title="Add a citation" href="#%s_citation_entry">
-        <img src=%sicons/green-plus.gif>Add</a>''' % (name,name,settings.MEDIA_URL)
+        <img src=%sicons/green-plus.gif>Add</a>''' % (name,name,settings.STATIC_URL)
         
         entry_div = '''<div style='display:none;' id="%s_citation_entry">
         

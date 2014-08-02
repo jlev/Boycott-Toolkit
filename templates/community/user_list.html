@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load facebook_tags %}
 {%block css%}
- <link rel="stylesheet" href="{{MEDIA_URL}}styles/community.css" type="text/css"/>
+ <link rel="stylesheet" href="{{STATIC_URL}}styles/community.css" type="text/css"/>
 {%endblock%}
 
 {% block title %} Users{% endblock %}
@@ -20,7 +20,7 @@
         {% if user.profile.image %}
         <img src="{{user.profile.image.thumbnail.url}}">
         {%else%}
-        <img src="{{MEDIA_URL}}icons/no-photo.png" alt="No Photo"/>
+        <img src="{{STATIC_URL}}icons/no-photo.png" alt="No Photo"/>
         {%endif%}
         <a href="{{user.profile.get_absolute_url}}">
         {% if user.get_full_name%}{{user.get_full_name}}{%else%}{{user.username}}{%endif%}</a>:

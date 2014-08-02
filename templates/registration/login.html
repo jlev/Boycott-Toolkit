@@ -1,20 +1,21 @@
 {% extends 'base.html' %}
-{% load facebook_tags %}
 {% block css %}
-<link rel="stylesheet" href="{{MEDIA_URL}}styles/form.css" type="text/css"/>
+<link rel="stylesheet" href="{{STATIC_URL}}styles/form.css" type="text/css"/>
 {% endblock %}
 
 
 {% block title %}Log in{% endblock %}
 
 {% block content %}
+{%comment%}
 <div class="block" id="highlight_block">
 <em>Connect with an external account:</em>
 {% show_connect_button %}
 </div>
+{%endcomment%}
 
 <div class="block">
-<em>Log in with us directly:</em>
+<em>Log in:</em>
 <form method="post" action="" class="wide">
   {% include "form_snippet.html" %}
   {% if form.errors %}
